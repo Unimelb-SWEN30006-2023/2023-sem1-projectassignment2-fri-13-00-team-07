@@ -1,6 +1,7 @@
+package src;
+
 import src.utility.GameCallback;
 import src.utility.PropertiesLoader;
-import src.Game;
 
 import java.util.Properties;
 
@@ -13,10 +14,12 @@ public class Driver {
      */
 
     public static void main(String args[]) {
+        String propertiesPath = DEFAULT_PROPERTIES_PATH;
         if (args.length > 0) {
-            new TorusVerseApp(args[0]);
-        } else {
-            new TorusVerseApp(null);
+            propertiesPath = args[0];
         }
+        final Properties properties = PropertiesLoader.loadPropertiesFile(propertiesPath);
+        GameCallback gameCallback = new GameCallback();
+        new Game(gameCallback, properties);
     }
 }

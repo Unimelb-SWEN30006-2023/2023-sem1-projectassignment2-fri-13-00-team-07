@@ -56,12 +56,20 @@ public class Controller implements ActionListener, GUIInformation {
 	private int gridWith = Constants.MAP_WIDTH;
 	private int gridHeight = Constants.MAP_HEIGHT;
 
+	private String currentMap = null;
+
 	/**
 	 * Construct the controller.
 	 */
 	public Controller() {
-		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
+	}
 
+	public Controller(String currentMap) {
+		this.currentMap = currentMap;
+	}
+
+	public void run() {
+		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 	}
 
 	public void init(int width, int height) {
@@ -91,8 +99,10 @@ public class Controller implements ActionListener, GUIInformation {
 		if (e.getActionCommand().equals("flipGrid")) {
 			// view.flipGrid();
 		} else if (e.getActionCommand().equals("save")) {
+			// LevelChecker.getInstance().check();
 			saveFile();
 		} else if (e.getActionCommand().equals("load")) {
+			// LevelChecker.getInstance().check();
 			loadFile();
 		} else if (e.getActionCommand().equals("update")) {
 			updateGrid(gridWith, gridHeight);
@@ -193,7 +203,7 @@ public class Controller implements ActionListener, GUIInformation {
 		}
 	}
 
-	public void loadFile() {
+	public String loadFile() {
 		SAXBuilder builder = new SAXBuilder();
 		try {
 			JFileChooser chooser = new JFileChooser();
@@ -206,7 +216,10 @@ public class Controller implements ActionListener, GUIInformation {
 			int returnVal = chooser.showOpenDialog(null);
 			Document document;
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				selectedFile = chooser.getSelectedFile();
+				if (currentMap == null)
+					selectedFile = chooser.getSelectedFile();
+				else
+					selectedFile = new File(currentMap);
 				if (selectedFile.canRead() && selectedFile.exists()) {
 					document = (Document) builder.build(selectedFile);
 
@@ -263,11 +276,13 @@ public class Controller implements ActionListener, GUIInformation {
 
 					String mapString = model.getMapAsString();
 					grid.redrawGrid();
+					return mapString;
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	/**
