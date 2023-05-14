@@ -6,7 +6,7 @@ import ch.aplu.jgamegrid.*;
  * Grid for a PacMan Level.
  */
 
-public class PacManGameGrid {
+public class PacManGameGrid implements PacManMap {
     private final char[][] mazeArray;
     // default setting
     private static final String MAZE =  "xxxxxxxxxxxxxxxxxxxx" + // 0
@@ -57,7 +57,8 @@ public class PacManGameGrid {
      * @param location: location to look up
      * @return one of the defined cell types.
      */
-    public CellType getCellType(Location location) {
+    @Override
+    public ActorType getTypeAt(Location location) {
         return CellType.valueOfCellChar(getCellChar(location));
     }
 

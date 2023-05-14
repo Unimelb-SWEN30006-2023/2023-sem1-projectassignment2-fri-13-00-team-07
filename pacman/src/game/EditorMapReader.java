@@ -5,7 +5,11 @@ import ch.aplu.jgamegrid.Location;
 import java.util.HashMap;
 
 public class EditorMapReader implements MapReader {
-    private ActorType[][] map;
+    private EditorMap map;
+
+    public EditorMapReader(EditorMap map) {
+        this.map = map;
+    }
 
     @Override
     public HashMap<Location, ActorType> getCharacterLocations() {
@@ -33,5 +37,10 @@ public class EditorMapReader implements MapReader {
             }
         }
         return itemLocations;
+    }
+
+    @Override
+    public PacManMap getMap() {
+        return map;
     }
 }

@@ -30,10 +30,10 @@ public class TorusVerseApp {
         editorAdapter.runEditor(dir);
     }
 
-    private ArrayList<PacManGameGrid> getMaps(String dir) {
+    private ArrayList<PacManMap> getMaps(String dir) {
         File file = new File(dir);
         File[] allFiles = file.listFiles();
-        ArrayList<PacManGameGrid> maps = new ArrayList<>();
+        ArrayList<PacManMap> maps = new ArrayList<>();
         for (File f : allFiles) {
             maps.add(getMap(f.getName()));
         }
@@ -45,8 +45,8 @@ public class TorusVerseApp {
      * @param mapFile
      * @return
      */
-    private PacManGameGrid getMap(String mapFile) {
-        return new PacManMap(editorAdapter.getMap(mapFile));
+    private PacManMap getMap(String mapFile) {
+        return new EditorMap(editorAdapter.getMap(mapFile));
     }
 
     private boolean isMap(File f) {

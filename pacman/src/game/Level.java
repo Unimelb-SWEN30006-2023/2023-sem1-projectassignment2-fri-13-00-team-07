@@ -5,6 +5,8 @@ import game.utility.GameCallback;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -34,26 +36,24 @@ public class Level extends GameGrid {
     private int maxPillsCount = 0;
 
     // Level creation using properties file only for isAuto and seed, and a separate map
-    public Level(Properties properties, ActorType[][] map) {
+    public Level(Properties properties, PacManMap map) {
         super(NB_HORZ_CELLS, NB_VERT_CELLS, CELL_SIZE, false);
         this.gameCallback = new GameCallback();
-        ServicesFactory factory = ServicesFactory.getInstance();
-        this.propertyReader = factory.getPropertyReader(properties);
-        this.settingManager = factory.getSettingManager(useEditor);
+        this.settingManager = new SettingManager(properties, map, this);
     }
 
 
     // Level creation using properties file for setting
     public Level(Properties properties) {
         // Setup game level
-        this(properties, false); // uses the default string map (original behavior)
+        this(properties, new PacManGameGrid()); // uses the default string map (original behavior)
     }
 
     public void run() {
         // Initializations
         setSimulationPeriod(SIMULATION_PERIOD);
         setTitle("[PacMan in the Multiverse]");
-        settingManager.drawSetting(this);
+        settingManager.getItemManager().drawSetting(this);
         setUpActors();
 
         // Run this level
@@ -67,11 +67,7 @@ public class Level extends GameGrid {
      * Adds a monster to the game.
      * @param monster: monster to add
      */
-    private void addMonster(Monster monster) {
-        Location location = propertyReader.readLocation(monster.getType() + ".location");
-        if (location.equals(new Location(-1, -1))) // exclude this monster
-            return;
-
+    private void addMonster(Monster monster, Location location) {
         monsters.add(monster);
         addActor(monster, location, Location.NORTH); // bind it to the game
         monster.setSlowDown(SLOW_DOWN_FACTOR);
@@ -81,24 +77,38 @@ public class Level extends GameGrid {
      * Sets up the actors (pacActor and monsters).
      */
     private void setUpActors() {
-        int seed = propertyReader.getSeed();
+        int seed = settingManager.getPropertyReader().getSeed();
+        Location pacActorLocation = null;
 
-        // set up pacActor
+        HashMap<Location, ActorType> characterLocations = settingManager.getMapReader().getCharacterLocations();
+        for (Map.Entry<Location, ActorType> entry : characterLocations) {
+            Location location = entry.getKey();
+            ActorType type = entry.getValue();
+            if (type.equals(CharacterType.PACMAN)) {
+                setUpPacActor(seed);
+                pacActorLocation = location;
+            } else if (type.equals(CharacterType.TROLL_M)) {
+                addMonster(new Troll(seed), location);
+            } else if (type.equals(CharacterType.TX5_M)) {
+                addMonster(new TX5(seed), location);
+            }
+        }
+
+        // addActor(): actor added last will act and be painted first
+        // add pacActor last so that it would `act` first
+        if (pacActorLocation != null)
+            addActor(pacActor, pacActorLocation);
+
+        // Setup for auto test
+        pacActor.setPropertyMoves(propertyReader.readMoves("PacMan.move"));
+        pacActor.setAuto(propertyReader.readBoolean("PacMan.isAuto"));
+    }
+
+    private void setUpPacActor(int seed) {
         pacActor = new PacActor(seed);
         addKeyRepeatListener(pacActor);
         setKeyRepeatPeriod(KEY_REPEAT_PERIOD);
         pacActor.setSlowDown(SLOW_DOWN_FACTOR);
-
-        // set up the monsters
-        addMonster(new Troll(seed));
-        addMonster(new TX5(seed));
-
-        // addActor(): actor added last will act and be painted first
-        // add pacActor last so that it would `act` first
-        addActor(pacActor, propertyReader.readLocation("PacMan.location"));
-        // Setup for auto test
-        pacActor.setPropertyMoves(propertyReader.readMoves("PacMan.move"));
-        pacActor.setAuto(propertyReader.readBoolean("PacMan.isAuto"));
     }
 
     public GameCallback getGameCallback() {
@@ -112,7 +122,7 @@ public class Level extends GameGrid {
     @Override
     public void act() {
         if (maxPillsCount == 0)
-            maxPillsCount = settingManager.countPills(); // store the pills count
+            maxPillsCount = settingManager.getItemManager().countPills(); // store the pills count
 
         boolean gameOver = pacActorCollidedWithMonster();
         if (gameOver)
@@ -131,13 +141,6 @@ public class Level extends GameGrid {
         return settingManager;
     }
 
-    /**
-     * Gets the property reader of the game.
-     * @return the property reader.
-     */
-    public PropertyReader getPropertyReader() {
-        return propertyReader;
-    }
 
     /**
      * Gets the pacActor of the game.

@@ -1,6 +1,5 @@
 package game;
 
-import ch.aplu.jgamegrid.GGBackground;
 import ch.aplu.jgamegrid.Location;
 
 import java.util.ArrayList;
@@ -8,12 +7,12 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public class PropertyMapReader {
-    private PacManGameGrid grid;
+    private PacManGameGrid grid = new PacManGameGrid();
     private PropertyReader propertyReader;
 
-    public PropertyMapReader(Properties properties, PacManGameGrid grid) {
-        this.grid = grid;
-        this.propertyReader = ServicesFactory.getInstance().getPropertyReader(properties);
+    public PropertyMapReader(PacManGameGrid map, PropertyReader propertyReader) {
+        this.grid = map;
+        this.propertyReader = propertyReader;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class PropertyMapReader {
         for (int y = 0; y < Level.getNumVertCells(); y++) {
             for (int x = 0; x < Level.getNumHorzCells(); x++) {
                 Location location = new Location(x, y);
-                CellType cellType = grid.getCellType(location);
+                CellType cellType = grid.getTypeAt(location);
                 if (cellType.equals(CellType.GOLD)) {
                     if (useMazeGoldLocations)
                         itemLocations.put(location, cellType);
@@ -62,4 +61,8 @@ public class PropertyMapReader {
         return itemLocations;
     }
 
+    @Override
+    public PacManMap getMap() {
+        return grid;
+    }
 }

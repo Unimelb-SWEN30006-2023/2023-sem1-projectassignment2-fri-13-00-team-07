@@ -16,16 +16,16 @@ public class Game {
         run();
     }
 
-    public Game(PacManGameGrid grid) {
+    public Game(PacManMap map) {
         Properties properties = PropertiesLoader.loadPropertiesFile(DEFAULT_PROPERTIES_PATH);
-        levels.add(new Level(properties, grid)); // single level
+        levels.add(new Level(properties, map)); // single level
         run();
     }
 
-    public Game(ArrayList<PacManGameGrid> grids) {
+    public Game(ArrayList<PacManMap> maps) {
         Properties properties = PropertiesLoader.loadPropertiesFile(DEFAULT_PROPERTIES_PATH);
-        for (PacManGameGrid grid : grids) {
-            levels.add(new Level(properties, grid));
+        for (PacManMap map : maps) {
+            levels.add(new Level(properties, map));
         }
         run();
     }
