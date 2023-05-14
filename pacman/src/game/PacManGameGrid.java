@@ -25,7 +25,7 @@ public class PacManGameGrid {
      * Creates a PacManGameGrid of the default PacMan game dimensions.
      */
     public PacManGameGrid() {
-        this(game.Level.getNumHorzCells(), game.Level.getNumVertCells());
+        this(Level.getNumHorzCells(), Level.getNumVertCells());
     }
 
     /**
