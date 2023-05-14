@@ -34,25 +34,26 @@ public class Level extends GameGrid {
     private int maxPillsCount = 0;
 
     // Level creation using properties file only for isAuto and seed, and a separate map
-    public Level(Properties properties, PacManGameGrid grid) {
+    public Level(Properties properties, ActorType[][] map) {
         super(NB_HORZ_CELLS, NB_VERT_CELLS, CELL_SIZE, false);
         this.gameCallback = new GameCallback();
-        this.propertyReader = ServicesFactory.getInstance().getPropertyReader(properties);
-        this.settingManager = ServicesFactory.getInstance().getSettingManager(grid);
+        ServicesFactory factory = ServicesFactory.getInstance();
+        this.propertyReader = factory.getPropertyReader(properties);
+        this.settingManager = factory.getSettingManager(useEditor);
     }
 
 
     // Level creation using properties file for setting
     public Level(Properties properties) {
         // Setup game level
-        this(properties, new PacManGameGrid()); // uses the default string map (original behavior)
+        this(properties, false); // uses the default string map (original behavior)
     }
 
     public void run() {
         // Initializations
         setSimulationPeriod(SIMULATION_PERIOD);
         setTitle("[PacMan in the Multiverse]");
-        settingManager.draw(this);
+        settingManager.drawSetting(this);
         setUpActors();
 
         // Run this level

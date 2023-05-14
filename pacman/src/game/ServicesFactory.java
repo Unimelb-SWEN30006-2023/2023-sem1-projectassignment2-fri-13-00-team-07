@@ -11,11 +11,8 @@ public class ServicesFactory {
         return instance;
     }
 
-    public SettingManager getSettingManager(PacManGameGrid grid) {
-        if (grid instanceof PacManMap)
-            return new MapSettingManager(grid);
-        else
-            return new PropertySettingManager(grid);
+    public SettingManager getSettingManager(boolean useEditor) {
+        return new SettingManager(useEditor);
     }
 
     public PropertyReader getPropertyReader(Properties properties) {

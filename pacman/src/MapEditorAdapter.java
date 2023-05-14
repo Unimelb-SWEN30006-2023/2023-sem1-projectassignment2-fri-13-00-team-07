@@ -1,11 +1,20 @@
+import ch.aplu.jgamegrid.Location;
 import game.*;
 import matachi.mapeditor.editor.*;
 
 import java.util.HashMap;
 
 public class MapEditorAdapter implements EditorAdapter {
+    private String mapFile;
     private Controller editor = new Controller();
     private HashMap<String, ActorType> converter = new HashMap<>();
+
+    public MapEditorAdapter() {
+    }
+
+    public MapEditorAdapter(String mapFile) {
+        this.mapFile = mapFile;
+    }
 
     @Override
     public void runEditor(String mapFile) {
@@ -13,8 +22,8 @@ public class MapEditorAdapter implements EditorAdapter {
         editor.run();
     }
 
-    @Override
-    public ActorType[][] getMap(String mapFile) {
+
+    private ActorType[][] getMap(String mapFile) {
         editor.setCurrentMap(mapFile);
         setUpConverter();
         char[][] mapWithChars = editor.loadFile();

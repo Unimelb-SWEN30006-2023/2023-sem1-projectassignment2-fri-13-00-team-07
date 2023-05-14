@@ -2,6 +2,8 @@ package game;
 
 import ch.aplu.jgamegrid.Location;
 
+import java.util.HashMap;
+
 public class PacManMap extends PacManGameGrid {
     private ActorType[][] map;
 

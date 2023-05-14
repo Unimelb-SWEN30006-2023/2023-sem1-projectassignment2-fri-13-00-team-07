@@ -14,27 +14,23 @@ public abstract class SettingManager {
      * Cannot use location directly as the key, as Location does not implement hashCode correctly.
      */
     private final HashMap<Integer, Item> items = new HashMap<>();
-    private PacManGameGrid grid;
+    private MapReader mapReader;
 
-    public SettingManager(PacManGameGrid grid) {
-        this.grid = grid;
+    public SettingManager(boolean useEditor) {
+        if (useEditor)
+            mapReader = new EditorMapReader();
     }
 
-    public abstract Item createItem(CellType cellType);
-
-    public void draw(Level level) {
-        for (int y = 0; y < Level.getNumVertCells(); y++) {
-            for (int x = 0; x < Level.getNumHorzCells(); x++) {
-                Location location = new Location(x, y);
-                CellType cellType = grid.getCellType(location);
-                GGBackground bg = level.getBg();
-
-                colorWallAndSpace(location, bg);
-
-                Item item = createItem(cellType);
-                if (item != null) {
-                    putItem(level, location, item);
-                }
+    public void drawSetting(Level level) {
+        GGBackground bg = level.getBg();
+        HashMap<Location, ActorType> itemLocations = mapReader.getItemLocations();
+        for (Map.Entry<Location, ActorType> entry : itemLocations.entrySet()) {
+            Location location = entry.getKey();
+            CellType cellType = entry.getValue();
+            colorWallAndSpace(location, cellType, bg);
+            Item item = createItem(cellType);
+            if (item != null) {
+                putItem(level, location, item);
             }
         }
     }
@@ -46,8 +42,7 @@ public abstract class SettingManager {
      * @param location: location of the cell to be colored
      * @param bg: background consisting of the cells
      */
-    private void colorWallAndSpace(Location location, GGBackground bg) {
-        CellType cellType = grid.getCellType(location);
+    private void colorWallAndSpace(Location location, CellType cellType, GGBackground bg) {
         if (cellType.equals(CellType.WALL)) {
             bg.fillCell(location, CellType.WALL.getColor());
         } else {
@@ -60,15 +55,14 @@ public abstract class SettingManager {
      * Factory method to create the item corresponding to the given cell type.
      * @return the required item is the cellType if valid, null otherwise
      */
-    private Item createItem(CellType cellType, boolean useMazePillLocations, boolean useMazeGoldLocations) {
-        if (cellType.equals(CellType.PILL) && useMazePillLocations) {
-            return new Pill();
-        } else if (cellType.equals(CellType.GOLD) && useMazeGoldLocations) {
-            return new Gold();
-        } else if (cellType.equals(CellType.ICE)) {
-            return new IceCube();
+    private Item createItem(CellType cellType) {
+        Item item = null;
+        switch (cellType) {
+            case CellType.PILL -> item = new Pill();
+            case CellType.GOLD -> item = new Gold();
+            case CellType.ICE -> item = new IceCube();
         }
-        return null;
+        return item;
     }
 
     /**
@@ -180,7 +174,7 @@ public abstract class SettingManager {
      * @return the corresponding location.
      */
     private Location getLocationByIndex(int index) {
-        return new Location(index % game.Level.getNumHorzCells(), index / game.Level.getNumHorzCells());
+        return new Location(index % Level.getNumHorzCells(), index / Level.getNumHorzCells());
     }
 
     /**
@@ -189,7 +183,7 @@ public abstract class SettingManager {
      * @return the corresponding index in the game grid.
      */
     private int getIndexByLocation(Location location) {
-        return location.y * game.Level.getNumHorzCells() + location.x;
+        return location.y * Level.getNumHorzCells() + location.x;
     }
 
     /**
@@ -208,5 +202,9 @@ public abstract class SettingManager {
      */
     public boolean isInBound(Location location) {
         return grid.isInBound(location);
+    }
+
+    public PacManGameGrid getGrid() {
+        return grid;
     }
 }

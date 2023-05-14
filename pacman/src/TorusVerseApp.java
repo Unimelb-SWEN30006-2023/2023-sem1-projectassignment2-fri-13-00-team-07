@@ -13,7 +13,7 @@ public class TorusVerseApp {
 
     public TorusVerseApp(String dir) { // given folder or file
         editorAdapter = AppComponentFactory.getInstance().getEditorAdapter();
-        if (dir == null) {// edit mode with no current map
+        if (dir == null) { // edit mode with no current map
             editorAdapter.runEditor(null);
             return;
         }
