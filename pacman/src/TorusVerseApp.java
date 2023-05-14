@@ -14,8 +14,8 @@ public class TorusVerseApp {
 
     public TorusVerseApp(String dir) {
         this();
-        // keep the editor in the background
-        editorAdapter.runEditor(null);
+        if (dir == null) // edit mode with no current map
+            editorAdapter.runEditor(null);
 
         File file = new File(dir);
         if (file.isDirectory()) {

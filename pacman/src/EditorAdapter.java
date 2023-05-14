@@ -1,3 +1,4 @@
 public interface EditorAdapter {
-    void runEditor(String file);
+    void runEditor(String filename);
+    void getMap(String filename);
 }

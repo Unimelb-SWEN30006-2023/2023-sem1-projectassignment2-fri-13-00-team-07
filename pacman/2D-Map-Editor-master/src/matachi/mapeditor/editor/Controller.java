@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -57,14 +59,25 @@ public class Controller implements ActionListener, GUIInformation {
 	private int gridHeight = Constants.MAP_HEIGHT;
 
 	private String currentMap = null;
-
+	private HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>();
+	private HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>();
+	private static final char TILE_CHARS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'}; // 'a' is default
+	private static final String TILE_TYPES[] = {"PathTile", "WallTile", "PillTile",
+												"GoldTile", "IceTile", "PacTile",
+												"TrollTile", "TX5Tile", "PortalWhiteTile",
+												"PortalYellowTile", "PortalDarkGoldTile",
+												"PortalDarkGrayTile"
+												};
+	private String dataDir = "data/"; // default
 	/**
 	 * Construct the controller.
 	 */
 	public Controller() {
+		setUpDicts();
 	}
 
 	public Controller(String currentMap) {
+		setUpDicts();
 		this.currentMap = currentMap;
 	}
 
@@ -72,8 +85,15 @@ public class Controller implements ActionListener, GUIInformation {
 		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 	}
 
+	private void setUpDicts() {
+		for (int i = 0; i < TILE_CHARS.length; i++) {
+			CHAR_TO_STR_DICT.put(TILE_CHARS[i], TILE_TYPES[i]);
+			STR_TO_CHAR_DICT.put(TILE_TYPES[i], TILE_CHARS[i]);
+		}
+	}
+
 	public void init(int width, int height) {
-		this.tiles = TileManager.getTilesFromFolder("data/");
+		this.tiles = TileManager.getTilesFromFolder(dataDir);
 		this.model = new GridModel(width, height, tiles.get(0).getCharacter());
 		this.camera = new GridCamera(model, Constants.GRID_WIDTH,
 				Constants.GRID_HEIGHT);
@@ -161,31 +181,7 @@ public class Controller implements ActionListener, GUIInformation {
 					Element row = new Element("row");
 					for (int x = 0; x < width; x++) {
 						char tileChar = model.getTile(x,y);
-						String type = "PathTile";
-
-						if (tileChar == 'b')
-							type = "WallTile";
-						else if (tileChar == 'c')
-							type = "PillTile";
-						else if (tileChar == 'd')
-							type = "GoldTile";
-						else if (tileChar == 'e')
-							type = "IceTile";
-						else if (tileChar == 'f')
-							type = "PacTile";
-						else if (tileChar == 'g')
-							type = "TrollTile";
-						else if (tileChar == 'h')
-							type = "TX5Tile";
-						else if (tileChar == 'i')
-							type = "PortalWhiteTile";
-						else if (tileChar == 'j')
-							type = "PortalYellowTile";
-						else if (tileChar == 'k')
-							type = "PortalDarkGoldTile";
-						else if (tileChar == 'l')
-							type = "PortalDarkGrayTile";
-
+						String type = CHAR_TO_STR_DICT.getOrDefault(tileChar, "PathTile");
 						Element e = new Element("cell");
 						row.addContent(e.setText(type));
 					}
@@ -203,7 +199,7 @@ public class Controller implements ActionListener, GUIInformation {
 		}
 	}
 
-	public String loadFile() {
+	public char[][] loadFile() {
 		SAXBuilder builder = new SAXBuilder();
 		try {
 			JFileChooser chooser = new JFileChooser();
@@ -242,41 +238,13 @@ public class Controller implements ActionListener, GUIInformation {
 							Element cell = (Element) cells.get(x);
 							String cellValue = cell.getText();
 
-							char tileNr = 'a';
-							if (cellValue.equals("PathTile"))
-								tileNr = 'a';
-							else if (cellValue.equals("WallTile"))
-								tileNr = 'b';
-							else if (cellValue.equals("PillTile"))
-								tileNr = 'c';
-							else if (cellValue.equals("GoldTile"))
-								tileNr = 'd';
-							else if (cellValue.equals("IceTile"))
-								tileNr = 'e';
-							else if (cellValue.equals("PacTile"))
-								tileNr = 'f';
-							else if (cellValue.equals("TrollTile"))
-								tileNr = 'g';
-							else if (cellValue.equals("TX5Tile"))
-								tileNr = 'h';
-							else if (cellValue.equals("PortalWhiteTile"))
-								tileNr = 'i';
-							else if (cellValue.equals("PortalYellowTile"))
-								tileNr = 'j';
-							else if (cellValue.equals("PortalDarkGoldTile"))
-								tileNr = 'k';
-							else if (cellValue.equals("PortalDarkGrayTile"))
-								tileNr = 'l';
-							else
-								tileNr = '0';
-
+							char tileNr = STR_TO_CHAR_DICT.getOrDefault(cellValue, 'a');
 							model.setTile(x, y, tileNr);
 						}
 					}
 
-					String mapString = model.getMapAsString();
 					grid.redrawGrid();
-					return mapString;
+					return model.getMap();
 				}
 			}
 		} catch (Exception e) {
@@ -291,5 +259,17 @@ public class Controller implements ActionListener, GUIInformation {
 	@Override
 	public Tile getSelectedTile() {
 		return selectedTile;
+	}
+
+	public Grid getModel() {
+		return model;
+	}
+
+	public void setCurrentMap(String currentMap) {
+		this.currentMap = currentMap;
+	}
+
+	public HashMap<Character, String> getCharToStrDict() {
+		return CHAR_TO_STR_DICT;
 	}
 }
