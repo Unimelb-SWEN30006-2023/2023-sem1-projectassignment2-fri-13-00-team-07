@@ -34,7 +34,7 @@ public abstract class Monster extends MovingActor {
         addVisitedList(getNextMoveLocation());
         setLocation(getNextMoveLocation()); // actual move
 
-        ((Game) gameGrid).getGameCallback().monsterLocationChanged(this);
+        ((Level) gameGrid).getGameCallback().monsterLocationChanged(this);
     }
 
     /**

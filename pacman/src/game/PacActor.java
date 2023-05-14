@@ -73,7 +73,7 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener, ActorT
     public void act() {
         updateSprite();
         super.act();
-        ((Game) gameGrid).getGameCallback()
+        ((Level) gameGrid).getGameCallback()
                          .pacManLocationChanged(getLocation(), score, nbPills);
     }
 
@@ -111,7 +111,7 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener, ActorT
         double oldDirection = getDirection();
 
         // walk towards the closest item if it can
-        Location closestItem = ((Game) gameGrid).getSettingManager().closestItemLocation(getLocation());
+        Location closestItem = ((Level) gameGrid).getSettingManager().closestItemLocation(getLocation());
         setDirectionToTarget(closestItem);
         if (isMoveValid() && !isVisited(getNextMoveLocation()))
             return;
@@ -142,27 +142,16 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener, ActorT
      * @param location: location to be checked
      */
     private void eatItem(Location location) {
-        Game game = (Game) gameGrid;
-        Item item = game.getSettingManager().getItem(location);
+        Level level = (Level) gameGrid;
+        Item item = level.getSettingManager().getItem(location);
         if (item == null) // no item here
             return;
 
         // update pills count and score
         updateStatus(item);
 
-        // updates to the game
-        if (game.isMultiverse()) {
-            if (item.getType().equals(CellType.GOLD)) {
-                // eating gold makes monsters furious
-                game.setMonstersState(MonsterState.FURIOUS);
-            } else if (item.getType().equals(CellType.ICE)) {
-                // eating ice freezes monsters
-                game.setMonstersState(MonsterState.FROZEN);
-            }
-        }
-
-        game.getGameCallback().pacManEatPillsAndItems(location, item.getName());
-        game.getSettingManager().removeItem(location);
+        level.getGameCallback().pacManEatPillsAndItems(location, item.getName());
+        level.getSettingManager().removeItem(location);
     }
 
     /**

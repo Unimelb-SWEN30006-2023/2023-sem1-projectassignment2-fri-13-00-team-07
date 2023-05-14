@@ -9,44 +9,36 @@ import java.util.*;
  * Connects the game and the grid.
  */
 
-public class SettingManager {
+public abstract class SettingManager {
     /* Maps the index of a location in the grid to an item
      * Cannot use location directly as the key, as Location does not implement hashCode correctly.
      */
     private final HashMap<Integer, Item> items = new HashMap<>();
-    private final PacManGameGrid grid = new PacManGameGrid();
+    private PacManGameGrid grid;
 
-    /**
-     * Sets up the setting for the game.
-     * @param game: game to be set up.
-     */
-    public void drawMap(Game game) {
-        // single use lists, no need to store
-        ArrayList<Location> propertyPillLocations = game.getPropertyReader().loadLocations("Pills.location");
-        ArrayList<Location> propertyGoldLocations = game.getPropertyReader().loadLocations("Gold.location");
+    public SettingManager(PacManGameGrid grid) {
+        this.grid = grid;
+    }
 
-        // empty property locations -> use maze locations
-        final boolean useMazePillLocations = (propertyPillLocations.size() == 0);
-        final boolean useMazeGoldLocations = (propertyGoldLocations.size() == 0);
+    public abstract Item createItem(CellType cellType);
 
-        for (int y = 0; y < Game.getNumVertCells(); y++) {
-            for (int x = 0; x < Game.getNumHorzCells(); x++) {
+    public void draw(Level level) {
+        for (int y = 0; y < Level.getNumVertCells(); y++) {
+            for (int x = 0; x < Level.getNumHorzCells(); x++) {
                 Location location = new Location(x, y);
                 CellType cellType = grid.getCellType(location);
-                GGBackground bg = game.getBg();
+                GGBackground bg = level.getBg();
 
                 colorWallAndSpace(location, bg);
 
-                Item item = createItem(cellType, useMazePillLocations, useMazeGoldLocations);
+                Item item = createItem(cellType);
                 if (item != null) {
-                    putItem(game, location, item);
+                    putItem(level, location, item);
                 }
             }
         }
-
-        // does nothing if the property locations are empty
-        putPropertiesPills(game, propertyPillLocations, propertyGoldLocations);
     }
+
 
     /**
      * Colors the cell at the given location to a space by default.
@@ -65,21 +57,6 @@ public class SettingManager {
     }
 
     /**
-     * Puts pills (including gold) according to the locations in the property file.
-     * @param game: game to be set up
-     * @param propertyPillLocations: ArrayList of pill locations from the properties file
-     * @param propertyGoldLocations: ArrayList of gold locations from the properties file
-     */
-    private void putPropertiesPills(Game game, ArrayList<Location> propertyPillLocations,
-                                    ArrayList<Location> propertyGoldLocations) {
-        for (Location location : propertyPillLocations)
-            putItem(game, location, new Pill());
-
-        for (Location location : propertyGoldLocations)
-            putItem(game, location, new Gold());
-    }
-
-    /**
      * Factory method to create the item corresponding to the given cell type.
      * @return the required item is the cellType if valid, null otherwise
      */
@@ -95,17 +72,17 @@ public class SettingManager {
     }
 
     /**
-     * Puts the given item at the given location in the game.
-     * @param game: the current game
+     * Puts the given item at the given location in the level.
+     * @param level: the current level
      * @param location: the location for the item
      * @param item: the item to put
      */
-    private void putItem(Game game, Location location, Item item) {
-        game.getBg().setPaintColor(item.getColor());
-        game.getBg().fillCircle(game.toPoint(location), Item.getFillCircleRadius());
+    protected void putItem(Level level, Location location, Item item) {
+        level.getBg().setPaintColor(item.getColor());
+        level.getBg().fillCircle(level.toPoint(location), Item.getFillCircleRadius());
 
         items.put(getIndexByLocation(location), item);
-        game.addActor(item, location);
+        level.addActor(item, location);
     }
 
     /**
@@ -203,7 +180,7 @@ public class SettingManager {
      * @return the corresponding location.
      */
     private Location getLocationByIndex(int index) {
-        return new Location(index % Game.getNumHorzCells(), index / Game.getNumHorzCells());
+        return new Location(index % game.Level.getNumHorzCells(), index / game.Level.getNumHorzCells());
     }
 
     /**
@@ -212,7 +189,7 @@ public class SettingManager {
      * @return the corresponding index in the game grid.
      */
     private int getIndexByLocation(Location location) {
-        return location.y * Game.getNumHorzCells() + location.x;
+        return location.y * game.Level.getNumHorzCells() + location.x;
     }
 
     /**

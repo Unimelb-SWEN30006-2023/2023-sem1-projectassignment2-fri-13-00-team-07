@@ -104,17 +104,4 @@ public class PropertyReader {
     public int getSeed() {
         return Integer.parseInt(properties.getProperty("seed"));
     }
-
-    /**
-     * Gets the game version.
-     * @return the game version.
-     */
-    public GameVersion getGameVersion() {
-        try {
-            return GameVersion.valueOf(properties.getProperty("version"));
-        } catch (Exception e) {
-            // invalid GameVersion -> use simple by default
-            return GameVersion.simple;
-        }
-    }
 }

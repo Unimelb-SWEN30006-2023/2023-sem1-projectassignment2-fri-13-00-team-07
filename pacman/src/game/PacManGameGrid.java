@@ -3,11 +3,12 @@ package game;
 import ch.aplu.jgamegrid.*;
 
 /**
- * Grid for a PacMan Game.
+ * Grid for a PacMan Level.
  */
 
 public class PacManGameGrid {
     private final char[][] mazeArray;
+    // default setting
     private static final String MAZE =  "xxxxxxxxxxxxxxxxxxxx" + // 0
                                         "x....x....g...x....x" + // 1
                                         "xgxx.x.xxxxxx.x.xx.x" + // 2
@@ -24,7 +25,7 @@ public class PacManGameGrid {
      * Creates a PacManGameGrid of the default PacMan game dimensions.
      */
     public PacManGameGrid() {
-        this(Game.getNumHorzCells(), Game.getNumVertCells());
+        this(game.Level.getNumHorzCells(), game.Level.getNumVertCells());
     }
 
     /**

@@ -14,8 +14,9 @@ public class MapEditorAdapter implements EditorAdapter {
     }
 
     @Override
-    public void getMap(String mapFile) {
+    public ActorType[][] getMap(String mapFile) {
         editor.setCurrentMap(mapFile);
+        setUpConverter();
         char[][] mapWithChars = editor.loadFile();
         int numRows = mapWithChars.length;
         int numCols = mapWithChars[0].length;
@@ -25,9 +26,13 @@ public class MapEditorAdapter implements EditorAdapter {
                 mapWithActors[i][j] = charToActorType(mapWithChars[i][j]);
             }
         }
-        return new PacManMap(mapWithActors);
+        return mapWithActors;
     }
 
+    /**
+     * Sets up the converter from the editor's internal representation
+     * to the game's representation
+     */
     private void setUpConverter() {
         String[] tileStrings = editor.getCharToStrDict().values().toArray(new String[0]);
         ActorType[] actorTypes = {CellType.SPACE, CellType.WALL, CellType.PILL,
@@ -39,6 +44,12 @@ public class MapEditorAdapter implements EditorAdapter {
         }
     }
 
+    /**
+     * Converts the character (editor's representation) to an
+     * ActorType (game's representation).
+     * @param c: character representing a tile
+     * @return ActorType: the corresponding actor type.
+     */
     private ActorType charToActorType(char c) {
         String tileString = editor.getCharToStrDict().get(c);
         return converter.get(tileString);

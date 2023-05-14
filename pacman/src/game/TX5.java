@@ -37,7 +37,7 @@ public class TX5 extends Monster {
     @Override
     protected void setNextDirection() {
         double oldDirection = getDirection();
-        Location pacLocation = ((Game) gameGrid).getPacActor().getLocation();
+        Location pacLocation = ((Level) gameGrid).getPacActor().getLocation();
         // Try to move towards the PacActor
         setDirectionToTarget(pacLocation);
         if (!isVisited(getNextMoveLocation()) && isMoveValid())

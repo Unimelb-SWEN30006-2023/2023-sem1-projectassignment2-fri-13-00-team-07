@@ -1,4 +1,4 @@
-package src.utility;
+package game.utility;
 
 import ch.aplu.jgamegrid.Location;
 import game.Monster;

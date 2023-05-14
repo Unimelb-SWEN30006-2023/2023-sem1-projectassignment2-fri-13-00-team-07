@@ -82,7 +82,7 @@ public abstract class MovingActor extends Actor {
      * @return true if it's a wall, false otherwise.
      */
     protected boolean isWallAt(Location loc) {
-        return ((Game) gameGrid).getSettingManager().isWallAt(loc);
+        return ((Level) gameGrid).getSettingManager().isWallAt(loc);
     }
 
     /**
@@ -91,7 +91,7 @@ public abstract class MovingActor extends Actor {
      * @return true if it's in bound, false otherwise.
      */
     protected boolean isInBound(Location loc) {
-        return ((Game) gameGrid).getSettingManager().isInBound(loc);
+        return ((Level) gameGrid).getSettingManager().isInBound(loc);
     }
 
     /**
