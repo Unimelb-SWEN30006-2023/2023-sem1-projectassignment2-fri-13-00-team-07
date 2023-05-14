@@ -1,9 +1,6 @@
-import ch.aplu.jgamegrid.Actor;
-import game.ActorType;
-import matachi.mapeditor.editor.Controller;
+import game.*;
+import matachi.mapeditor.editor.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class MapEditorAdapter implements EditorAdapter {
@@ -19,19 +16,27 @@ public class MapEditorAdapter implements EditorAdapter {
     @Override
     public void getMap(String mapFile) {
         editor.setCurrentMap(mapFile);
-        char[][] mapArray = editor.loadFile();
-
+        char[][] mapWithChars = editor.loadFile();
+        int numRows = mapWithChars.length;
+        int numCols = mapWithChars[0].length;
+        ActorType[][] mapWithActors = new ActorType[numRows][numCols];
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                mapWithActors[i][j] = charToActorType(mapWithChars[i][j]);
+            }
+        }
+        return new PacManMap(mapWithActors);
     }
 
     private void setUpConverter() {
-        Collection<String> tileStrings = editor.getCharToStrDict().values();
-        {"PathTile", "WallTile", "PillTile",
-                "GoldTile", "IceTile", "PacTile",
-                "TrollTile", "TX5Tile", "PortalWhiteTile",
-                "PortalYellowTile", "PortalDarkGoldTile",
-                "PortalDarkGrayTile"
-        };
-        ActorType[] actorTypes = {}
+        String[] tileStrings = editor.getCharToStrDict().values().toArray(new String[0]);
+        ActorType[] actorTypes = {CellType.SPACE, CellType.WALL, CellType.PILL,
+                                    CellType.GOLD, CellType.ICE, CharacterType.PACMAN,
+                                CharacterType.TROLL_M, CharacterType.TX5_M, CellType.PORTAL_WHITE,
+                                CellType.PORTAL_YELLOW, CellType.PORTAL_DARK_GOLD, CellType.PORTAL_DARK_GRAY};
+        for (int i = 0; i < tileStrings.length; i++) {
+            converter.put(tileStrings[i], actorTypes[i]);
+        }
     }
 
     private ActorType charToActorType(char c) {

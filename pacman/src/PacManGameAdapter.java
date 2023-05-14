@@ -1,4 +1,4 @@
-import src.Game;
+import game.Game;
 
 public class PacManGameAdapter implements GameAdapter {
     private Game game;

@@ -1,10 +1,11 @@
 package game;
 
-public class Portal extends Item {
+public class Portal extends Item implements ActorType {
     private Portal partner;
 
-    public Portal(String image, Portal partner) {
-        super(image, CellType.PORTAL);
+    public Portal(CellType type, Portal partner) {
+        super(image, type);
         this.partner = partner;
     }
+
 }

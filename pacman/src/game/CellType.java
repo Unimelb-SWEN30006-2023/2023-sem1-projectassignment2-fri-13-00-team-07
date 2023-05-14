@@ -1,7 +1,5 @@
 package game;
 
-import game.ActorType;
-
 import java.awt.*;
 import java.util.HashMap;
 
@@ -15,7 +13,11 @@ public enum CellType implements ActorType {
     SPACE(' ', "Space", Color.lightGray),
     GOLD('g', "gold", Color.yellow),
     ICE('i', "ice", Color.blue),
-    PORTAL('p', "portal", null); // variable color
+    PORTAL_WHITE('p', "white portal", Color.white), // variable color
+    PORTAL_DARK_GOLD('p', "dark gold portal", new Color(0.71f, 0.58f, 0.06f)),
+    PORTAL_DARK_GRAY('p', "dark gray portal", Color.darkGray),
+    PORTAL_YELLOW('p', "yellow portal", Color.yellow);
+
 
 
     /* for simplicity of lookups */

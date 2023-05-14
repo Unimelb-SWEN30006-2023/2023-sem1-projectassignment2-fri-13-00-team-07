@@ -1,7 +1,7 @@
 package game;
 
 import ch.aplu.jgamegrid.*;
-import src.utility.GameCallback;
+import utility.GameCallback;
 
 import java.awt.*;
 import java.util.ArrayList;

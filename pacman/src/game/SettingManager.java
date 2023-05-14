@@ -20,7 +20,7 @@ public class SettingManager {
      * Sets up the setting for the game.
      * @param game: game to be set up.
      */
-    public void setUpSetting(Game game) {
+    public void drawMap(Game game) {
         // single use lists, no need to store
         ArrayList<Location> propertyPillLocations = game.getPropertyReader().loadLocations("Pills.location");
         ArrayList<Location> propertyGoldLocations = game.getPropertyReader().loadLocations("Gold.location");

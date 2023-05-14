@@ -1,9 +1,3 @@
-import src.utility.GameCallback;
-import src.utility.PropertiesLoader;
-import src.Game;
-
-import java.util.Properties;
-
 public class Driver {
     public static final String DEFAULT_PROPERTIES_PATH = "properties/test2.properties";
 
