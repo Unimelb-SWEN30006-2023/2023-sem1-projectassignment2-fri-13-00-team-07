@@ -70,4 +70,8 @@ public class SettingManager {
     public ArrayList<String> getPlayerMoves() {
         return propertyReader.readMoves("PacMan.move");
     }
+
+    public Location closestItemLocation(Location target) {
+        return itemManager.closestItemLocation(target);
+    }
 }

@@ -1,5 +1,5 @@
 import game.*;
-import matachi.mapeditor.editor.*;
+import matachi.mapeditor.editor.Controller;
 
 import java.util.HashMap;
 

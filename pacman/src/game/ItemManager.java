@@ -56,10 +56,12 @@ public class ItemManager {
      */
     private Item createItem(ActorType cellType) {
         Item item = null;
-        switch (cellType) {
-            case CellType.PILL -> item = new Pill();
-            case CellType.GOLD -> item = new Gold();
-            case CellType.ICE -> item = new IceCube();
+        if (CellType.PILL.equals(cellType)) {
+            item = new Pill();
+        } else if (CellType.GOLD.equals(cellType)) {
+            item = new Gold();
+        } else if (CellType.ICE.equals(cellType)) {
+            item = new IceCube();
         }
         return item;
     }
