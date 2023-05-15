@@ -5,9 +5,14 @@ import ch.aplu.jgamegrid.Location;
 
 public class EditorMap implements PacManMap {
     private ActorType[][] map;
+    private String name; //Ziming: I want a name here
 
     public EditorMap(ActorType[][] map) {
         this.map = map;
+    }
+
+    public String getName(){
+        return name;
     }
 
     @Override
@@ -17,6 +22,10 @@ public class EditorMap implements PacManMap {
 
     public boolean isCellType(Location loc) {
         return map[loc.x][loc.y] instanceof CellType;
+    }
+
+    public boolean isCharacterType(Location loc){
+        return map[loc.x][loc.y] instanceof CharacterType;
     }
 
     public int getNumRows() {

@@ -13,10 +13,10 @@ public enum CellType implements ActorType {
     SPACE(' ', "Space", Color.lightGray),
     GOLD('g', "gold", Color.yellow),
     ICE('i', "ice", Color.blue),
-    PORTAL_WHITE('p', "white portal", Color.white), // variable color
-    PORTAL_DARK_GOLD('p', "dark gold portal", new Color(0.71f, 0.58f, 0.06f)),
-    PORTAL_DARK_GRAY('p', "dark gray portal", Color.darkGray),
-    PORTAL_YELLOW('p', "yellow portal", Color.yellow);
+    PORTAL_WHITE('p', "portal White", Color.white), // variable color
+    PORTAL_DARK_GOLD('p', "portal Dark Gold", new Color(0.71f, 0.58f, 0.06f)),
+    PORTAL_DARK_GRAY('p', "portal Dark Grey", Color.darkGray),
+    PORTAL_YELLOW('p', "portal Yellow", Color.yellow);
 
 
 
