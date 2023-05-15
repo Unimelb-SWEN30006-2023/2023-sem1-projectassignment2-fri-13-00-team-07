@@ -1,4 +1,3 @@
-import ch.aplu.jgamegrid.Location;
 import game.*;
 import matachi.mapeditor.editor.*;
 
@@ -46,7 +45,7 @@ public class MapEditorAdapter implements EditorAdapter {
         String[] tileStrings = editor.getCharToStrDict().values().toArray(new String[0]);
         ActorType[] actorTypes = {CellType.SPACE, CellType.WALL, CellType.PILL,
                                     CellType.GOLD, CellType.ICE, CharacterType.PACMAN,
-                                CharacterType.TROLL_M, CharacterType.TX5_M, CellType.PORTAL_WHITE,
+                                CharacterType.M_TROLL, CharacterType.M_TX5, CellType.PORTAL_WHITE,
                                 CellType.PORTAL_YELLOW, CellType.PORTAL_DARK_GOLD, CellType.PORTAL_DARK_GRAY};
         for (int i = 0; i < tileStrings.length; i++) {
             converter.put(tileStrings[i], actorTypes[i]);

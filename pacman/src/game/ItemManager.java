@@ -9,7 +9,7 @@ import java.util.*;
  * Connects the game and the grid.
  */
 
-public abstract class ItemManager {
+public class ItemManager {
     // for initialization
     private HashMap<Location, ActorType> itemLocations;
     /* Maps the index of a location in the grid to an item
@@ -17,22 +17,20 @@ public abstract class ItemManager {
      */
     // for later lookups
     private final HashMap<Integer, Item> items = new HashMap<>();
-    private Level level;
 
-    public ItemManager(HashMap<Location, ActorType> itemLocations, Level level) {
+    public ItemManager(HashMap<Location, ActorType> itemLocations) {
         this.itemLocations = itemLocations;
-        this.level = level;
     }
 
-    public void drawSetting() {
+    public void drawSetting(Level level) {
         GGBackground bg = level.getBg();
         for (Map.Entry<Location, ActorType> entry : itemLocations.entrySet()) {
             Location location = entry.getKey();
-            CellType cellType = entry.getValue();
-            colorWallAndSpace(location, cellType);
+            ActorType cellType = entry.getValue();
+            colorWallAndSpace(location, cellType, bg);
             Item item = createItem(cellType);
             if (item != null) {
-                putItem(location, item);
+                putItem(location, item, level);
             }
         }
     }
@@ -43,8 +41,7 @@ public abstract class ItemManager {
      * If the cell is a wall, colors it as a wall.
      * @param location: location of the cell to be colored
      */
-    private void colorWallAndSpace(Location location, CellType cellType) {
-        GGBackground bg = level.getBg();
+    private void colorWallAndSpace(Location location, ActorType cellType, GGBackground bg) {
         if (cellType.equals(CellType.WALL)) {
             bg.fillCell(location, CellType.WALL.getColor());
         } else {
@@ -57,7 +54,7 @@ public abstract class ItemManager {
      * Factory method to create the item corresponding to the given cell type.
      * @return the required item is the cellType if valid, null otherwise
      */
-    private Item createItem(CellType cellType) {
+    private Item createItem(ActorType cellType) {
         Item item = null;
         switch (cellType) {
             case CellType.PILL -> item = new Pill();
@@ -72,7 +69,7 @@ public abstract class ItemManager {
      * @param location: the location for the item
      * @param item: the item to put
      */
-    protected void putItem(Location location, Item item) {
+    protected void putItem(Location location, Item item, Level level) {
         level.getBg().setPaintColor(item.getColor());
         level.getBg().fillCircle(level.toPoint(location), Item.getFillCircleRadius());
 

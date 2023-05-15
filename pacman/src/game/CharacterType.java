@@ -2,8 +2,8 @@ package game;
 
 public enum CharacterType implements ActorType {
     PACMAN("PacMan", "sprites/pacpix_0.gif"),
-    TROLL_M("Troll", "sprites/m_troll.gif"),
-    TX5_M("TX5", "sprites/m_tx5.gif");
+    M_TROLL("Troll", "sprites/m_troll.gif"),
+    M_TX5("TX5", "sprites/m_tx5.gif");
 
     private final String name;
     private final String filePath;

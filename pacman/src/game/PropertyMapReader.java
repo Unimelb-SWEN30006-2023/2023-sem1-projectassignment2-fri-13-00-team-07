@@ -4,7 +4,6 @@ import ch.aplu.jgamegrid.Location;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 
 public class PropertyMapReader implements MapReader {
     private PacManGameGrid grid = new PacManGameGrid();
@@ -18,7 +17,7 @@ public class PropertyMapReader implements MapReader {
     @Override
     public HashMap<Location, ActorType> getCharacterLocations() {
         HashMap<Location, ActorType> characterLocations = new HashMap<Location, ActorType>();
-        CharacterType characters[] = new CharacterType[]{CharacterType.PACMAN, CharacterType.TROLL_M, CharacterType.TX5_M};
+        CharacterType characters[] = new CharacterType[]{CharacterType.PACMAN, CharacterType.M_TROLL, CharacterType.M_TX5};
         for (CharacterType character : characters) {
             Location location = propertyReader.readLocation(character.getName() + ".location");
             if (location != null && !(location.equals(new Location(-1, -1))))

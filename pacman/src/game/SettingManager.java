@@ -1,6 +1,5 @@
 package game;
 
-import ch.aplu.jgamegrid.GGBackground;
 import ch.aplu.jgamegrid.Location;
 
 import java.util.ArrayList;
@@ -12,14 +11,14 @@ public class SettingManager {
     private PropertyReader propertyReader;
     private ItemManager itemManager;
 
-    public SettingManager(Properties properties, PacManMap map, Level level) {
+    public SettingManager(Properties properties, PacManMap map) {
         propertyReader = new PropertyReader(properties);
         if (map instanceof EditorMap)
             mapReader = new EditorMapReader((EditorMap) map);
         else
             mapReader = new PropertyMapReader((PacManGameGrid) map, propertyReader);
 
-        itemManager = new ItemManager(mapReader.getItemLocations(), level);
+        itemManager = new ItemManager(mapReader.getItemLocations());
     }
 
 
@@ -56,8 +55,8 @@ public class SettingManager {
         return propertyReader.getSeed();
     }
 
-    public void drawSetting() {
-        itemManager.drawSetting();
+    public void drawSetting(Level level) {
+        itemManager.drawSetting(level);
     }
 
     public int countPills() {

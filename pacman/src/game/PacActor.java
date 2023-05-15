@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * The PacMan.
  */
 
-public class PacActor extends MovingActor implements GGKeyRepeatListener, ActorType {
+public class PacActor extends MovingActor implements GGKeyRepeatListener {
     private static final int NB_SPRITES = 4;
     private int idSprite = 0;
     private int nbPills = 0;

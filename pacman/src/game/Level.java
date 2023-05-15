@@ -28,7 +28,6 @@ public class Level extends GameGrid {
     /* Actors */
     protected PacActor pacActor;
     private final ArrayList<Monster> monsters = new ArrayList<>();
-    private final PropertyReader propertyReader;
     private final SettingManager settingManager;
     private final GameCallback gameCallback;
 
@@ -39,7 +38,7 @@ public class Level extends GameGrid {
     public Level(Properties properties, PacManMap map) {
         super(NB_HORZ_CELLS, NB_VERT_CELLS, CELL_SIZE, false);
         this.gameCallback = new GameCallback();
-        this.settingManager = new SettingManager(properties, map, this);
+        this.settingManager = new SettingManager(properties, map);
     }
 
 
@@ -53,7 +52,7 @@ public class Level extends GameGrid {
         // Initializations
         setSimulationPeriod(SIMULATION_PERIOD);
         setTitle("[PacMan in the Multiverse]");
-        settingManager.drawSetting();
+        settingManager.drawSetting(this);
         setUpActors();
 
         // Run this level
@@ -87,9 +86,9 @@ public class Level extends GameGrid {
             if (type.equals(CharacterType.PACMAN)) {
                 setUpPacActor(seed);
                 pacActorLocation = location;
-            } else if (type.equals(CharacterType.TROLL_M)) {
+            } else if (type.equals(CharacterType.M_TROLL)) {
                 addMonster(new Troll(seed), location);
-            } else if (type.equals(CharacterType.TX5_M)) {
+            } else if (type.equals(CharacterType.M_TX5)) {
                 addMonster(new TX5(seed), location);
             }
         }
