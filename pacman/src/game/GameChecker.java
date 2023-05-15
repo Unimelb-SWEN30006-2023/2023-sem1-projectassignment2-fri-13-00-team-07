@@ -17,8 +17,11 @@ public class GameChecker extends Checker {
     //Ziming: this only contains the basic logic, I haven't used made the CHECKER interface or parent class, modularize later
     private static GameChecker instance = null;
     private static final String levelDir = "";
+    private static ErrorMessagesBody ERROR_BODY;
 
-    public GameChecker() {;}
+    public GameChecker() {
+        ERROR_BODY = ErrorMessagesBody.getInstance();
+    }
 
     public static Checker getInstance() {
         if (instance == null) {
@@ -56,7 +59,7 @@ public class GameChecker extends Checker {
         }
         /* check 1. there has to be at least one map with valid name in directory */
         if(filenameStore.size() == 0){
-            errors.add(levelDir + " – no maps found");
+            errors.add(levelDir + ERROR_BODY.GAME_NO_MAPS_FOUND);
             return;
         }
         /* check 2. map sequence is correct */
@@ -75,7 +78,7 @@ public class GameChecker extends Checker {
         //build error messages
         for(int digit:hm.keySet()){
             if(hm.get(digit).size() > 1){
-                String errorStr = levelDir + " – multiple maps at same level: ";
+                String errorStr = levelDir + ERROR_BODY.GAME_MULTI_MAPS_SAME_LEVEL;
                 for(int i:hm.get(digit)){
                     errorStr += (filenameStore.get(i) + ".xml; ");
                 }
