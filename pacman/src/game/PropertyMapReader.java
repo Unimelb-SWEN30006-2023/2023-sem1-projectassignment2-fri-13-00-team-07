@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
-public class PropertyMapReader {
+public class PropertyMapReader implements MapReader {
     private PacManGameGrid grid = new PacManGameGrid();
     private PropertyReader propertyReader;
 

@@ -10,25 +10,29 @@ import java.util.*;
  */
 
 public abstract class ItemManager {
+    // for initialization
+    private HashMap<Location, ActorType> itemLocations;
     /* Maps the index of a location in the grid to an item
      * Cannot use location directly as the key, as Location does not implement hashCode correctly.
      */
-    private HashMap<Location, ActorType> itemLocations;
+    // for later lookups
     private final HashMap<Integer, Item> items = new HashMap<>();
+    private Level level;
 
     public ItemManager(HashMap<Location, ActorType> itemLocations, Level level) {
         this.itemLocations = itemLocations;
+        this.level = level;
     }
 
-    public void drawSetting(Level level) {
+    public void drawSetting() {
         GGBackground bg = level.getBg();
         for (Map.Entry<Location, ActorType> entry : itemLocations.entrySet()) {
             Location location = entry.getKey();
             CellType cellType = entry.getValue();
-            colorWallAndSpace(location, cellType, bg);
+            colorWallAndSpace(location, cellType);
             Item item = createItem(cellType);
             if (item != null) {
-                putItem(level, location, item);
+                putItem(location, item);
             }
         }
     }
@@ -38,9 +42,9 @@ public abstract class ItemManager {
      * Colors the cell at the given location to a space by default.
      * If the cell is a wall, colors it as a wall.
      * @param location: location of the cell to be colored
-     * @param bg: background consisting of the cells
      */
-    private void colorWallAndSpace(Location location, CellType cellType, GGBackground bg) {
+    private void colorWallAndSpace(Location location, CellType cellType) {
+        GGBackground bg = level.getBg();
         if (cellType.equals(CellType.WALL)) {
             bg.fillCell(location, CellType.WALL.getColor());
         } else {
@@ -65,11 +69,10 @@ public abstract class ItemManager {
 
     /**
      * Puts the given item at the given location in the level.
-     * @param level: the current level
      * @param location: the location for the item
      * @param item: the item to put
      */
-    protected void putItem(Level level, Location location, Item item) {
+    protected void putItem(Location location, Item item) {
         level.getBg().setPaintColor(item.getColor());
         level.getBg().fillCircle(level.toPoint(location), Item.getFillCircleRadius());
 

@@ -3,6 +3,8 @@ package game;
 import ch.aplu.jgamegrid.GGBackground;
 import ch.aplu.jgamegrid.Location;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 public class SettingManager {
@@ -40,15 +42,33 @@ public class SettingManager {
                 && location.y >= 0 && location.y < Level.getNumVertCells();
     }
 
-    public MapReader getMapReader() {
-        return mapReader;
+    /* Wrapper methods using delegation */
+
+    public HashMap<Location, ActorType> getItemLocations() {
+        return mapReader.getItemLocations();
     }
 
-    public PropertyReader getPropertyReader() {
-        return propertyReader;
+    public HashMap<Location, ActorType> getCharacterLocations() {
+        return mapReader.getCharacterLocations();
     }
 
-    public ItemManager getItemManager() {
-        return itemManager;
+    public int getSeed() {
+        return propertyReader.getSeed();
+    }
+
+    public void drawSetting() {
+        itemManager.drawSetting();
+    }
+
+    public int countPills() {
+        return itemManager.countPills();
+    }
+
+    public boolean getPlayerMode() {
+        return propertyReader.readBoolean("PacMan.isAuto");
+    }
+
+    public ArrayList<String> getPlayerMoves() {
+        return propertyReader.readMoves("PacMan.move");
     }
 }

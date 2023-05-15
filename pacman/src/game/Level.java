@@ -53,7 +53,7 @@ public class Level extends GameGrid {
         // Initializations
         setSimulationPeriod(SIMULATION_PERIOD);
         setTitle("[PacMan in the Multiverse]");
-        settingManager.getItemManager().drawSetting(this);
+        settingManager.drawSetting();
         setUpActors();
 
         // Run this level
@@ -77,10 +77,10 @@ public class Level extends GameGrid {
      * Sets up the actors (pacActor and monsters).
      */
     private void setUpActors() {
-        int seed = settingManager.getPropertyReader().getSeed();
+        int seed = settingManager.getSeed();
         Location pacActorLocation = null;
 
-        HashMap<Location, ActorType> characterLocations = settingManager.getMapReader().getCharacterLocations();
+        HashMap<Location, ActorType> characterLocations = settingManager.getCharacterLocations();
         for (Map.Entry<Location, ActorType> entry : characterLocations) {
             Location location = entry.getKey();
             ActorType type = entry.getValue();
@@ -100,8 +100,8 @@ public class Level extends GameGrid {
             addActor(pacActor, pacActorLocation);
 
         // Setup for auto test
-        pacActor.setPropertyMoves(propertyReader.readMoves("PacMan.move"));
-        pacActor.setAuto(propertyReader.readBoolean("PacMan.isAuto"));
+        pacActor.setPropertyMoves(settingManager.getPlayerMoves());
+        pacActor.setAuto(settingManager.getPlayerMode());
     }
 
     private void setUpPacActor(int seed) {
@@ -122,7 +122,7 @@ public class Level extends GameGrid {
     @Override
     public void act() {
         if (maxPillsCount == 0)
-            maxPillsCount = settingManager.getItemManager().countPills(); // store the pills count
+            maxPillsCount = settingManager.countPills(); // store the pills count
 
         boolean gameOver = pacActorCollidedWithMonster();
         if (gameOver)

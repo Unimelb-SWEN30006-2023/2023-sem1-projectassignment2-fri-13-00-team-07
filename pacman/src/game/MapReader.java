@@ -1,6 +1,7 @@
 package game;
 
-import javax.xml.stream.Location;
+import ch.aplu.jgamegrid.Location;
+
 import java.util.HashMap;
 
 public interface MapReader {

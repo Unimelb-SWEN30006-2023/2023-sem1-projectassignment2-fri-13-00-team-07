@@ -13,6 +13,7 @@ public enum CharacterType implements ActorType {
         this.filePath = filePath;
     }
 
+    @Override
     public String getName() {
         return name;
     }

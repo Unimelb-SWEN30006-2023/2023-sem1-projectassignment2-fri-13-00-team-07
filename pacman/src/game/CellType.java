@@ -95,6 +95,11 @@ public enum CellType implements ActorType {
         return name;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
     /**
      * Gets the color associated with the cell type.
      * @return the corresponding color.

@@ -14,12 +14,12 @@ public class EditorMapReader implements MapReader {
     @Override
     public HashMap<Location, ActorType> getCharacterLocations() {
         HashMap<Location, ActorType> characterLocations = new HashMap<>();
-        int numRows = map.length;
-        int numCols = map[0].length;
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                if (map[i][j] instanceof CharacterType)
-                    characterLocations.put(new Location(i, j), map[i][j]);
+
+        for (int i = 0; i < map.getNumRows(); i++) {
+            for (int j = 0; j < map.getNumCols(); j++) {
+                ActorType type = map.getTypeAt(new Location(i,j));
+                if (type instanceof CharacterType)
+                    characterLocations.put(new Location(i, j), type);
             }
         }
         return characterLocations;
@@ -28,12 +28,11 @@ public class EditorMapReader implements MapReader {
     @Override
     public HashMap<Location, ActorType> getItemLocations() {
         HashMap<Location, ActorType> itemLocations = new HashMap<Location, ActorType>();
-        int numRows = map.length;
-        int numCols = map[0].length;
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                if (map[i][j] instanceof CellType)
-                    itemLocations.put(new Location(i, j), map[i][j]);
+        for (int i = 0; i < map.getNumRows(); i++) {
+            for (int j = 0; j < map.getNumCols(); j++) {
+                ActorType type = map.getTypeAt(new Location(i,j));
+                if (type instanceof CellType)
+                    itemLocations.put(new Location(i, j), type);
             }
         }
         return itemLocations;
