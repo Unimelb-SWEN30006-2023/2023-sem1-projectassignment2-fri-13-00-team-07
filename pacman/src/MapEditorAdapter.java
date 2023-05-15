@@ -23,7 +23,7 @@ public class MapEditorAdapter implements EditorAdapter {
     }
 
 
-    private ActorType[][] getMap(String mapFile) {
+    public ActorType[][] getMap(String mapFile) {
         editor.setCurrentMap(mapFile);
         setUpConverter();
         char[][] mapWithChars = editor.loadFile();
