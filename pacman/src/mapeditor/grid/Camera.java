@@ -1,4 +1,4 @@
-package matachi.mapeditor.grid;
+package mapeditor.grid;
 
 import java.awt.Rectangle;
 import java.beans.PropertyChangeListener;

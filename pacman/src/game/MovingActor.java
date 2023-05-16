@@ -4,6 +4,7 @@ import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 import game.Items.CellType;
 import game.Items.Item;
+import game.Items.ItemPredicate;
 import game.Items.Portal;
 
 import java.util.*;
@@ -213,6 +214,13 @@ public abstract class MovingActor extends Actor {
     }
 
     public static LinkedList<Location> findOptimalPath(Location source, Location sink, PacManMap map) {
+        return findOptimalPath(source, i -> i.equals(sink), map);
+    }
+
+    /**
+     * Finds the optimal path to a sink that satisfies the `predicate`.
+     */
+    public static LinkedList<Location> findOptimalPath(Location source, ItemPredicate predicate, PacManMap map) {
         LinkedList<Edge> paths = new LinkedList<>();
         HashSet<Integer> visitedSet = new HashSet<>();
 
@@ -223,11 +231,11 @@ public abstract class MovingActor extends Actor {
         while (!queue.isEmpty()) {
             Location vertex = queue.remove();
 
-            if (vertex.equals(sink)) {
+            if (predicate.satisfies(vertex)) {
                 LinkedList<Location> result = new LinkedList<>();
 
-                result.add(sink);
-                Location destination = sink;
+                result.add(vertex);
+                Location destination = vertex;
                 Location finalDestination = destination;
                 Optional<Edge> value = paths.stream().filter(i -> i.destination.equals(finalDestination)).findFirst();
 

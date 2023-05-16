@@ -1,11 +1,13 @@
 package game;
 
 import ch.aplu.jgamegrid.*;
+import game.Items.CellType;
 import game.Items.Item;
 import game.Items.Pill;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * The PacMan.
@@ -18,6 +20,8 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener {
     private int score = 0;
     private ArrayList<String> propertyMoves;
     private boolean isAuto = false;
+
+    private LinkedList<Location> currentAutoPath = new LinkedList<>();
 
     // whether the pacActor can move in this simulation iteration
     private boolean shouldMove = false;
@@ -111,16 +115,15 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener {
 
         // at this stage: either go to a valid pill, or move randomly
         shouldMove = true;
-        double oldDirection = getDirection();
+        PacManMap map = ((Level) gameGrid).getSettingManager();
 
-        // walk towards the closest item if it can
-        Location closestItem = ((Level) gameGrid).getSettingManager().closestItemLocation(getLocation());
-        setDirectionToTarget(closestItem);
-        if (isMoveValid() && !isVisited(getNextMoveLocation()))
-            return;
+        if (currentAutoPath == null) {
+            currentAutoPath = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map);
+        }
+        this.setDirectionToTarget(currentAutoPath.remove(0));
 
         // last resort: random walk
-        setRandomMoveDirection(oldDirection);
+        setRandomMoveDirection(this.getDirection());
     }
 
     /**

@@ -1,4 +1,4 @@
-package matachi.mapeditor.editor;
+package mapeditor.editor;
 
 import java.io.File;
 import java.util.ArrayList;

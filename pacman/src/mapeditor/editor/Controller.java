@@ -1,4 +1,4 @@
-package matachi.mapeditor.editor;
+package mapeditor.editor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,12 +19,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import matachi.mapeditor.grid.Camera;
-import matachi.mapeditor.grid.Grid;
-import matachi.mapeditor.grid.GridCamera;
-import matachi.mapeditor.grid.GridModel;
-import matachi.mapeditor.grid.GridView;
-
+import mapeditor.grid.*;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -68,7 +63,7 @@ public class Controller implements ActionListener, GUIInformation {
 												"PortalYellowTile", "PortalDarkGoldTile",
 												"PortalDarkGrayTile"
 												};
-	private String dataDir = "data/"; // default
+	private String dataDir = "pacman/sprites/editor data/"; // default
 	/**
 	 * Construct the controller.
 	 */

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
-public class SettingManager {
+public class SettingManager implements PacManMap {
     private MapReader mapReader;
     private PropertyReader propertyReader;
     private ItemManager itemManager;
@@ -81,4 +81,9 @@ public class SettingManager {
     public Item getItem(Location atLocation) { return itemManager.getItem(atLocation); }
 
     public void removeItem(Location location) { itemManager.removeItem(location); }
+
+    @Override
+    public CellType getTypeAt(Location location) {
+        return getItem(location).getType();
+    }
 }

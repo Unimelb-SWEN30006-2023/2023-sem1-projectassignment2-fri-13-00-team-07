@@ -3,6 +3,7 @@ package game.Items;
 import ch.aplu.jgamegrid.*;
 import game.ActorType;
 import game.Level;
+import game.PacManMap;
 
 import java.util.*;
 
@@ -11,7 +12,7 @@ import java.util.*;
  * Connects the game and the grid.
  */
 
-public class ItemManager {
+public class ItemManager implements PacManMap {
     // for initialization
     private HashMap<Location, ActorType> itemLocations;
     /* Maps the index of a location in the grid to an item
@@ -38,7 +39,7 @@ public class ItemManager {
             ActorType cellType = entry.getValue();
 
             if (CellType.Portals().contains(cellType)) {
-                portalLocations.computeIfAbsent(cellType, k -> new ArrayList<>());
+                portalLocations.computeIfAbsent((CellType) cellType, k -> new ArrayList<>());
                 portalLocations.get(cellType).add(location);
             } else {
                 colorWallAndSpace(location, cellType, bg);
@@ -205,4 +206,8 @@ public class ItemManager {
         return location.y * Level.getNumHorzCells() + location.x;
     }
 
+    @Override
+    public CellType getTypeAt(Location location) {
+        return getItem(location).getType();
+    }
 }

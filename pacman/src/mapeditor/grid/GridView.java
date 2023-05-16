@@ -1,4 +1,4 @@
-package matachi.mapeditor.grid;
+package mapeditor.grid;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -9,9 +9,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import matachi.mapeditor.editor.Constants;
-import matachi.mapeditor.editor.GUIInformation;
-import matachi.mapeditor.editor.Tile;
+import mapeditor.editor.Constants;
+import mapeditor.editor.GUIInformation;
+import mapeditor.editor.Tile;
 
 /**
  * A class which shows a Grid graphically as a JPanel.
@@ -42,7 +42,6 @@ public class GridView extends JPanel implements PropertyChangeListener {
 	/**
 	 * Creates a grid panel.
 	 * @param guiInformation Information from the GUI that the grid requires.
-	 * @param grid The camera that should be represented graphically in the GridView.
 	 * @param tiles List of available tiles.
 	 */
 	public GridView(GUIInformation guiInformation, Camera camera, List<? extends Tile> tiles) {
@@ -123,8 +122,6 @@ public class GridView extends JPanel implements PropertyChangeListener {
 		
 		/**
 		 * Construct a tile.
-		 * @param icon The icon of the tile.
-		 * @param character The character that will represent the tile when saved.
 		 */
 		public GridTile(Tile tile) {
 			this.tile = tile;
