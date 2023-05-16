@@ -1,7 +1,7 @@
 package game;
 
 public enum CharacterType implements ActorType {
-    PACMAN("PacMan", "sprites/pacpix_0.gif"),
+    PACMAN("PacMan", "sprites/pacpix.gif"),
     M_TROLL("Troll", "sprites/m_troll.gif"),
     M_TX5("TX5", "sprites/m_tx5.gif");
 

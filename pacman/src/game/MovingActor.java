@@ -2,6 +2,8 @@ package game;
 
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
+import game.Items.Item;
+import game.Items.Portal;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -124,12 +126,18 @@ public abstract class MovingActor extends Actor {
 
     /**
      * Gets the target location of the next move().
+     * If the next move is the portal, the returned value will be the partner of the portal.
      * If the move is valid, the location is determined by the set direction.
      * If not, the location is the current location (i.e. actor does not move).
      * @return the target location.
      */
     @Override
     public synchronized Location getNextMoveLocation() {
+        Item item = ((Level) this.gameGrid).getSettingManager().getItem(getFirstCell());
+        if (item instanceof Portal) {
+            return ((Portal) item).getPartnerLocation();
+        }
+
         if (isMoveValid()) // in case no directions are valid
             return super.getNextMoveLocation();
         return getLocation();

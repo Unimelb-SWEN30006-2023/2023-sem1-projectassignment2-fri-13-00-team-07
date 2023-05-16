@@ -17,4 +17,8 @@ public class Portal extends Item {
         super(sprites.get(type), type);
         this.partnerLocation = partnerLocation;
     }
+
+    public Location getPartnerLocation() {
+        return partnerLocation;
+    }
 }
