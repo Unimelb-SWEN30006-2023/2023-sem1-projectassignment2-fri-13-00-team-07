@@ -10,10 +10,9 @@ import java.util.HashMap;
 
 public class LevelChecker extends Checker {
     private static LevelChecker instance = null;
-    private static ErrorMessagesBody ERROR_BODY;
 
     public LevelChecker() {
-        ERROR_BODY = ErrorMessagesBody.getInstance();
+        super();
     }
 
     public static Checker getInstance() {
@@ -46,10 +45,10 @@ public class LevelChecker extends Checker {
             }
         }
         if(pacStarts.size() == 0){
-            errors.add(map.getName() + ".xml" + ERROR_BODY.LEVEL_A_NO_START);
+            errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_A_NO_START);
         }
         else if(pacStarts.size() > 1){
-            String errorStr = map.getName() + ".xml" + ERROR_BODY.LEVEL_A_MULTI_START + locationStringBuilder(pacStarts);
+            String errorStr = map.getName() + ".xml" + errorMessagesBody.LEVEL_A_MULTI_START + locationStringBuilder(pacStarts);
             errors.add(errorStr);
         }
     }
@@ -76,7 +75,7 @@ public class LevelChecker extends Checker {
         for(CellType type:hm.keySet()){
             ArrayList<Location> lst = hm.get(type);
             if(lst.size() != 2){
-                errors.add(map.getName() + ".xml" + " - " + type.getName() + ERROR_BODY.LEVEL_B_NOT_TWO_PORTAL + locationStringBuilder(lst));
+                errors.add(map.getName() + ".xml" + " - " + type.getName() + errorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + locationStringBuilder(lst));
             }
         }
     }
@@ -92,11 +91,11 @@ public class LevelChecker extends Checker {
             }
         }
         if(counter < 2){
-            errors.add(map.getName() + ERROR_BODY.LEVEL_C_LESS_TWO_GOLD_PILL);
+            errors.add(map.getName() + errorMessagesBody.LEVEL_C_LESS_TWO_GOLD_PILL);
         }
     }
 
-    private static void verifyItemAccessible(EditorMap map, CellType type, ArrayList<String> errors){
+    private static void verifyItemAccessible(EditorMap map, ArrayList<String> errors){
         ArrayList<Location> golds = new ArrayList<>();
         ArrayList<Location> pills = new ArrayList<>();
         ArrayList<Location> errorGolds = new ArrayList<>();
@@ -113,12 +112,19 @@ public class LevelChecker extends Checker {
                     pills.add(loc);
                 }
                 else if(map.getTypeAt(loc) == CharacterType.PACMAN){
-                    // in theory, if run verifyPacStartPoint in advance, there shouldn't be multiple start Location
+                    // !!! in theory, if run verifyPacStartPoint in advance, there shouldn't be multiple start Location
                     // or no start location
-                    // for now, no error checking here
+                    // but for safete concern, check if there are multiple start here
+                    if(pac != null){
+                        return;
+                    }
                     pac = loc;
                 }
             }
+        }
+        // !!! if no pac start, stop immediately
+        if(pac == null){
+            return;
         }
         // build gold error string
         for (Location loc:golds){
@@ -126,18 +132,29 @@ public class LevelChecker extends Checker {
                 errorGolds.add(loc);
             }
         }
-        errors.add(map.getName() + ".xml" + ERROR_BODY.LEVEL_D_GOLD_NOT_ACC + locationStringBuilder(errorGolds));
+        errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_D_GOLD_NOT_ACC + locationStringBuilder(errorGolds));
         //build pill error String
         for(Location loc:pills){
             if(!map.canReach(pac, loc)){
                 errorPills.add(loc);
             }
         }
-        errors.add(map.getName() + ".xml" + ERROR_BODY.LEVEL_D_PILL_NOT_ACC + locationStringBuilder(errorGolds));
+        errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_D_PILL_NOT_ACC + locationStringBuilder(errorGolds));
     }
 
     public boolean checkLevel(EditorMap map){
-        return false;
+        ArrayList<String> errors = new ArrayList<>();
+        verifyPacStartPoint(map, errors);
+        verifyPortalTile(map, errors);
+        verifyGoldPill(map, errors);
+        verifyItemAccessible(map, errors);
+        if(errors.size() == 0){
+            return true;
+        }
+        else{
+            logErrors(errors);
+            return false;
+        }
     }
 
 

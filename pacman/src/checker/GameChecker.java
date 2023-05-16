@@ -12,13 +12,11 @@ import java.util.HashMap;
  * Checker
  */
 public class GameChecker extends Checker {
-    //Ziming: this only contains the basic logic, I haven't used made the CHECKER interface or parent class, modularize later
     private static GameChecker instance = null;
     private static final String levelDir = "";
-    private static ErrorMessagesBody ERROR_BODY;
 
     public GameChecker() {
-        ERROR_BODY = ErrorMessagesBody.getInstance();
+        super();
     }
 
     public static Checker getInstance() {
@@ -57,7 +55,7 @@ public class GameChecker extends Checker {
         }
         /* check 1. there has to be at least one map with valid name in directory */
         if(filenameStore.size() == 0){
-            errors.add(levelDir + ERROR_BODY.GAME_NO_MAPS_FOUND);
+            errors.add(levelDir + errorMessagesBody.GAME_NO_MAPS_FOUND);
             return;
         }
         /* check 2. map sequence is correct */
@@ -76,7 +74,7 @@ public class GameChecker extends Checker {
         //build error messages
         for(int digit:hm.keySet()){
             if(hm.get(digit).size() > 1){
-                String errorStr = levelDir + ERROR_BODY.GAME_MULTI_MAPS_SAME_LEVEL;
+                String errorStr = levelDir + errorMessagesBody.GAME_MULTI_MAPS_SAME_LEVEL;
                 for(int i:hm.get(digit)){
                     errorStr += (filenameStore.get(i) + ".xml; ");
                 }
