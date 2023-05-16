@@ -1,7 +1,6 @@
-import game.EditorMap;
+import game.Maps.EditorMap;
 import game.Game;
-import game.PacManGameGrid;
-import game.PacManMap;
+import game.Maps.PacManMap;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,14 +21,12 @@ public class TorusVerseApp {
         File file = new File(dir);
         if (file.isDirectory()) {
             mode = AppMode.TEST;
-
             game = new Game(getMaps(dir));
-        } else if (file.isFile()) { // map file passed
-            game = new Game(getMap(dir));
+        } else {
+            // returning to edit mode with no current map
+            mode = AppMode.EDIT;
+            editorAdapter.runEditor(dir);
         }
-        // returning to edit mode with no current map
-        mode = AppMode.EDIT;
-        editorAdapter.runEditor(dir);
     }
 
     private ArrayList<PacManMap> getMaps(String dir) {

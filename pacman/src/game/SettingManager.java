@@ -4,24 +4,25 @@ import ch.aplu.jgamegrid.Location;
 import game.Items.CellType;
 import game.Items.Item;
 import game.Items.ItemManager;
+import game.Maps.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
 public class SettingManager implements PacManMap {
-    private MapReader mapReader;
-    private PropertyReader propertyReader;
-    private ItemManager itemManager;
+    private final MapReader mapReader;
+    private final PropertyReader propertyReader;
+    private final ItemManager itemManager;
 
-    public SettingManager(Properties properties, PacManMap map) {
+    public SettingManager(Properties properties, PacManMap map, Level level) {
         propertyReader = new PropertyReader(properties);
         if (map instanceof EditorMap)
             mapReader = new EditorMapReader((EditorMap) map);
         else
             mapReader = new PropertyMapReader((PacManGameGrid) map, propertyReader);
 
-        itemManager = new ItemManager(mapReader.getItemLocations());
+        itemManager = new ItemManager(mapReader.getItemLocations(), map.getHorizontalCellsCount(), map.getVerticalCellsCount(), level);
     }
 
 
@@ -31,7 +32,7 @@ public class SettingManager implements PacManMap {
      * @return true if it's a wall, false otherwise.
      */
     public boolean isWallAt(Location location) {
-        return isInBound(location) && mapReader.getMap().getTypeAt(location) == CellType.WALL;
+        return isInBound(location) && mapReader.getItemLocations().get(location) == CellType.WALL;
     }
 
     /**
@@ -40,8 +41,8 @@ public class SettingManager implements PacManMap {
      * @return true if it's in bound, false otherwise.
      */
     public boolean isInBound(Location location) {
-        return location.x >= 0 && location.x < Level.getNumHorzCells()
-                && location.y >= 0 && location.y < Level.getNumVertCells();
+        return location.x >= 0 && location.x < itemManager.getHorizontalCellsCount()
+                && location.y >= 0 && location.y < itemManager.getVerticalCellsCount();
     }
 
     /* Wrapper methods using delegation */
@@ -56,10 +57,6 @@ public class SettingManager implements PacManMap {
 
     public int getSeed() {
         return propertyReader.getSeed();
-    }
-
-    public void drawSetting(Level level) {
-        itemManager.drawSetting(level);
     }
 
     public int countPills() {
@@ -85,5 +82,15 @@ public class SettingManager implements PacManMap {
     @Override
     public CellType getTypeAt(Location location) {
         return getItem(location).getType();
+    }
+
+    @Override
+    public int getHorizontalCellsCount() {
+        return itemManager.getHorizontalCellsCount();
+    }
+
+    @Override
+    public int getVerticalCellsCount() {
+        return itemManager.getVerticalCellsCount();
     }
 }

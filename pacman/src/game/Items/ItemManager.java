@@ -3,7 +3,7 @@ package game.Items;
 import ch.aplu.jgamegrid.*;
 import game.ActorType;
 import game.Level;
-import game.PacManMap;
+import game.Maps.PacManMap;
 
 import java.util.*;
 
@@ -13,23 +13,19 @@ import java.util.*;
  */
 
 public class ItemManager implements PacManMap {
-    // for initialization
-    private HashMap<Location, ActorType> itemLocations;
     /* Maps the index of a location in the grid to an item
      * Cannot use location directly as the key, as Location does not implement hashCode correctly.
      */
     // for later lookups
     private final HashMap<Integer, Item> items = new HashMap<>();
 
-    public ItemManager(HashMap<Location, ActorType> itemLocations) {
-        this.itemLocations = itemLocations;
-    }
+    private final int horizontalCellsCount;
+    private final int verticalCellsCount;
 
-    /**
-     * Draws the items from the locations stored.
-     * Precondition: The portals must be in pairs.
-     */
-    public void drawSetting(Level level) {
+    public ItemManager(HashMap<Location, ActorType> itemLocations, int horizontalCellsCount, int verticalCellsCount, Level level) {
+        this.horizontalCellsCount = horizontalCellsCount;
+        this.verticalCellsCount = verticalCellsCount;
+
         GGBackground bg = level.getBg();
 
         HashMap<CellType, ArrayList<Location>> portalLocations = new HashMap<>();
@@ -194,7 +190,7 @@ public class ItemManager implements PacManMap {
      * @return the corresponding location.
      */
     private Location getLocationByIndex(int index) {
-        return new Location(index % Level.getNumHorzCells(), index / Level.getNumHorzCells());
+        return new Location(index % horizontalCellsCount, index / horizontalCellsCount);
     }
 
     /**
@@ -203,11 +199,19 @@ public class ItemManager implements PacManMap {
      * @return the corresponding index in the game grid.
      */
     private int getIndexByLocation(Location location) {
-        return location.y * Level.getNumHorzCells() + location.x;
+        return location.y * horizontalCellsCount + location.x;
     }
 
     @Override
     public CellType getTypeAt(Location location) {
         return getItem(location).getType();
+    }
+
+    public int getHorizontalCellsCount() {
+        return horizontalCellsCount;
+    }
+
+    public int getVerticalCellsCount() {
+        return verticalCellsCount;
     }
 }

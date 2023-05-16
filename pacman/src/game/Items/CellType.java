@@ -23,7 +23,6 @@ public enum CellType implements ActorType {
     PORTAL_YELLOW('p', "portal Yellow", Color.yellow);
 
 
-
     /* for simplicity of lookups */
     private static final HashMap<Character, CellType> BY_CELL_CHAR = new HashMap<>();
     private static final HashMap<String, CellType> BY_NAME = new HashMap<>();

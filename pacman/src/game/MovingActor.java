@@ -6,6 +6,7 @@ import game.Items.CellType;
 import game.Items.Item;
 import game.Items.ItemPredicate;
 import game.Items.Portal;
+import game.Maps.PacManMap;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -199,17 +200,17 @@ public abstract class MovingActor extends Actor {
     }
 
 
-    private static void markLocationAsVisited(Location location, HashSet<Integer> visitedSet) {
-        visitedSet.add(location.y * Level.getNumHorzCells() + location.x);
+    private static void markLocationAsVisited(Location location, HashSet<Integer> visitedSet, PacManMap map) {
+        visitedSet.add(location.y * map.getHorizontalCellsCount() + location.x);
     }
 
-    private static boolean locationIsVisited(Location location, HashSet<Integer> visitedSet) {
-        return visitedSet.contains(location.y * Level.getNumHorzCells() + location.x);
+    private static boolean locationIsVisited(Location location, HashSet<Integer> visitedSet, PacManMap map) {
+        return visitedSet.contains(location.y * map.getHorizontalCellsCount() + location.x);
     }
 
     private static boolean isValidLocation(Location location, PacManMap map) {
-        return location.x >= 0 && location.x < Level.getNumHorzCells()
-                && location.y >= 0 && location.y < Level.getNumVertCells()
+        return location.x >= 0 && location.x < map.getHorizontalCellsCount()
+                && location.y >= 0 && location.y < map.getVerticalCellsCount()
                 && map.getTypeAt(location) != CellType.WALL;
     }
 
@@ -226,7 +227,7 @@ public abstract class MovingActor extends Actor {
 
         LinkedList<Location> queue = new LinkedList<>();
         queue.add(source);
-        markLocationAsVisited(source, visitedSet);
+        markLocationAsVisited(source, visitedSet, map);
 
         while (!queue.isEmpty()) {
             Location vertex = queue.remove();
@@ -254,13 +255,13 @@ public abstract class MovingActor extends Actor {
                         IntStream.rangeClosed(0, 3)
                                 .boxed()
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
-                                .filter(i -> !locationIsVisited(i, visitedSet) && isValidLocation(i, map)).toList();
+                                .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map)).toList();
                 for (var neighbour: unvisitedNeighbours) {
                     if (((CellType) map.getTypeAt(neighbour)).isPortal()) {
                         neighbour = ((Portal) map.getTypeAt(neighbour)).getPartnerLocation();
                     }
 
-                    markLocationAsVisited(neighbour, visitedSet);
+                    markLocationAsVisited(neighbour, visitedSet, map);
                     queue.add(neighbour);
 
                     paths.add(new Edge(vertex, neighbour));

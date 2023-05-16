@@ -7,7 +7,7 @@ package game.Items;
  */
 public class Gold extends Pill {
 
-    private static final String IMAGE_FILE = "sprites/gold.png";
+    private static final String IMAGE_FILE = "pacman/sprites/gold.png";
     private static final int SCORE_EFFECT = 5;
 
     /**

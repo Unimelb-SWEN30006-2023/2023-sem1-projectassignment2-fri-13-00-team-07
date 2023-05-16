@@ -5,7 +5,7 @@ package game.Items;
  */
 public class IceCube extends Item {
 
-    private static final String IMAGE_FILE = "sprites/ice.png";
+    private static final String IMAGE_FILE = "pacman/sprites/ice.png";
 
     /**
      * Creates an ice cube.

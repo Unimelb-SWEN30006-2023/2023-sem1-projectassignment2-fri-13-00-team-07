@@ -1,6 +1,8 @@
 package game;
 
 import ch.aplu.jgamegrid.*;
+import game.Maps.PacManGameGrid;
+import game.Maps.PacManMap;
 import game.Monsters.Monster;
 import game.Monsters.TX5;
 import game.Monsters.Troll;
@@ -19,8 +21,8 @@ import java.util.Properties;
 
 public class Level extends GameGrid {
     /* Setting constants */
-    private final static int NB_HORZ_CELLS = 20;
-    private final static int NB_VERT_CELLS = 11;
+    public final static int DEFAULT_NB_HORZ_CELLS = 20;
+    public final static int DEFAULT_NB_VERT_CELLS = 11;
     private final static int CELL_SIZE = 20;
     private static final int SLOW_DOWN_FACTOR = 3;
     private static final int KEY_REPEAT_PERIOD = 150;
@@ -39,9 +41,9 @@ public class Level extends GameGrid {
 
     // Level creation using properties file only for isAuto and seed, and a separate map
     public Level(Properties properties, PacManMap map) {
-        super(NB_HORZ_CELLS, NB_VERT_CELLS, CELL_SIZE, false);
+        super(map.getHorizontalCellsCount(), map.getVerticalCellsCount(), CELL_SIZE, false);
         this.gameCallback = new GameCallback();
-        this.settingManager = new SettingManager(properties, map);
+        this.settingManager = new SettingManager(properties, map, this);
     }
 
 
@@ -55,7 +57,6 @@ public class Level extends GameGrid {
         // Initializations
         setSimulationPeriod(SIMULATION_PERIOD);
         setTitle("[PacMan in the Multiverse]");
-        settingManager.drawSetting(this);
         setUpActors();
 
         // Run this level
@@ -152,22 +153,6 @@ public class Level extends GameGrid {
         return pacActor;
     }
 
-    /**
-     * Gets the number of horizontal cells for the game.
-     * @return the (integer) number of horizontal cells.
-     */
-    public static int getNumHorzCells() {
-        return NB_HORZ_CELLS;
-    }
-
-    /**
-     * Gets the number of vertical cells for the game.
-     * @return the (integer) number of vertical cells.
-     */
-    public static int getNumVertCells() {
-        return NB_VERT_CELLS;
-    }
-
 
     /**
      * Checks whether the pacActor has collided with a monster.
@@ -208,7 +193,7 @@ public class Level extends GameGrid {
     private void setLostEnding() {
         String title = "GAME OVER";
         getBg().setPaintColor(LOSE_COLOR);
-        addActor(new Actor("sprites/explosion3.gif"), pacActor.getLocation());
+        addActor(new Actor("pacman/sprites/explosion3.gif"), pacActor.getLocation());
         setEnding(title);
     }
 

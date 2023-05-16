@@ -18,15 +18,17 @@ public class MapEditorAdapter implements EditorAdapter {
 
     @Override
     public void runEditor(String mapFile) {
-        editor.setCurrentMap(mapFile); // if null, then no current map
         editor.run();
+        editor.loadFile(mapFile);
     }
 
 
+    /**
+     * MUST be called after `editor.loadFile`.
+     */
     public ActorType[][] getMap(String mapFile) {
-        editor.setCurrentMap(mapFile);
         setUpConverter();
-        char[][] mapWithChars = editor.loadFile();
+        char[][] mapWithChars = editor.getMap();
         int numRows = mapWithChars.length;
         int numCols = mapWithChars[0].length;
         ActorType[][] mapWithActors = new ActorType[numRows][numCols];

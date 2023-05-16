@@ -1,12 +1,13 @@
 package game;
 
+import game.Maps.PacManMap;
 import game.utility.PropertiesLoader;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
 public class Game {
-    public static final String DEFAULT_PROPERTIES_PATH = "properties/test2.properties";
+    public static final String DEFAULT_PROPERTIES_PATH = "pacman/properties/test2.properties";
     private ArrayList<Level> levels = new ArrayList<>();
 
     // same as original - creates a game with a single level

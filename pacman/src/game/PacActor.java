@@ -4,6 +4,7 @@ import ch.aplu.jgamegrid.*;
 import game.Items.CellType;
 import game.Items.Item;
 import game.Items.Pill;
+import game.Maps.PacManMap;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener {
         shouldMove = true;
         PacManMap map = ((Level) gameGrid).getSettingManager();
 
-        if (currentAutoPath == null) {
+        if (currentAutoPath == null || currentAutoPath.isEmpty()) {
             currentAutoPath = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map);
         }
         this.setDirectionToTarget(currentAutoPath.remove(0));

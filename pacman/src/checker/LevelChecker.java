@@ -2,7 +2,7 @@ package checker;
 
 import ch.aplu.jgamegrid.Location;
 import game.CharacterType;
-import game.EditorMap;
+import game.Maps.EditorMap;
 import game.Items.CellType;
 
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ public class LevelChecker extends Checker {
 
     private void verifyPacStartPoint(EditorMap map, ArrayList<String> errors){
         ArrayList<Location> pacStarts = new ArrayList<>();
-        for(int i = 0; i < map.getNumRows(); i++){
-            for(int j = 0; j < map.getNumCols(); j++){
+        for(int i = 0; i < map.getVerticalCellsCount(); i++){
+            for(int j = 0; j < map.getHorizontalCellsCount(); j++){
                 Location loc = new Location(i, j);
                 if(map.isCharacterType(loc) && map.getTypeAt(loc) == CharacterType.PACMAN){
                     pacStarts.add(loc);
@@ -41,8 +41,8 @@ public class LevelChecker extends Checker {
 
     private void verifyPortalTile(EditorMap map, ArrayList<String> errors){
         HashMap<CellType, ArrayList<Location>> hm = new HashMap<>();
-        for(int i = 0; i < map.getNumRows(); i++){
-            for(int j = 0; j < map.getNumCols(); j++){
+        for(int i = 0; i < map.getVerticalCellsCount(); i++){
+            for(int j = 0; j < map.getHorizontalCellsCount(); j++){
                 Location loc = new Location(i, j);
                 if(map.isCellType(loc) && ((CellType)map.getTypeAt(loc)).getCellChar() == 'p'){
                     CellType type = (CellType)map.getTypeAt(loc);
@@ -68,8 +68,8 @@ public class LevelChecker extends Checker {
 
     private void verifyGoldPill(EditorMap map, ArrayList<String> errors){
         int counter = 0;
-        for(int i = 0; i < map.getNumRows(); i++){
-            for(int j = 0; j < map.getNumCols(); j++){
+        for(int i = 0; i < map.getVerticalCellsCount(); i++){
+            for(int j = 0; j < map.getHorizontalCellsCount(); j++){
                 Location loc = new Location(i, j);
                 if(map.getTypeAt(loc) == CellType.GOLD || map.getTypeAt(loc) == CellType.PILL) {
                     counter ++;
@@ -88,8 +88,8 @@ public class LevelChecker extends Checker {
         ArrayList<Location> errorPills = new ArrayList<>();
         Location pac = null;
         // extract all golds, pills, and pac locations
-        for(int i = 0; i < map.getNumRows(); i++){
-            for(int j = 0; j < map.getNumCols(); j++){
+        for(int i = 0; i < map.getVerticalCellsCount(); i++){
+            for(int j = 0; j < map.getHorizontalCellsCount(); j++){
                 Location loc = new Location(i, j);
                 if(map.getTypeAt(loc) == CellType.GOLD) {
                     golds.add(loc);

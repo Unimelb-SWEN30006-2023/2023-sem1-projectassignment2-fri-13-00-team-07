@@ -1,7 +1,10 @@
-package game;
+package game.Maps;
 
 import ch.aplu.jgamegrid.*;
+import game.ActorType;
 import game.Items.CellType;
+import game.Level;
+import game.Maps.PacManMap;
 
 /**
  * Grid for a PacMan Level.
@@ -9,6 +12,7 @@ import game.Items.CellType;
 
 public class PacManGameGrid implements PacManMap {
     private final char[][] mazeArray;
+
     // default setting
     private static final String MAZE =  "xxxxxxxxxxxxxxxxxxxx" + // 0
                                         "x....x....g...x....x" + // 1
@@ -26,7 +30,11 @@ public class PacManGameGrid implements PacManMap {
      * Creates a PacManGameGrid of the default PacMan game dimensions.
      */
     public PacManGameGrid() {
-        this(Level.getNumHorzCells(), Level.getNumVertCells());
+        this(Level.DEFAULT_NB_HORZ_CELLS, Level.DEFAULT_NB_VERT_CELLS);
+    }
+
+    public PacManGameGrid(char[][] mazeArray) {
+        this.mazeArray = mazeArray;
     }
 
     /**
@@ -71,5 +79,15 @@ public class PacManGameGrid implements PacManMap {
     public boolean isInBound(Location location) {
         return location.x >= 0 && location.x < mazeArray[0].length
                 && location.y >= 0 && location.y < mazeArray.length;
+    }
+
+    @Override
+    public int getHorizontalCellsCount() {
+        return Level.DEFAULT_NB_HORZ_CELLS;
+    }
+
+    @Override
+    public int getVerticalCellsCount() {
+        return Level.DEFAULT_NB_VERT_CELLS;
     }
 }

@@ -8,8 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,8 +17,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import game.Game;
+import game.Maps.EditorMap;
+import game.Maps.PacManGameGrid;
 import mapeditor.grid.*;
-import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -53,11 +53,10 @@ public class Controller implements ActionListener, GUIInformation {
 	private int gridWith = Constants.MAP_WIDTH;
 	private int gridHeight = Constants.MAP_HEIGHT;
 
-	private String currentMap = null;
 	private HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>();
 	private HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>();
-	private static final char TILE_CHARS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'}; // 'a' is default
-	private static final String TILE_TYPES[] = {"PathTile", "WallTile", "PillTile",
+	private static final char[] TILE_CHARS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'}; // 'a' is default
+	private static final String[] TILE_TYPES = {"PathTile", "WallTile", "PillTile",
 												"GoldTile", "IceTile", "PacTile",
 												"TrollTile", "TX5Tile", "PortalWhiteTile",
 												"PortalYellowTile", "PortalDarkGoldTile",
@@ -69,11 +68,6 @@ public class Controller implements ActionListener, GUIInformation {
 	 */
 	public Controller() {
 		setUpDicts();
-	}
-
-	public Controller(String currentMap) {
-		setUpDicts();
-		this.currentMap = currentMap;
 	}
 
 	public void run() {
@@ -118,11 +112,14 @@ public class Controller implements ActionListener, GUIInformation {
 			saveFile();
 		} else if (e.getActionCommand().equals("load")) {
 			// LevelChecker.getInstance().check();
-			loadFile();
+			loadFile(null);
 		} else if (e.getActionCommand().equals("update")) {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
 			// Code to switch to pacman game
+			EditorMap map = new EditorMap(model.getMap());
+			Game game = new Game(map);
+			//FIXME: maybe an alert? or, an observer to disable the button?
 		}
 	}
 
@@ -196,58 +193,63 @@ public class Controller implements ActionListener, GUIInformation {
 		}
 	}
 
-	public char[][] loadFile() {
+	/**
+	 * Load the map at path of `currentMap`, or ask user to select one if the argument is null;
+	 */
+	public void loadFile(String currentMap) {
 		SAXBuilder builder = new SAXBuilder();
 		try {
-			JFileChooser chooser = new JFileChooser();
 			File selectedFile;
-			BufferedReader in;
-			FileReader reader = null;
-			File workingDirectory = new File(System.getProperty("user.dir"));
-			chooser.setCurrentDirectory(workingDirectory);
-
-			int returnVal = chooser.showOpenDialog(null);
 			Document document;
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				if (currentMap == null)
+			if (currentMap == null) {
+				JFileChooser chooser = new JFileChooser();
+				File workingDirectory = new File(System.getProperty("user.dir"));
+				chooser.setCurrentDirectory(workingDirectory);
+
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					selectedFile = chooser.getSelectedFile();
-				else
-					selectedFile = new File(currentMap);
-				if (selectedFile.canRead() && selectedFile.exists()) {
-					document = (Document) builder.build(selectedFile);
-
-					Element rootNode = document.getRootElement();
-
-					List sizeList = rootNode.getChildren("size");
-					Element sizeElem = (Element) sizeList.get(0);
-					int height = Integer.parseInt(sizeElem
-							.getChildText("height"));
-					int width = Integer
-							.parseInt(sizeElem.getChildText("width"));
-					updateGrid(width, height);
-
-					List rows = rootNode.getChildren("row");
-					for (int y = 0; y < rows.size(); y++) {
-						Element cellsElem = (Element) rows.get(y);
-						List cells = cellsElem.getChildren("cell");
-
-						for (int x = 0; x < cells.size(); x++) {
-							Element cell = (Element) cells.get(x);
-							String cellValue = cell.getText();
-
-							char tileNr = STR_TO_CHAR_DICT.getOrDefault(cellValue, 'a');
-							model.setTile(x, y, tileNr);
-						}
-					}
-
-					grid.redrawGrid();
-					return model.getMap();
+				} else {
+					return; // fixme: maybe throw some error?
 				}
+			} else {
+				selectedFile = new File(currentMap);
+			}
+
+
+			if (selectedFile.canRead() && selectedFile.exists()) {
+				document = (Document) builder.build(selectedFile);
+
+				Element rootNode = document.getRootElement();
+
+				List sizeList = rootNode.getChildren("size");
+				Element sizeElem = (Element) sizeList.get(0);
+				int height = Integer.parseInt(sizeElem
+						.getChildText("height"));
+				int width = Integer
+						.parseInt(sizeElem.getChildText("width"));
+				updateGrid(width, height);
+
+				List rows = rootNode.getChildren("row");
+				for (int y = 0; y < rows.size(); y++) {
+					Element cellsElem = (Element) rows.get(y);
+					List cells = cellsElem.getChildren("cell");
+
+					for (int x = 0; x < cells.size(); x++) {
+						Element cell = (Element) cells.get(x);
+						String cellValue = cell.getText();
+
+						char tileNr = STR_TO_CHAR_DICT.getOrDefault(cellValue, 'a');
+						model.setTile(x, y, tileNr);
+					}
+				}
+
+				grid.redrawGrid();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return;
 	}
 
 	/**
@@ -258,12 +260,8 @@ public class Controller implements ActionListener, GUIInformation {
 		return selectedTile;
 	}
 
-	public Grid getModel() {
-		return model;
-	}
-
-	public void setCurrentMap(String currentMap) {
-		this.currentMap = currentMap;
+	public char[][] getMap() {
+		return model.getMap();
 	}
 
 	public HashMap<Character, String> getCharToStrDict() {
