@@ -34,15 +34,6 @@ public abstract class MovingActor extends Actor {
         this.characterType = type;
     }
 
-    /**
-     * Creates an unrotatable moving actor based on the specified sprite image.
-     * @param seed: the seed for random behaviors of the actor
-     */
-    public MovingActor(int seed, CharacterType type) {
-        this.randomiser = new Random(seed);
-        this.characterType = type;
-    }
-
     /* Some common movement logics in all moving actors */
 
     /**
@@ -257,7 +248,8 @@ public abstract class MovingActor extends Actor {
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
                                 .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map)).toList();
                 for (var neighbour: unvisitedNeighbours) {
-                    if (((CellType) map.getTypeAt(neighbour)).isPortal()) {
+                    CellType neighbourType = (CellType) map.getTypeAt(neighbour);
+                    if (neighbourType != null && neighbourType.isPortal()) {
                         neighbour = ((Portal) map.getTypeAt(neighbour)).getPartnerLocation();
                     }
 

@@ -1,6 +1,8 @@
 package game;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.Actor;
+import ch.aplu.jgamegrid.GameGrid;
+import ch.aplu.jgamegrid.Location;
 import game.Maps.PacManGameGrid;
 import game.Maps.PacManMap;
 import game.Monsters.Monster;
@@ -65,13 +67,11 @@ public class Level extends GameGrid {
     }
 
 
-
     /**
      * Adds a monster to the game.
      * @param monster: monster to add
      */
     private void addMonster(Monster monster, Location location) {
-        System.out.println("Monster " + monster + " start @ " + location);
         monsters.add(monster);
         addActor(monster, location, Location.NORTH); // bind it to the game
         monster.setSlowDown(SLOW_DOWN_FACTOR);

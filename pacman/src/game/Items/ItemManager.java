@@ -1,11 +1,15 @@
 package game.Items;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.GGBackground;
+import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Level;
 import game.Maps.PacManMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Manages the setting for a game.

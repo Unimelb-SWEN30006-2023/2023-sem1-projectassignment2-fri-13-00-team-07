@@ -21,7 +21,7 @@ public abstract class Monster extends MovingActor {
      * @param seed: the seed for random behaviors of the monster
      */
     public Monster(int seed, CharacterType type) {
-        super(seed, type);
+        super(false, 1, seed, type);
     }
 
     /**

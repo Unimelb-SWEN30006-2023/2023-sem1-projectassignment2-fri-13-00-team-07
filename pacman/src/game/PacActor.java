@@ -1,6 +1,7 @@
 package game;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.GGKeyRepeatListener;
+import ch.aplu.jgamegrid.Location;
 import game.Items.CellType;
 import game.Items.Item;
 import game.Items.Pill;
@@ -121,10 +122,12 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener {
         if (currentAutoPath == null || currentAutoPath.isEmpty()) {
             currentAutoPath = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map);
         }
-        this.setDirectionToTarget(currentAutoPath.remove(0));
-
-        // last resort: random walk
-        setRandomMoveDirection(this.getDirection());
+        if (currentAutoPath.isEmpty()) {
+            this.setDirectionToTarget(currentAutoPath.remove(0));
+        } else {
+            // last resort: random walk
+            setRandomMoveDirection(this.getDirection());
+        }
     }
 
     /**

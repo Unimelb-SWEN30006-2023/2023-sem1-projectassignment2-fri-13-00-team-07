@@ -81,7 +81,8 @@ public class SettingManager implements PacManMap {
 
     @Override
     public CellType getTypeAt(Location location) {
-        return getItem(location).getType();
+        Item item = getItem(location);
+        return item == null ? null : item.getType();
     }
 
     @Override
