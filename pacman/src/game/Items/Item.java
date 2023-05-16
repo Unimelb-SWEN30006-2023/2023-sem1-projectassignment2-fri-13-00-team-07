@@ -1,6 +1,6 @@
 package game.Items;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.Actor;
 
 import java.awt.*;
 

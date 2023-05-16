@@ -1,5 +1,5 @@
-import game.Maps.EditorMap;
 import game.Game;
+import game.Maps.EditorMap;
 import game.Maps.PacManMap;
 
 import java.io.File;

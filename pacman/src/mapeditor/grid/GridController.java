@@ -3,13 +3,7 @@ package mapeditor.grid;
 import mapeditor.editor.Constants;
 import mapeditor.editor.GUIInformation;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 /**
  * Takes inputs from the GridView and communicated with a Camera.

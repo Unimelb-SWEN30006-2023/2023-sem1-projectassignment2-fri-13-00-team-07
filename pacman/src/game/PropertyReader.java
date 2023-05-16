@@ -1,6 +1,6 @@
 package game;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.Location;
 
 import java.util.ArrayList;
 import java.util.List;

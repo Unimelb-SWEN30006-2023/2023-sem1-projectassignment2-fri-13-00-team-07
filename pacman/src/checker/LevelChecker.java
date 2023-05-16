@@ -2,8 +2,8 @@ package checker;
 
 import ch.aplu.jgamegrid.Location;
 import game.CharacterType;
-import game.Maps.EditorMap;
 import game.Items.CellType;
+import game.Maps.EditorMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;

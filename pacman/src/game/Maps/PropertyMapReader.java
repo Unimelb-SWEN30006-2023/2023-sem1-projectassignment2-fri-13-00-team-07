@@ -1,8 +1,11 @@
 package game.Maps;
 
 import ch.aplu.jgamegrid.Location;
-import game.*;
+import game.ActorType;
+import game.CharacterType;
 import game.Items.CellType;
+import game.Level;
+import game.PropertyReader;
 
 import java.util.ArrayList;
 import java.util.HashMap;

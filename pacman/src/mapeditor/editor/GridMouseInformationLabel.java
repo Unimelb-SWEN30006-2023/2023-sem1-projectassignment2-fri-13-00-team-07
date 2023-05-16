@@ -1,11 +1,9 @@
 package mapeditor.editor;
 
-import java.awt.Component;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-
-import javax.swing.JLabel;
 
 /**
  * A label that shows information about the mouse cursor.

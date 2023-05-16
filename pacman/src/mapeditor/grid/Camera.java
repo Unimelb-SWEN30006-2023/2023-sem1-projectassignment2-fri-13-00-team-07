@@ -1,6 +1,6 @@
 package mapeditor.grid;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 
 /**

@@ -1,4 +1,5 @@
-import game.*;
+import game.ActorType;
+import game.CharacterType;
 import game.Items.CellType;
 import mapeditor.editor.Controller;
 

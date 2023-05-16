@@ -1,10 +1,9 @@
 package game.Maps;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Items.CellType;
 import game.Level;
-import game.Maps.PacManMap;
 
 /**
  * Grid for a PacMan Level.

@@ -2,11 +2,10 @@ package mapeditor.editor;
 
 import mapeditor.grid.Camera;
 
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import javax.swing.JLabel;
 
 
 /**

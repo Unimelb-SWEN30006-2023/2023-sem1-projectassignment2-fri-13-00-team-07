@@ -1,17 +1,14 @@
 package mapeditor.grid;
 
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Point;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
-
-import javax.swing.JPanel;
-
 import mapeditor.editor.Constants;
 import mapeditor.editor.GUIInformation;
 import mapeditor.editor.Tile;
+
+import javax.swing.*;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
 
 /**
  * A class which shows a Grid graphically as a JPanel.

@@ -2,7 +2,6 @@ package game.Maps;
 
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
-import game.CharacterType;
 import game.Items.CellType;
 
 import java.util.ArrayList;
