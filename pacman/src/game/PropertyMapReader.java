@@ -38,7 +38,7 @@ public class PropertyMapReader implements MapReader {
         for (int y = 0; y < Level.getNumVertCells(); y++) {
             for (int x = 0; x < Level.getNumHorzCells(); x++) {
                 Location location = new Location(x, y);
-                CellType cellType = grid.getTypeAt(location);
+                ActorType cellType = grid.getTypeAt(location);
                 if (cellType.equals(CellType.GOLD)) {
                     if (useMazeGoldLocations)
                         itemLocations.put(location, cellType);

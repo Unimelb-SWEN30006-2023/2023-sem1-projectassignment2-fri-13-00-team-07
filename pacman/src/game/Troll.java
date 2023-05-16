@@ -11,7 +11,7 @@ public class Troll extends Monster {
      * @param seed: the seed for random behaviors of the monster
      */
     public Troll(int seed) {
-        super(seed, CharacterType.TROLL_M);
+        super(seed, CharacterType.M_TROLL);
     }
 
     /**

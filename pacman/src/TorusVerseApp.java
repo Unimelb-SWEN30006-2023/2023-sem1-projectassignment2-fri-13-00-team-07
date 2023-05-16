@@ -1,3 +1,4 @@
+import game.EditorMap;
 import game.Game;
 import game.PacManGameGrid;
 import game.PacManMap;

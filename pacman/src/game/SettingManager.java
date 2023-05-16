@@ -74,4 +74,8 @@ public class SettingManager {
     public Location closestItemLocation(Location target) {
         return itemManager.closestItemLocation(target);
     }
+
+    public Item getItem(Location atLocation) { return itemManager.getItem(atLocation); }
+
+    public void removeItem(Location location) { itemManager.removeItem(location); }
 }

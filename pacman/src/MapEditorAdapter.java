@@ -62,4 +62,10 @@ public class MapEditorAdapter implements EditorAdapter {
         String tileString = editor.getCharToStrDict().get(c);
         return converter.get(tileString);
     }
+
+    @Override
+    public boolean applyLevelCheck() {
+        // FIXME: implementation
+        return false;
+    }
 }

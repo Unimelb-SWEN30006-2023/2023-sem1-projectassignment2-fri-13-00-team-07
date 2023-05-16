@@ -80,7 +80,7 @@ public class Level extends GameGrid {
         Location pacActorLocation = null;
 
         HashMap<Location, ActorType> characterLocations = settingManager.getCharacterLocations();
-        for (Map.Entry<Location, ActorType> entry : characterLocations) {
+        for (Map.Entry<Location, ActorType> entry : characterLocations.entrySet()) {
             Location location = entry.getKey();
             ActorType type = entry.getValue();
             if (type.equals(CharacterType.PACMAN)) {

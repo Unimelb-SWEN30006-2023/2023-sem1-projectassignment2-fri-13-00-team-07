@@ -14,7 +14,7 @@ public class TX5 extends Monster {
      * @param seed: the seed for random behaviors of the monster
      */
     public TX5(int seed) {
-        super(seed, CharacterType.TX5_M);
+        super(seed, CharacterType.M_TX5);
 
         // Set up the timer for waiting, when the game starts
         Timer timer = new Timer();
