@@ -2,11 +2,12 @@ package game;
 
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
+import game.Items.CellType;
 import game.Items.Item;
 import game.Items.Portal;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * An actor that can move.
@@ -194,5 +195,71 @@ public abstract class MovingActor extends Actor {
      */
     protected int getRandomNumber(int range){
         return randomiser.nextInt(range);
+    }
+
+
+    private static void markLocationAsVisited(Location location, HashSet<Integer> visitedSet) {
+        visitedSet.add(location.y * Level.getNumHorzCells() + location.x);
+    }
+
+    private static boolean locationIsVisited(Location location, HashSet<Integer> visitedSet) {
+        return visitedSet.contains(location.y * Level.getNumHorzCells() + location.x);
+    }
+
+    private static boolean isValidLocation(Location location, PacManMap map) {
+        return location.x >= 0 && location.x < Level.getNumHorzCells()
+                && location.y >= 0 && location.y < Level.getNumVertCells()
+                && map.getTypeAt(location) != CellType.WALL;
+    }
+
+    public static LinkedList<Location> findOptimalPath(Location source, Location sink, PacManMap map) {
+        LinkedList<Edge> paths = new LinkedList<>();
+        HashSet<Integer> visitedSet = new HashSet<>();
+
+        LinkedList<Location> queue = new LinkedList<>();
+        queue.add(source);
+        markLocationAsVisited(source, visitedSet);
+
+        while (!queue.isEmpty()) {
+            Location vertex = queue.remove();
+
+            if (vertex.equals(sink)) {
+                LinkedList<Location> result = new LinkedList<>();
+
+                result.add(sink);
+                Location destination = sink;
+                Location finalDestination = destination;
+                Optional<Edge> value = paths.stream().filter(i -> i.destination.equals(finalDestination)).findFirst();
+
+                while (value.isPresent()) {
+                    destination = value.get().source;
+                    result.add(destination);
+                    Location finalDestination1 = destination;
+                    value = paths.stream().filter(i -> i.destination.equals(finalDestination1)).findFirst();
+                }
+                Collections.reverse(result);
+                result.remove(); // the first element is its current location
+
+                return result;
+            } else {
+                List<Location> unvisitedNeighbours =
+                        IntStream.rangeClosed(0, 3)
+                                .boxed()
+                                .map(i -> vertex.getNeighbourLocation(90 * i))
+                                .filter(i -> !locationIsVisited(i, visitedSet) && isValidLocation(i, map)).toList();
+                for (var neighbour: unvisitedNeighbours) {
+                    if (((CellType) map.getTypeAt(neighbour)).isPortal()) {
+                        neighbour = ((Portal) map.getTypeAt(neighbour)).getPartnerLocation();
+                    }
+
+                    markLocationAsVisited(neighbour, visitedSet);
+                    queue.add(neighbour);
+
+                    paths.add(new Edge(vertex, neighbour));
+                }
+            }
+        }
+
+        return null;
     }
 }

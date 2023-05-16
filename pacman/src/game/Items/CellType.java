@@ -109,4 +109,8 @@ public enum CellType implements ActorType {
     public Color getColor() {
         return color;
     }
+
+    public Boolean isPortal() {
+        return this == CellType.PORTAL_DARK_GRAY || this == CellType.PORTAL_DARK_GOLD || this == CellType.PORTAL_WHITE || this == CellType.PORTAL_YELLOW;
+    }
 }
