@@ -11,6 +11,8 @@ public class PropertyMapReader implements MapReader {
     HashMap<Location, ActorType> characterLocations;
     HashMap<Location, ActorType> itemLocations;
 
+    ArrayList<Location> wallLocations;
+
     public PropertyMapReader(PacManGameGrid map, PropertyReader propertyReader) {
         characterLocations = new HashMap<Location, ActorType>();
         CharacterType characters[] = new CharacterType[]{CharacterType.PACMAN, CharacterType.M_TROLL, CharacterType.M_TX5};
@@ -39,6 +41,9 @@ public class PropertyMapReader implements MapReader {
                     if (useMazePillLocations)
                         itemLocations.put(location, cellType);
                 } else {
+                    if (cellType == CellType.WALL) {
+                        wallLocations.add(location);
+                    }
                     itemLocations.put(location, cellType);
                 }
             }
@@ -59,5 +64,10 @@ public class PropertyMapReader implements MapReader {
     @Override
     public HashMap<Location, ActorType> getItemLocations() {
         return itemLocations;
+    }
+
+    @Override
+    public boolean isWallAt(Location location) {
+        return wallLocations.contains(location);
     }
 }

@@ -71,6 +71,7 @@ public class Level extends GameGrid {
      * @param monster: monster to add
      */
     private void addMonster(Monster monster, Location location) {
+        System.out.println("Monster " + monster + " start @ " + location);
         monsters.add(monster);
         addActor(monster, location, Location.NORTH); // bind it to the game
         monster.setSlowDown(SLOW_DOWN_FACTOR);
