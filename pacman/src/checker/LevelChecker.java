@@ -15,23 +15,11 @@ public class LevelChecker extends Checker {
         super();
     }
 
-    public static Checker getInstance() {
+    public static LevelChecker getInstance() {
         if (instance == null) {
             instance = new LevelChecker();
         }
         return instance;
-    }
-
-    private static String locationStringBuilder(ArrayList<Location> locList){
-        // !!! grid start from (1, 1), not (0, 0) change this later
-        String str = "";
-        for(int i = 0; i < locList.size(); i++){
-            str += ("(" + locList.get(i).x + "," + locList.get(i).y + ")");
-            if(i != locList.size() - 1){
-                str += ";";
-            }
-        }
-        return str;
     }
 
     private static void verifyPacStartPoint(EditorMap map, ArrayList<String> errors){
