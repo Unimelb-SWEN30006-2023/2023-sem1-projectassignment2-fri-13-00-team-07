@@ -1,4 +1,4 @@
-package game;
+package game.Items;
 
 /**
  * An ice cube - a special type of item with an effect on the monsters' state.

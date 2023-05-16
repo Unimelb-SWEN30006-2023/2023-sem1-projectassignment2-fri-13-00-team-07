@@ -1,6 +1,8 @@
-package game;
+package game.Monsters;
 
 import ch.aplu.jgamegrid.Location;
+import game.CharacterType;
+import game.Level;
 
 import java.util.Timer;
 import java.util.TimerTask;

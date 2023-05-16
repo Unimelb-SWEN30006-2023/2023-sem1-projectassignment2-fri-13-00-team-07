@@ -1,6 +1,7 @@
 package game;
 
 import ch.aplu.jgamegrid.*;
+import game.Items.CellType;
 
 /**
  * Grid for a PacMan Level.

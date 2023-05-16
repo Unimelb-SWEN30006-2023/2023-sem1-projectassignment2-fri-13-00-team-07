@@ -1,6 +1,9 @@
 package game;
 
 import ch.aplu.jgamegrid.*;
+import game.Items.Item;
+import game.Items.Pill;
+
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 

@@ -1,6 +1,9 @@
 package game;
 
 import ch.aplu.jgamegrid.Location;
+import game.Items.CellType;
+import game.Items.Item;
+import game.Items.ItemManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;

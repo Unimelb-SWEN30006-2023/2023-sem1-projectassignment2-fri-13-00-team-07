@@ -1,4 +1,6 @@
-package game;
+package game.Items;
+
+import game.ActorType;
 
 import java.awt.*;
 import java.util.HashMap;

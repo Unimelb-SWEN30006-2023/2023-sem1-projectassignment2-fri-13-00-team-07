@@ -1,6 +1,9 @@
-package game;
+package game.Monsters;
 
 import ch.aplu.jgamegrid.Location;
+import game.CharacterType;
+import game.Level;
+import game.MovingActor;
 
 import java.util.*;
 

@@ -1,6 +1,8 @@
-package game;
+package game.Items;
 
 import ch.aplu.jgamegrid.*;
+import game.ActorType;
+import game.Level;
 
 import java.util.*;
 

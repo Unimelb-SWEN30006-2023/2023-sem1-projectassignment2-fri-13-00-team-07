@@ -1,6 +1,9 @@
 package game;
 
 import ch.aplu.jgamegrid.*;
+import game.Monsters.Monster;
+import game.Monsters.TX5;
+import game.Monsters.Troll;
 import game.utility.GameCallback;
 
 import java.awt.*;

@@ -1,4 +1,4 @@
-package game;
+package game.Items;
 
 /**
  * A gold - a special type of pill

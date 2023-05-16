@@ -1,4 +1,5 @@
 import game.*;
+import game.Items.CellType;
 import matachi.mapeditor.editor.Controller;
 
 import java.util.HashMap;

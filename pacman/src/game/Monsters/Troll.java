@@ -1,4 +1,6 @@
-package game;
+package game.Monsters;
+
+import game.CharacterType;
 
 /**
  * Troll - a special type of monster that walks randomly.
