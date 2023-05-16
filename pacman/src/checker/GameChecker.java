@@ -29,9 +29,6 @@ public class GameChecker extends Checker {
      * 2. map sequence is well-defined (don't have to be continous)
      */
     public void verifyGame(ArrayList<String> errors) {
-//        System.out.println("here");
-//        System.out.println(System.getProperty("user.dir"));
-//        System.out.println("here");
         ArrayList<String> filenameStore = new ArrayList<>();
         Path dir = Paths.get(levelDir);
         // Check if the given path is a directory
