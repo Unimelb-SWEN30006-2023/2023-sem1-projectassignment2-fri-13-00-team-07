@@ -31,23 +31,15 @@ public class ItemManager {
     public void drawSetting(Level level) {
         GGBackground bg = level.getBg();
 
-        ArrayList<Location> whitePortalLocations = new ArrayList<>();
-        ArrayList<Location> goldPortalLocations = new ArrayList<>();
-        ArrayList<Location> grayPortalLocations = new ArrayList<>();
-        ArrayList<Location> yellowPortalLocations = new ArrayList<>();
+        HashMap<CellType, ArrayList<Location>> portalLocations = new HashMap<>();
 
         for (Map.Entry<Location, ActorType> entry : itemLocations.entrySet()) {
             Location location = entry.getKey();
             ActorType cellType = entry.getValue();
 
-            if (cellType == CellType.PORTAL_WHITE) {
-                whitePortalLocations.add(location);
-            } else if (cellType == CellType.PORTAL_DARK_GOLD) {
-                goldPortalLocations.add(location);
-            } else if (cellType == CellType.PORTAL_DARK_GRAY) {
-                grayPortalLocations.add(location);
-            } else if (cellType == CellType.PORTAL_YELLOW) {
-                yellowPortalLocations.add(location);
+            if (CellType.Portals().contains(cellType)) {
+                portalLocations.computeIfAbsent(cellType, k -> new ArrayList<>());
+                portalLocations.get(cellType).add(location);
             } else {
                 colorWallAndSpace(location, cellType, bg);
                 Item item = createItem(cellType);
@@ -57,21 +49,9 @@ public class ItemManager {
             }
         }
 
-        if (!whitePortalLocations.isEmpty()) {
-            putItem(whitePortalLocations.get(0), new Portal(CellType.PORTAL_WHITE, whitePortalLocations.get(1)), level);
-            putItem(whitePortalLocations.get(1), new Portal(CellType.PORTAL_WHITE, whitePortalLocations.get(0)), level);
-        }
-        if (!goldPortalLocations.isEmpty()) {
-            putItem(goldPortalLocations.get(0), new Portal(CellType.PORTAL_DARK_GOLD, goldPortalLocations.get(1)), level);
-            putItem(goldPortalLocations.get(1), new Portal(CellType.PORTAL_DARK_GOLD, goldPortalLocations.get(0)), level);
-        }
-        if (!grayPortalLocations.isEmpty()) {
-            putItem(grayPortalLocations.get(0), new Portal(CellType.PORTAL_DARK_GRAY, grayPortalLocations.get(1)), level);
-            putItem(grayPortalLocations.get(1), new Portal(CellType.PORTAL_DARK_GRAY, grayPortalLocations.get(0)), level);
-        }
-        if (!yellowPortalLocations.isEmpty()) {
-            putItem(yellowPortalLocations.get(0), new Portal(CellType.PORTAL_YELLOW, yellowPortalLocations.get(1)), level);
-            putItem(yellowPortalLocations.get(1), new Portal(CellType.PORTAL_YELLOW, yellowPortalLocations.get(0)), level);
+        for (final var entry: portalLocations.entrySet()) {
+            putItem(entry.getValue().get(0), new Portal(entry.getKey(), entry.getValue().get(1)), level);
+            putItem(entry.getValue().get(1), new Portal(entry.getKey(), entry.getValue().get(0)), level);
         }
     }
 

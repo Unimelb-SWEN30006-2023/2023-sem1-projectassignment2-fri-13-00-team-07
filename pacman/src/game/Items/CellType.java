@@ -3,7 +3,9 @@ package game.Items;
 import game.ActorType;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Cell types, each with an associated character, name, and color.
@@ -76,6 +78,10 @@ public enum CellType implements ActorType {
      */
     public static CellType valueOfColor(Color color) {
         return BY_COLOR.get(color);
+    }
+
+    public static List<CellType> Portals() {
+        return List.of(new CellType[]{PORTAL_WHITE, PORTAL_DARK_GOLD, PORTAL_DARK_GRAY, PORTAL_YELLOW});
     }
 
     /* for completeness */

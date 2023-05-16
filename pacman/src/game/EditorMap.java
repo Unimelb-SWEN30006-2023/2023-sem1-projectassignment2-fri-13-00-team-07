@@ -50,7 +50,7 @@ public class EditorMap implements PacManMap {
      * @return true if accessible, false if not
      */
     public boolean canReach(Location from, Location to){
-        return (BFSNextCellToGo(from, to) == null);
+        return MovingActor.findOptimalPath(from, to, this) != null;
     }
 
     public Location BFSNextCellToGo(Location from, Location to){
