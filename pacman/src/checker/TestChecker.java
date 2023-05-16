@@ -5,7 +5,7 @@ public class TestChecker {
 
     public static void main(String[] args){
         GameChecker gameChecker = GameChecker.getInstance();
-        if(GameChecker.checkGame()){
+        if(gameChecker.checkGame()){
             System.out.println("test success");
         }
         else{

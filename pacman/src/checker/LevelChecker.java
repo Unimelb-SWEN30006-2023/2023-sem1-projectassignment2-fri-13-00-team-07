@@ -22,7 +22,7 @@ public class LevelChecker extends Checker {
         return instance;
     }
 
-    private static void verifyPacStartPoint(EditorMap map, ArrayList<String> errors){
+    private void verifyPacStartPoint(EditorMap map, ArrayList<String> errors){
         ArrayList<Location> pacStarts = new ArrayList<>();
         for(int i = 0; i < map.getNumRows(); i++){
             for(int j = 0; j < map.getNumCols(); j++){
@@ -36,12 +36,12 @@ public class LevelChecker extends Checker {
             errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_A_NO_START);
         }
         else if(pacStarts.size() > 1){
-            String errorStr = map.getName() + ".xml" + errorMessagesBody.LEVEL_A_MULTI_START + locationStringBuilder(pacStarts);
+            String errorStr = map.getName() + ".xml" + errorMessagesBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts);
             errors.add(errorStr);
         }
     }
 
-    private static void verifyPortalTile(EditorMap map, ArrayList<String> errors){
+    private void verifyPortalTile(EditorMap map, ArrayList<String> errors){
         HashMap<CellType, ArrayList<Location>> hm = new HashMap<>();
         for(int i = 0; i < map.getNumRows(); i++){
             for(int j = 0; j < map.getNumCols(); j++){
@@ -63,12 +63,12 @@ public class LevelChecker extends Checker {
         for(CellType type:hm.keySet()){
             ArrayList<Location> lst = hm.get(type);
             if(lst.size() != 2){
-                errors.add(map.getName() + ".xml" + " - " + type.getName() + errorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + locationStringBuilder(lst));
+                errors.add(map.getName() + ".xml" + " - " + type.getName() + errorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
             }
         }
     }
 
-    private static void verifyGoldPill(EditorMap map, ArrayList<String> errors){
+    private void verifyGoldPill(EditorMap map, ArrayList<String> errors){
         int counter = 0;
         for(int i = 0; i < map.getNumRows(); i++){
             for(int j = 0; j < map.getNumCols(); j++){
@@ -83,7 +83,7 @@ public class LevelChecker extends Checker {
         }
     }
 
-    private static void verifyItemAccessible(EditorMap map, ArrayList<String> errors){
+    private void verifyItemAccessible(EditorMap map, ArrayList<String> errors){
         ArrayList<Location> golds = new ArrayList<>();
         ArrayList<Location> pills = new ArrayList<>();
         ArrayList<Location> errorGolds = new ArrayList<>();
@@ -120,14 +120,14 @@ public class LevelChecker extends Checker {
                 errorGolds.add(loc);
             }
         }
-        errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_D_GOLD_NOT_ACC + locationStringBuilder(errorGolds));
+        errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_D_GOLD_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
         //build pill error String
         for(Location loc:pills){
             if(!map.canReach(pac, loc)){
                 errorPills.add(loc);
             }
         }
-        errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_D_PILL_NOT_ACC + locationStringBuilder(errorGolds));
+        errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
     }
 
     public boolean checkLevel(EditorMap map){

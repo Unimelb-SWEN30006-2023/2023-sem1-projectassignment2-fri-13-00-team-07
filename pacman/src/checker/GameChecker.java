@@ -9,15 +9,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Checker
+ * GameChecker
  */
 public class GameChecker extends Checker {
     private static GameChecker instance = null;
     private static final String levelDir = "pacman/src/data/wrongSequenceMapFolder_GameCheckerTest";
 
-    public GameChecker() {
-        super();
-    }
+    public GameChecker() {;}
 
     public static GameChecker getInstance() {
         if (instance == null) {
@@ -30,7 +28,7 @@ public class GameChecker extends Checker {
      * 1. at least one map in the folder
      * 2. map sequence is well-defined (don't have to be continous)
      */
-    public static void verifyGame(ArrayList<String> errors) {
+    public void verifyGame(ArrayList<String> errors) {
 //        System.out.println("here");
 //        System.out.println(System.getProperty("user.dir"));
 //        System.out.println("here");
@@ -92,7 +90,7 @@ public class GameChecker extends Checker {
         }
     }
 
-    public static boolean checkGame() {
+    public boolean checkGame() {
         ArrayList<String> errors = new ArrayList<>();
         verifyGame(errors);
         // received errors
