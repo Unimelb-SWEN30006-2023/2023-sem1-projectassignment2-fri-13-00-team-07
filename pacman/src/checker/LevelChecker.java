@@ -11,9 +11,7 @@ import java.util.HashMap;
 public class LevelChecker extends Checker {
     private static LevelChecker instance = null;
 
-    public LevelChecker() {
-        super();
-    }
+    public LevelChecker() {;}
 
     public static LevelChecker getInstance() {
         if (instance == null) {
