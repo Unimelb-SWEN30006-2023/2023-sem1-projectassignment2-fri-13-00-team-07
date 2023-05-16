@@ -1,12 +1,14 @@
-package game;
+package checker;
 
 import ch.aplu.jgamegrid.Location;
+import game.CharacterType;
+import game.EditorMap;
 import game.Items.CellType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LevelChecker extends Checker{
+public class LevelChecker extends Checker {
     private static LevelChecker instance = null;
     private static ErrorMessagesBody ERROR_BODY;
 

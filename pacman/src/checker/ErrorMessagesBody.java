@@ -1,4 +1,4 @@
-package game;
+package checker;
 
 public class ErrorMessagesBody {
     private static ErrorMessagesBody instance = null;

@@ -1,4 +1,4 @@
-package game;
+package checker;
 
 import game.utility.GameCallback;
 
