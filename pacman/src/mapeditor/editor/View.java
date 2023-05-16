@@ -1,4 +1,4 @@
-package matachi.mapeditor.editor;
+package mapeditor.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import matachi.mapeditor.grid.Camera;
+import mapeditor.grid.Camera;
 
 
 /**
@@ -47,11 +47,9 @@ public class View {
 	 * 
 	 * @param controller
 	 *            The controller.
-	 * @param model
-	 *            The model.
 	 */
 	public View(Controller controller, Camera camera, JPanel grid,
-			List<? extends Tile> tiles) {
+				List<? extends Tile> tiles) {
 
 		// showingGrid = true;
 
