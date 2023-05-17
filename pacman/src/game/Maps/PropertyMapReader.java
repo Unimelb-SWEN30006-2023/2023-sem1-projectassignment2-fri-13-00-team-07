@@ -14,11 +14,9 @@ public class PropertyMapReader implements MapReader {
     HashMap<Location, ActorType> characterLocations;
     HashMap<Location, ActorType> itemLocations;
 
-    ArrayList<Location> wallLocations;
-
     public PropertyMapReader(PacManGameGrid map, PropertyReader propertyReader) {
-        characterLocations = new HashMap<Location, ActorType>();
-        CharacterType characters[] = new CharacterType[]{CharacterType.PACMAN, CharacterType.M_TROLL, CharacterType.M_TX5};
+        characterLocations = new HashMap<>();
+        CharacterType[] characters = new CharacterType[]{CharacterType.PACMAN, CharacterType.M_TROLL, CharacterType.M_TX5};
         for (CharacterType character : characters) {
             Location location = propertyReader.readLocation(character.getName() + ".location");
             if (location != null && !(location.equals(new Location(-1, -1))))
@@ -26,7 +24,7 @@ public class PropertyMapReader implements MapReader {
         }
 
 
-        itemLocations = new HashMap<Location, ActorType>();
+        itemLocations = new HashMap<>();
         ArrayList<Location> propertyPillLocations = propertyReader.loadLocations("Pills.location");
         ArrayList<Location> propertyGoldLocations = propertyReader.loadLocations("Gold.location");
 
@@ -44,9 +42,6 @@ public class PropertyMapReader implements MapReader {
                     if (useMazePillLocations)
                         itemLocations.put(location, cellType);
                 } else {
-                    if (cellType == CellType.WALL) {
-                        wallLocations.add(location);
-                    }
                     itemLocations.put(location, cellType);
                 }
             }
@@ -67,10 +62,5 @@ public class PropertyMapReader implements MapReader {
     @Override
     public HashMap<Location, ActorType> getItemLocations() {
         return itemLocations;
-    }
-
-    @Override
-    public boolean isWallAt(Location location) {
-        return wallLocations.contains(location);
     }
 }

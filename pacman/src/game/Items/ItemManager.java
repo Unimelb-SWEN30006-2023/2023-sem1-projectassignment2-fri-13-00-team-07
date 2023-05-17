@@ -6,10 +6,7 @@ import game.ActorType;
 import game.Level;
 import game.Maps.PacManMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Manages the setting for a game.
@@ -22,6 +19,7 @@ public class ItemManager implements PacManMap {
      */
     // for later lookups
     private final HashMap<Integer, Item> items = new HashMap<>();
+    private final HashSet<Integer> wallLocations = new HashSet<>();
 
     private final int horizontalCellsCount;
     private final int verticalCellsCount;
@@ -38,7 +36,7 @@ public class ItemManager implements PacManMap {
             Location location = entry.getKey();
             ActorType cellType = entry.getValue();
 
-            if (CellType.Portals().contains(cellType)) {
+            if (cellType instanceof CellType && CellType.Portals().contains((CellType) cellType)) {
                 portalLocations.computeIfAbsent((CellType) cellType, k -> new ArrayList<>());
                 portalLocations.get(cellType).add(location);
             } else {
@@ -46,6 +44,8 @@ public class ItemManager implements PacManMap {
                 Item item = createItem(cellType);
                 if (item != null) {
                     putItem(location, item, level);
+                } else if (cellType == CellType.WALL) {
+                    wallLocations.add(getIndexByLocation(location));
                 }
             }
         }
@@ -174,10 +174,6 @@ public class ItemManager implements PacManMap {
     }
 
     /**
-     *
-     * For Orion, get a dictionary of locations and the gold there.
-     */
-    /**
      * Gets the list of gold locations.
      * @return a list of all gold locations.
      */
@@ -206,7 +202,6 @@ public class ItemManager implements PacManMap {
         return location.y * horizontalCellsCount + location.x;
     }
 
-    @Override
     public CellType getTypeAt(Location location) {
         return getItem(location).getType();
     }
@@ -217,5 +212,10 @@ public class ItemManager implements PacManMap {
 
     public int getVerticalCellsCount() {
         return verticalCellsCount;
+    }
+
+    @Override
+    public boolean isWallAt(Location location) {
+        return wallLocations.contains(getIndexByLocation(location));
     }
 }

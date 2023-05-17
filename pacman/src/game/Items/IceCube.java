@@ -14,4 +14,8 @@ public class IceCube extends Item {
         super(IMAGE_FILE, CellType.ICE);
     }
 
+    @Override
+    public boolean isEatable() {
+        return true;
+    }
 }

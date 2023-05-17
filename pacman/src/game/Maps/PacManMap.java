@@ -8,4 +8,6 @@ public interface PacManMap {
 
     int getHorizontalCellsCount();
     int getVerticalCellsCount();
+
+    boolean isWallAt(Location location);
 }

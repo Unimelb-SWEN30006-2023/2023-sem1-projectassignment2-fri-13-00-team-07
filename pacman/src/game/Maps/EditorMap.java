@@ -10,10 +10,10 @@ import java.util.HashMap;
 
 
 public class EditorMap implements PacManMap {
-    private ActorType[][] map;
+    private final ActorType[][] map;
     private String name; //Ziming: I want a name here
 
-    private static HashMap<Character, ActorType> editorRepresentationDictionary = new HashMap<Character, ActorType>() {{
+    private final static HashMap<Character, ActorType> editorRepresentationDictionary = new HashMap<Character, ActorType>() {{
         put('a', CellType.SPACE);
         put('b', CellType.WALL);
         put('c', CellType.PILL);
@@ -85,46 +85,9 @@ public class EditorMap implements PacManMap {
         return MovingActor.findOptimalPath(from, to, this) != null;
     }
 
-//    public Location BFSNextCellToGo(Location from, Location to){
-//            int[] start = new int[]{from.y, from.x};
-//            int[] des = new int[]{to.y, to.x};
-//            int m = map.length;
-//            int n = map[0].length;
-//            boolean[][] visited = new boolean[m][n];
-//            int[][] directions = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-//            Queue<int[]> queue = new LinkedList<>();
-//            queue.offer(start);
-//            visited[start[0]][start[1]] = true;
-//            Map<int[], int[]> parentMap = new HashMap<>();
-//            while (!queue.isEmpty()) {
-//                int[] curr = queue.poll();
-//                if (curr[0] == des[0] && curr[1] == des[1]) {
-//                    // Destination is reached, construct the path and return the first cell
-//                    int[] pathCurr = curr;
-//                    while (!Arrays.equals(pathCurr, start)) {
-//                        int[] parent = parentMap.get(pathCurr);
-//                        pathCurr = parent;
-//                    }
-//                    // Construct the new Location object with the first cell's coordinates and return it
-//                    return new Location(pathCurr[1], pathCurr[0]);
-//                }
-//                // Explore the neighbors
-//                for (int[] dir : directions) {
-//                    int nextX = curr[0] + dir[0];
-//                    int nextY = curr[1] + dir[1];
-//                    Location loc = new Location(nextX, nextY);
-//                    if (nextX >= 0 && nextX < m
-//                            && nextY >= 0 && nextY < n
-//                            && (isCellType(loc) && ((CellType)getTypeAt(new Location(nextX, nextY))).getCellChar() != 'x')
-//                            && !visited[nextX][nextY]) {
-//                        queue.offer(new int[]{nextX, nextY});
-//                        visited[nextX][nextY] = true;
-//                        // Map the visited cell to its parent cell
-//                        parentMap.put(new int[]{nextX, nextY}, curr);
-//                    }
-//                }
-//            }
-//            // No path found
-//            return null;
-//        }
+    @Override
+    public boolean isWallAt(Location location) {
+        return map[location.y][location.x] == CellType.WALL;
+    }
+
 }

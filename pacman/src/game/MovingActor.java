@@ -19,8 +19,7 @@ public abstract class MovingActor extends Actor {
 
     private final ArrayList<Location> recentlyVisitedList = new ArrayList<>();
     private static final int MAX_VISITED_LIST_LEN = 10;
-    private Random randomiser;
-    private CharacterType characterType;
+    private final Random randomiser;
 
     /**
      * Creates a moving actor based on one or more sprite images.
@@ -31,7 +30,6 @@ public abstract class MovingActor extends Actor {
     public MovingActor(boolean isRotatable, int nbSprites, int seed, CharacterType type) {
         super(isRotatable, type.getFilePath(), nbSprites);
         this.randomiser = new Random(seed);
-        this.characterType = type;
     }
 
     /* Some common movement logics in all moving actors */
@@ -118,6 +116,11 @@ public abstract class MovingActor extends Actor {
         super.act();
     }
 
+    @Override
+    public synchronized void move() {
+        this.setLocation(getNextMoveLocation());
+    }
+
     /**
      * Gets the target location of the next move().
      * If the next move is the portal, the returned value will be the partner of the portal.
@@ -202,7 +205,7 @@ public abstract class MovingActor extends Actor {
     private static boolean isValidLocation(Location location, PacManMap map) {
         return location.x >= 0 && location.x < map.getHorizontalCellsCount()
                 && location.y >= 0 && location.y < map.getVerticalCellsCount()
-                && map.getTypeAt(location) != CellType.WALL;
+                && !map.isWallAt(location);
     }
 
     public static LinkedList<Location> findOptimalPath(Location source, Location sink, PacManMap map) {
@@ -216,6 +219,23 @@ public abstract class MovingActor extends Actor {
         LinkedList<Edge> paths = new LinkedList<>();
         HashSet<Integer> visitedSet = new HashSet<>();
 
+        HashMap<CellType, ArrayList<Location>> portalLocations = new HashMap<>();
+
+        System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+
+        for (int y = 0; y < map.getVerticalCellsCount(); y++) {
+            for (int x = 0; x < map.getHorizontalCellsCount(); x++) {
+                Location location = new Location(x, y);
+                CellType cellType = (CellType) map.getTypeAt(location);
+                assert cellType != null;
+
+                if (CellType.Portals().contains(cellType)) {
+                    portalLocations.computeIfAbsent(cellType, k -> new ArrayList<>());
+                    portalLocations.get(cellType).add(location);
+                }
+            }
+        }
+
         LinkedList<Location> queue = new LinkedList<>();
         queue.add(source);
         markLocationAsVisited(source, visitedSet, map);
@@ -224,6 +244,7 @@ public abstract class MovingActor extends Actor {
             Location vertex = queue.remove();
 
             if (predicate.satisfies(vertex)) {
+                System.out.println("The end location is " + vertex.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                 LinkedList<Location> result = new LinkedList<>();
 
                 result.add(vertex);
@@ -240,6 +261,10 @@ public abstract class MovingActor extends Actor {
                 Collections.reverse(result);
                 result.remove(); // the first element is its current location
 
+                for (final var v: result) {
+                    System.out.println("The path is through " + v.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+                }
+
                 return result;
             } else {
                 List<Location> unvisitedNeighbours =
@@ -248,9 +273,11 @@ public abstract class MovingActor extends Actor {
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
                                 .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map)).toList();
                 for (var neighbour: unvisitedNeighbours) {
+                    System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                     CellType neighbourType = (CellType) map.getTypeAt(neighbour);
                     if (neighbourType != null && neighbourType.isPortal()) {
-                        neighbour = ((Portal) map.getTypeAt(neighbour)).getPartnerLocation();
+                        final var locations = portalLocations.get(neighbourType);
+                        neighbour = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);
                     }
 
                     markLocationAsVisited(neighbour, visitedSet, map);

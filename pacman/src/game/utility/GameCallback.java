@@ -3,7 +3,6 @@ package game.utility;
 import ch.aplu.jgamegrid.Location;
 import game.Monsters.Monster;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -11,12 +10,12 @@ import java.io.IOException;
  * Please do not change this class. This class is used for testing and your code needs to print the correct output to pass the test
  */
 public class GameCallback {
-    private String logFilePath = "Log.txt";
+    private static final String logFilePath = "Log.txt";
     private FileWriter fileWriter = null;
 
     public GameCallback() {
         try {
-            fileWriter = new FileWriter(new File(logFilePath));
+            fileWriter = new FileWriter(GameCallback.logFilePath);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

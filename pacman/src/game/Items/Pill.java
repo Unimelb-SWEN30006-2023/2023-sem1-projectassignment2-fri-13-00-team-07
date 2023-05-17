@@ -36,4 +36,9 @@ public class Pill extends Item {
     public int getScoreEffect() {
         return scoreEffect;
     }
+
+    @Override
+    public boolean isEatable() {
+        return true;
+    }
 }

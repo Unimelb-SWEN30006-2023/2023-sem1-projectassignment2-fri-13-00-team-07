@@ -54,7 +54,7 @@ public class PropertyReader {
     /**
      * Reads and parses a single location.
      * @param key: key (String) to look up in the properties file
-     * @return: the corresponding location.
+     * @return the corresponding location.
      */
     public Location readLocation(String key) {
         String locationString = properties.getProperty(key);
@@ -76,7 +76,7 @@ public class PropertyReader {
     /**
      * Reads and parses a boolean value.
      * @param key: key (String) to look up in the properties file
-     * @return: the corresponding boolean value.
+     * @return the corresponding boolean value.
      */
     public boolean readBoolean(String key) {
         return Boolean.parseBoolean(properties.getProperty(key));
@@ -85,7 +85,7 @@ public class PropertyReader {
     /**
      * Reads and parses the moves.
      * @param key: key (String) to look up in the properties file
-     * @return: the corresponding moves, as an ArrayList of Strings
+     * @return the corresponding moves, as an ArrayList of Strings
      *          (an empty list if there's no corresponding value).
      */
     public ArrayList<String> readMoves(String key) {

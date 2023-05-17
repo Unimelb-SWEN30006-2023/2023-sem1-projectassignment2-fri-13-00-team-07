@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class Game {
     public static final String DEFAULT_PROPERTIES_PATH = "pacman/properties/test2.properties";
-    private ArrayList<Level> levels = new ArrayList<>();
+    private final ArrayList<Level> levels = new ArrayList<>();
 
     // same as original - creates a game with a single level
     public Game() {

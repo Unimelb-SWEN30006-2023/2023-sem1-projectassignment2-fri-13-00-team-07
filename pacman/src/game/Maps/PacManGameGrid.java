@@ -70,16 +70,6 @@ public class PacManGameGrid implements PacManMap {
         return CellType.valueOfCellChar(getCellChar(location));
     }
 
-    /**
-     * Checks if the location is in bound of the maze.
-     * @param location: location to be checked
-     * @return true if it's in bound, false otherwise.
-     */
-    public boolean isInBound(Location location) {
-        return location.x >= 0 && location.x < mazeArray[0].length
-                && location.y >= 0 && location.y < mazeArray.length;
-    }
-
     @Override
     public int getHorizontalCellsCount() {
         return Level.DEFAULT_NB_HORZ_CELLS;
@@ -88,5 +78,10 @@ public class PacManGameGrid implements PacManMap {
     @Override
     public int getVerticalCellsCount() {
         return Level.DEFAULT_NB_VERT_CELLS;
+    }
+
+    @Override
+    public boolean isWallAt(Location location) {
+        return getTypeAt(location) == CellType.WALL;
     }
 }

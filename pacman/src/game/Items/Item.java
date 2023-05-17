@@ -64,6 +64,8 @@ public abstract class Item extends Actor {
         return type;
     }
 
+    public abstract boolean isEatable();
+
     /**
      * Checks if the given object is equal to this item
      * (i.e. same type and location).

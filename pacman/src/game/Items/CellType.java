@@ -3,6 +3,7 @@ package game.Items;
 import game.ActorType;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,8 +79,8 @@ public enum CellType implements ActorType {
         return BY_COLOR.get(color);
     }
 
-    public static List<CellType> Portals() {
-        return List.of(new CellType[]{PORTAL_WHITE, PORTAL_DARK_GOLD, PORTAL_DARK_GRAY, PORTAL_YELLOW});
+    public static ArrayList<CellType> Portals() {
+        return new ArrayList<>(List.of(new CellType[]{PORTAL_WHITE, PORTAL_DARK_GOLD, PORTAL_DARK_GRAY, PORTAL_YELLOW}));
     }
 
     /* for completeness */

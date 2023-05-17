@@ -122,8 +122,10 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener {
         if (currentAutoPath == null || currentAutoPath.isEmpty()) {
             currentAutoPath = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map);
         }
-        if (currentAutoPath.isEmpty()) {
-            this.setDirectionToTarget(currentAutoPath.remove(0));
+        if (currentAutoPath != null && !currentAutoPath.isEmpty()) {
+            Location target = currentAutoPath.remove(0);
+            assert this.getLocation().getDistanceTo(target) == 1;
+            this.setDirectionToTarget(target);
         } else {
             // last resort: random walk
             setRandomMoveDirection(this.getDirection());
@@ -154,7 +156,7 @@ public class PacActor extends MovingActor implements GGKeyRepeatListener {
     private void eatItem(Location location) {
         Level level = (Level) gameGrid;
         Item item = level.getSettingManager().getItem(location);
-        if (item == null) // no item here
+        if (item == null || !item.isEatable()) // no item here
             return;
 
         // update pills count and score

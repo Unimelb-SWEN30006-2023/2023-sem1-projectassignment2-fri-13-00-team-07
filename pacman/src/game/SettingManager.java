@@ -32,7 +32,7 @@ public class SettingManager implements PacManMap {
      * @return true if it's a wall, false otherwise.
      */
     public boolean isWallAt(Location location) {
-        return isInBound(location) && mapReader.isWallAt(location);
+        return isInBound(location) && itemManager.isWallAt(location);
     }
 
     /**

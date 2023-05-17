@@ -35,7 +35,7 @@ public abstract class Monster extends MovingActor {
 
         setHorzMirror(!(getDirection() > 150) || !(getDirection() < 210));
         addVisitedList(getNextMoveLocation());
-        setLocation(getNextMoveLocation()); // actual move
+        super.move(); // actual move
 
         ((Level) gameGrid).getGameCallback().monsterLocationChanged(this);
     }
@@ -142,7 +142,7 @@ public abstract class Monster extends MovingActor {
      */
     protected ArrayList<Location> getSortedNeighborLocations(Comparator<Location> comparator) {
         ArrayList<Location> neighborLocations = getNeighborLocations();
-        Collections.sort(neighborLocations, comparator);
+        neighborLocations.sort(comparator);
         return neighborLocations;
     }
 
