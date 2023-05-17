@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class GameChecker extends Checker {
     private static GameChecker instance = null;
-    private static final String levelDir = "pacman/src/data/wrongSequenceMapFolder_GameCheckerTest";
+    private static final String levelDir = "pacman/data/wrongSequenceMapFolder_GameCheckerTest";
 
     public GameChecker() {;}
 

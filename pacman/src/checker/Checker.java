@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Checker
  */
 public abstract class Checker {
-    private static final String errorLogPath = "pacman/src/errorLog/errorLogs.txt";
+    private static final String errorLogPath = "pacman/errorLog/errorLogs.txt";
     protected static ErrorMessagesBody errorMessagesBody = ErrorMessagesBody.getInstance();
 
     protected String semicolonStringBuilder(ArrayList<String> lst){
