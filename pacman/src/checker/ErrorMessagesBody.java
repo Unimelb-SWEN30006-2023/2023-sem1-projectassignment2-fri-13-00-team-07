@@ -1,7 +1,6 @@
 package checker;
 
 public class ErrorMessagesBody {
-    private static ErrorMessagesBody instance = null;
     public static final String GAME_NO_MAPS_FOUND = " – no maps found";
     public static final String GAME_MULTI_MAPS_SAME_LEVEL = " – multiple maps at same level: ";
     public static final String LEVEL_A_NO_START = " - no start for PacMan";
