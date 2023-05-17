@@ -1,2 +1,0 @@
-pacman/src/data/wrongSequenceMapFolder_GameCheckerTest – multiple maps at same level: 1.xml;1_aa.xml
-pacman/src/data/wrongSequenceMapFolder_GameCheckerTest – multiple maps at same level: 11.xml;11aa.xml;11bb.xml

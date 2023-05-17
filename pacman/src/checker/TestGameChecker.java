@@ -1,7 +1,7 @@
 package checker;
 
 
-public class TestChecker {
+public class TestGameChecker {
 
     public static void main(String[] args){
         GameChecker gameChecker = GameChecker.getInstance();
