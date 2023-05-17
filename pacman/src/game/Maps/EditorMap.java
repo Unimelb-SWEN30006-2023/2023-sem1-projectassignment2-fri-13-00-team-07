@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class EditorMap implements PacManMap {
     private ActorType[][] map;
-    private String name; //Ziming: I want a name here
+    private String fileName;
 
     private static HashMap<Character, ActorType> editorRepresentationDictionary = new HashMap<Character, ActorType>() {{
         put('a', CellType.SPACE);
@@ -29,7 +29,8 @@ public class EditorMap implements PacManMap {
     }};
 
 
-    public EditorMap(ActorType[][] map) {
+    public EditorMap(String fileName, ActorType[][] map) {
+        this.fileName = fileName;
         this.map = map;
     }
 
@@ -44,12 +45,12 @@ public class EditorMap implements PacManMap {
     }
 
 
-    public String getName(){
-        return name;
+    public String getFileName(){
+        return fileName;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setFileName(String fileName){
+        this.fileName = fileName;
     }
 
     @Override

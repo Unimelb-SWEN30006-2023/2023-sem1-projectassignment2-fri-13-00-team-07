@@ -31,10 +31,10 @@ public class LevelChecker extends Checker {
             }
         }
         if(pacStarts.size() == 0){
-            errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_A_NO_START);
+            errors.add(map.getFileName() + ".xml" + errorMessagesBody.LEVEL_A_NO_START);
         }
         else if(pacStarts.size() > 1){
-            String errorStr = map.getName() + ".xml" + errorMessagesBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts);
+            String errorStr = map.getFileName() + ".xml" + errorMessagesBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts);
             errors.add(errorStr);
         }
     }
@@ -61,7 +61,7 @@ public class LevelChecker extends Checker {
         for(CellType type:hm.keySet()){
             ArrayList<Location> lst = hm.get(type);
             if(lst.size() != 2){
-                errors.add(map.getName() + ".xml" + " - " + type.getName() + errorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
+                errors.add(map.getFileName() + ".xml" + " - " + type.getName() + errorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
             }
         }
     }
@@ -77,7 +77,7 @@ public class LevelChecker extends Checker {
             }
         }
         if(counter < 2){
-            errors.add(map.getName() + errorMessagesBody.LEVEL_C_LESS_TWO_GOLD_PILL);
+            errors.add(map.getFileName() + errorMessagesBody.LEVEL_C_LESS_TWO_GOLD_PILL);
         }
     }
 
@@ -118,14 +118,14 @@ public class LevelChecker extends Checker {
                 errorGolds.add(loc);
             }
         }
-        errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_D_GOLD_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
+        errors.add(map.getFileName() + ".xml" + errorMessagesBody.LEVEL_D_GOLD_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
         //build pill error String
         for(Location loc:pills){
             if(!map.canReach(pac, loc)){
                 errorPills.add(loc);
             }
         }
-        errors.add(map.getName() + ".xml" + errorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
+        errors.add(map.getFileName() + ".xml" + errorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
     }
 
     public boolean checkLevel(EditorMap map){

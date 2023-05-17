@@ -45,7 +45,7 @@ public class TorusVerseApp {
      * @return
      */
     private PacManMap getMap(String mapFile) {
-        return new EditorMap(editorAdapter.getMap(mapFile));
+        return new EditorMap(mapFile, editorAdapter.getMap(mapFile));
     }
 
     private boolean isMap(File f) {
