@@ -24,7 +24,7 @@ public class LevelChecker extends Checker {
         ArrayList<Location> pacStarts = new ArrayList<>();
         for(int i = 0; i < map.getVerticalCellsCount(); i++){
             for(int j = 0; j < map.getHorizontalCellsCount(); j++){
-                Location loc = new Location(i, j);
+                Location loc = new Location(j, i);
                 if(map.isCharacterType(loc) && map.getTypeAt(loc) == CharacterType.PACMAN){
                     pacStarts.add(loc);
                 }
@@ -43,7 +43,7 @@ public class LevelChecker extends Checker {
         HashMap<CellType, ArrayList<Location>> hm = new HashMap<>();
         for(int i = 0; i < map.getVerticalCellsCount(); i++){
             for(int j = 0; j < map.getHorizontalCellsCount(); j++){
-                Location loc = new Location(i, j);
+                Location loc = new Location(j, i);
                 if(map.isCellType(loc) && ((CellType)map.getTypeAt(loc)).getCellChar() == 'p'){
                     CellType type = (CellType)map.getTypeAt(loc);
                     if(!hm.containsKey(type)){
@@ -70,7 +70,7 @@ public class LevelChecker extends Checker {
         int counter = 0;
         for(int i = 0; i < map.getVerticalCellsCount(); i++){
             for(int j = 0; j < map.getHorizontalCellsCount(); j++){
-                Location loc = new Location(i, j);
+                Location loc = new Location(j, i);
                 if(map.getTypeAt(loc) == CellType.GOLD || map.getTypeAt(loc) == CellType.PILL) {
                     counter ++;
                 }
@@ -90,7 +90,7 @@ public class LevelChecker extends Checker {
         // extract all golds, pills, and pac locations
         for(int i = 0; i < map.getVerticalCellsCount(); i++){
             for(int j = 0; j < map.getHorizontalCellsCount(); j++){
-                Location loc = new Location(i, j);
+                Location loc = new Location(j, i);
                 if(map.getTypeAt(loc) == CellType.GOLD) {
                     golds.add(loc);
                 }
@@ -114,6 +114,8 @@ public class LevelChecker extends Checker {
         }
         // build gold error string
         for (Location loc:golds){
+            System.out.println(pac.toString());
+            System.out.println(loc.toString());
             if(!map.canReach(pac, loc)){
                 errorGolds.add(loc);
             }
