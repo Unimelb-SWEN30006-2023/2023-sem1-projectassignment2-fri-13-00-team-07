@@ -12,10 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CheckMapAndMapSequence extends Check implements GameCheck{
-    private static final String mapFolderDir = "pacman/data/wrongSequenceMapFolder_GameCheckerTest";
 
     @Override
-    public boolean check(ArrayList<String> errors) {
+    public boolean check(String mapFolderDir, ArrayList<String> errors) {
         ArrayList<String> filenameStore = new ArrayList<>();
         Path dir = Paths.get(mapFolderDir);
         // Check if the given path is a directory

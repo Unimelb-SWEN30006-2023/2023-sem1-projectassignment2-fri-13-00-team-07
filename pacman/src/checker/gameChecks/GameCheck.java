@@ -3,5 +3,5 @@ package checker.gameChecks;
 import java.util.ArrayList;
 
 public interface GameCheck {
-    boolean check(ArrayList<String> errors);
+    boolean check(String mapFolderDir, ArrayList<String> errors);
 }

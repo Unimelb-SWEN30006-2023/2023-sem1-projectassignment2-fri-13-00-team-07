@@ -29,10 +29,10 @@ public class GameChecker extends Checker {
         return instance;
     }
 
-    public boolean checkGame() {
+    public boolean checkGame(String mapFolderDir) {
         ArrayList<String> errors = new ArrayList<>();
         // check
-        checkMapAndMapSequence.check(errors);
+        checkMapAndMapSequence.check(mapFolderDir, errors);
         // report errors
         return inspectAndLogErrors(errors);
     }
