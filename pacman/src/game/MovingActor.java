@@ -272,6 +272,7 @@ public abstract class MovingActor extends Actor {
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
                                 .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map)).toList();
                 for (var neighbour: unvisitedNeighbours) {
+                    markLocationAsVisited(neighbour, visitedSet, map);
                     //System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                     ActorType neighbourType = map.getTypeAt(neighbour);
                     if (neighbourType instanceof CellType && ((CellType) neighbourType).isPortal()) {
@@ -279,7 +280,6 @@ public abstract class MovingActor extends Actor {
                         neighbour = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);
                     }
 
-                    markLocationAsVisited(neighbour, visitedSet, map);
                     queue.add(neighbour);
 
                     paths.add(new Edge(vertex, neighbour));
