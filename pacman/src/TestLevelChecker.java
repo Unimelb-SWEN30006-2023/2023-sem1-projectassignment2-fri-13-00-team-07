@@ -4,7 +4,8 @@ import game.Maps.EditorMap;
 public class TestLevelChecker {
 
     public static void main(String[] args){
-        String dir = "pacman/data/crackLevelChecker/2_tooLessGoldPill.xml";
+        //String dir = "pacman/data/crackLevelChecker/4_isolatedPac.xml";
+        String dir = "pacman/data/3_OtherMap.xml";
         EditorAdapter editorAdapter = AppComponentFactory.getInstance().getEditorAdapter();
         editorAdapter.runEditor(dir);
         EditorMap editorMap = new EditorMap(dir, editorAdapter.getMap(dir));

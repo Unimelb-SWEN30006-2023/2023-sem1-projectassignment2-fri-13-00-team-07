@@ -62,7 +62,7 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
         }
         if(errorPills.size() > 0){
             flag = false;
-            errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
+            errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorPills));
         }
         return flag;
     }

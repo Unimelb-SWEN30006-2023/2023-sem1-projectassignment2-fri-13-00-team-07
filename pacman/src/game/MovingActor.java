@@ -221,7 +221,7 @@ public abstract class MovingActor extends Actor {
 
         HashMap<CellType, ArrayList<Location>> portalLocations = new HashMap<>();
 
-        System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+        //System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
 
         for (int y = 0; y < map.getVerticalCellsCount(); y++) {
             for (int x = 0; x < map.getHorizontalCellsCount(); x++) {
@@ -243,7 +243,7 @@ public abstract class MovingActor extends Actor {
             Location vertex = queue.remove();
 
             if (predicate.satisfies(vertex)) {
-                System.out.println("The end location is " + vertex.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+                //System.out.println("The end location is " + vertex.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                 LinkedList<Location> result = new LinkedList<>();
 
                 result.add(vertex);
@@ -261,7 +261,7 @@ public abstract class MovingActor extends Actor {
                 result.remove(); // the first element is its current location
 
                 for (final var v: result) {
-                    System.out.println("The path is through " + v.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+                    //System.out.println("The path is through " + v.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                 }
 
                 return result;
@@ -272,7 +272,7 @@ public abstract class MovingActor extends Actor {
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
                                 .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map)).toList();
                 for (var neighbour: unvisitedNeighbours) {
-                    System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+                    //System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                     ActorType neighbourType = map.getTypeAt(neighbour);
                     if (neighbourType instanceof CellType && ((CellType) neighbourType).isPortal()) {
                         final var locations = portalLocations.get(neighbourType);

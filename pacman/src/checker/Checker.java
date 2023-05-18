@@ -14,20 +14,22 @@ public abstract class Checker {
     private static final String errorLogPath = "pacman/errorLog/errorLogs.txt";
 
     protected boolean inspectAndLogErrors(ArrayList<String> errors){
-        if(errors.size() == 0){
-            return true;
-        }
-        else{
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(errorLogPath, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(errorLogPath, false))) {
+            if(errors.size() == 0){
+                System.out.println("No errors found under this check, flush everything in the errorLogs");
+                return true;
+            }
+            else{
                 for (String line : errors) {
                     writer.write(line);
                     writer.newLine();
                 }
-                System.out.println("Write to error log successfully");
-            } catch (IOException e) {
-                System.out.println("An error occurred while appending the errors to the errorLogs: " + e.getMessage());
+                System.out.println("Some checks failed, write to errorLogs");
+                return false;
             }
-            return false;
+        } catch (IOException e) {
+            System.out.println("An error occurred while appending the errors to the errorLogs: " + e.getMessage());
         }
+        return false;
     }
 }
