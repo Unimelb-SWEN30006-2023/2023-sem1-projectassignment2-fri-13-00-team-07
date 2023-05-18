@@ -1,6 +1,8 @@
 package checker;
 
 public class ErrorMessagesBody {
+    public static final String GAME_INVALID_DIR = "The directory you specified is invalid";
+    public static final String GAME_FAIL_IO = "Some IO exceptions are raised when reading map names";
     public static final String GAME_NO_MAPS_FOUND = " – no maps found";
     public static final String GAME_MULTI_MAPS_SAME_LEVEL = " – multiple maps at same level: ";
     public static final String LEVEL_A_NO_START = " - no start for PacMan";

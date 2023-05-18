@@ -19,8 +19,8 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
         Path dir = Paths.get(mapFolderDir);
         // Check if the given path is a directory
         if (!Files.isDirectory(dir)) {
-            throw new RuntimeException("verify game - directory invalid"); //delete later
-            //return;
+            errors.add(ErrorMessagesBody.GAME_INVALID_DIR);
+            return false;
         }
         // Create a DirectoryStream.Filter to filter only .xml files
         DirectoryStream.Filter<Path> filter = file -> {
@@ -34,7 +34,8 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("verify game - IO exception"); //delete later
+            errors.add(ErrorMessagesBody.GAME_FAIL_IO);
+            return false;
         }
         /* check 1. there has to be at least one map with valid name in directory */
         if(filenameStore.size() == 0){
