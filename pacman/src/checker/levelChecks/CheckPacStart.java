@@ -24,10 +24,10 @@ public class CheckPacStart extends Check implements LevelCheck{
         }
         if(pacStarts.size() == 0){
             flag = false;
-            errors.add(map.getFileName() + ".xml" + ErrorMessagesBody.LEVEL_A_NO_START);
+            errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_A_NO_START);
         }
         else if(pacStarts.size() > 1){
-            String errorStr = map.getFileName() + ".xml" + ErrorMessagesBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts);
+            String errorStr = map.getFileName() + ErrorMessagesBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts);
             flag = false;
             errors.add(errorStr);
         }
