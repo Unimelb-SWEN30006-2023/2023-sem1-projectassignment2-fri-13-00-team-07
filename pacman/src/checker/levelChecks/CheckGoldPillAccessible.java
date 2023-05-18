@@ -45,13 +45,14 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
         }
         // build gold error string
         for (Location loc:golds){
+            //System.out.println(loc.toString());
             if(!map.canReach(pac, loc)){
                 errorGolds.add(loc);
             }
         }
         if(errorGolds.size() > 0){
             flag = false;
-            errors.add(map.getFileName() + ".xml" + ErrorMessagesBody.LEVEL_D_GOLD_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
+            errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_GOLD_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
         }
         //build pill error String
         for(Location loc:pills){
@@ -61,7 +62,7 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
         }
         if(errorPills.size() > 0){
             flag = false;
-            errors.add(map.getFileName() + ".xml" + ErrorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
+            errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
         }
         return flag;
     }

@@ -35,7 +35,7 @@ public class CheckPortalPair extends Check implements LevelCheck{
             ArrayList<Location> lst = hm.get(type);
             if(lst.size() != 2){
                 flag = false;
-                errors.add(map.getFileName() + ".xml" + " - " + type.getName() + ErrorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
+                errors.add(map.getFileName() + " - " + type.getName() + ErrorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
             }
         }
         return flag;
