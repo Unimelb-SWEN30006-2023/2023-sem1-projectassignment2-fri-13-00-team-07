@@ -226,11 +226,10 @@ public abstract class MovingActor extends Actor {
         for (int y = 0; y < map.getVerticalCellsCount(); y++) {
             for (int x = 0; x < map.getHorizontalCellsCount(); x++) {
                 Location location = new Location(x, y);
-                CellType cellType = (CellType) map.getTypeAt(location);
-                assert cellType != null;
+                ActorType cellType = map.getTypeAt(location);
 
-                if (CellType.Portals().contains(cellType)) {
-                    portalLocations.computeIfAbsent(cellType, k -> new ArrayList<>());
+                if (cellType instanceof CellType && CellType.Portals().contains(cellType)) {
+                    portalLocations.computeIfAbsent((CellType) cellType, k -> new ArrayList<>());
                     portalLocations.get(cellType).add(location);
                 }
             }
@@ -274,8 +273,8 @@ public abstract class MovingActor extends Actor {
                                 .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map)).toList();
                 for (var neighbour: unvisitedNeighbours) {
                     System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
-                    CellType neighbourType = (CellType) map.getTypeAt(neighbour);
-                    if (neighbourType != null && neighbourType.isPortal()) {
+                    ActorType neighbourType = map.getTypeAt(neighbour);
+                    if (neighbourType instanceof CellType && ((CellType) neighbourType).isPortal()) {
                         final var locations = portalLocations.get(neighbourType);
                         neighbour = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);
                     }
