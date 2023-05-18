@@ -45,6 +45,7 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
         }
         // build gold error string
         for (Location loc:golds){
+            //System.out.println(loc.toString());
             if(!map.canReach(pac, loc)){
                 errorGolds.add(loc);
             }

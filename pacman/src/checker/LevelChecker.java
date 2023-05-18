@@ -7,6 +7,7 @@ import game.Items.CellType;
 import game.Maps.EditorMap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class LevelChecker extends Checker {
