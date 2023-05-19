@@ -1,20 +1,18 @@
+import ch.aplu.jgamegrid.Location;
+import game.Maps.EditorMap;
 import mapeditor.editor.Controller;
 import org.jdom.JDOMException;
 
 import java.io.IOException;
 
+/**
+ * An adapter for the 2D Map Editor created by Matachi.
+ */
+
 public class MapEditorAdapter implements EditorAdapter {
 
-    public MapEditorAdapter() { }
-
     @Override
-    public void runEditor(String mapFile) throws IOException, JDOMException {
-        final Controller editorController = new Controller(mapFile);
-    }
-
-    @Override
-    public boolean applyLevelCheck() {
-        // FIXME: implementation
-        return false;
+    public void runEditor(String filePath) throws IOException, JDOMException {
+        new Controller(filePath);
     }
 }

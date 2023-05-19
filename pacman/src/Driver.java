@@ -1,8 +1,6 @@
 import javax.swing.*;
 
 public class Driver {
-    public static final String DEFAULT_PROPERTIES_PATH = "properties/test2.properties";
-
     /**
      * Starting point
      * @param args the command line arguments

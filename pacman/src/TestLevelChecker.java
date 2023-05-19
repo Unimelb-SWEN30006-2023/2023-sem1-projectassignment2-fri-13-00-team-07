@@ -13,15 +13,13 @@ public class TestLevelChecker {
             editorAdapter.runEditor(dir);
             EditorMap editorMap = new EditorMap(dir);
             LevelChecker levelChecker = LevelChecker.getInstance();
-            if (levelChecker.checkLevel(editorMap)){
+            if (levelChecker.checkLevel(editorMap)) {
                 System.out.println("Level Checker test: all test passed");
-            }  else{
+            } else {
                 System.out.println("Level Checker test: some test failed");
             }
         } catch (IOException | JDOMException e) {
             throw new RuntimeException(e);
-        } finally {
-
         }
     }
 }

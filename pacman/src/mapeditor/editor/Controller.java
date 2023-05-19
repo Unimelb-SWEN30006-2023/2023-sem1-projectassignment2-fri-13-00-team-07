@@ -52,9 +52,6 @@ public class Controller implements ActionListener, GUIInformation {
 
 	private int gridWith = Constants.MAP_WIDTH;
 	private int gridHeight = Constants.MAP_HEIGHT;
-
-	private final HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>();
-	private final HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>();
 	private static final char[] TILE_CHARS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'}; // 'a' is default
 	private static final String[] TILE_TYPES = {"PathTile", "WallTile", "PillTile",
 												"GoldTile", "IceTile", "PacTile",
@@ -62,9 +59,21 @@ public class Controller implements ActionListener, GUIInformation {
 												"PortalYellowTile", "PortalDarkGoldTile",
 												"PortalDarkGrayTile"
 												};
+	private final HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>() {{
+		for (int i = 0; i < TILE_CHARS.length; i++) {
+			put(TILE_CHARS[i], TILE_TYPES[i]);
+		}
+	}};
+
+	private final HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>() {{
+		for (int i = 0; i < TILE_CHARS.length; i++) {
+			put(TILE_TYPES[i], TILE_CHARS[i]);
+		}
+	}};
 	private static final String dataDir = "pacman/sprites/editor data/"; // default
 
-	private static final HashMap<ActorType, Character> actorTypeToControllerInternalRepresentationDictionary = new HashMap<>() {{
+	/* Converts Actor Type to the internal character representation used by the editor */
+	private static final HashMap<ActorType, Character> ACTOR_TYPE_TO_CHAR_DICT = new HashMap<>() {{
 		put(CellType.SPACE, 'a');
 		put(CellType.WALL, 'b');
 		put(CellType.PILL, 'c');
@@ -83,10 +92,15 @@ public class Controller implements ActionListener, GUIInformation {
 	 * Construct the controller.
 	 */
 	public Controller() {
-		setUpDicts();
-		run();
+		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 	}
 
+	/**
+	 * Constructs a controller displaying what's at the given file path.
+	 * @param filePath: the path of the file to be read from.
+	 * @throws IOException
+	 * @throws JDOMException
+	 */
 	public Controller(String filePath) throws IOException, JDOMException {
 		EditorMap map = new EditorMap(filePath);
 		this.init(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
@@ -96,22 +110,15 @@ public class Controller implements ActionListener, GUIInformation {
 		grid.redrawGrid();
 	}
 
+	/**
+	 * Load objects from the editor map to the model.
+	 * @param map: the map to be read from.
+	 */
 	private void loadObjectsFrom(EditorMap map) {
 		for (int y = 0; y < map.getVerticalCellsCount(); y++) {
 			for (int x = 0; x < map.getHorizontalCellsCount(); x++) {
-				model.setTile(x, y, actorTypeToControllerInternalRepresentationDictionary.get(map.getTypeAt(new Location(x, y))));
+				model.setTile(x, y, ACTOR_TYPE_TO_CHAR_DICT.get(map.getTypeAt(new Location(x, y))));
 			}
-		}
-	}
-
-	private void run() {
-		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
-	}
-
-	private void setUpDicts() {
-		for (int i = 0; i < TILE_CHARS.length; i++) {
-			CHAR_TO_STR_DICT.put(TILE_CHARS[i], TILE_TYPES[i]);
-			STR_TO_CHAR_DICT.put(TILE_TYPES[i], TILE_CHARS[i]);
 		}
 	}
 

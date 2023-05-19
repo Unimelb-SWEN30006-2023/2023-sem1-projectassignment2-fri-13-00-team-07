@@ -2,8 +2,17 @@ import org.jdom.JDOMException;
 
 import java.io.IOException;
 
+/**
+ * Interface to be implemented by
+ */
 public interface EditorAdapter {
-    void runEditor(String filename) throws IOException, JDOMException; // specified current map, or null for no current map
-    boolean applyLevelCheck();
+    /**
+     * Runs the editor with the given file as the current view.
+     * @param filePath: path to a file, a directory,
+     *                  or null for no current view.
+     * @throws IOException
+     * @throws JDOMException
+     */
+    void runEditor(String filePath) throws IOException, JDOMException;
 
 }
