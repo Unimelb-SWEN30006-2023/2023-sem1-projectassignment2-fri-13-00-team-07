@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class GameChecker extends Checker {
     private static GameChecker instance = null;
     private final GameCheck checkMapAndMapSequence;
+    private ArrayList<String> validFiles = new ArrayList<>();
 
     public GameChecker() {
         checkMapAndMapSequence = new CheckMapAndMapSequence();
@@ -37,4 +38,7 @@ public class GameChecker extends Checker {
         return inspectAndLogErrors(errors);
     }
 
+    public ArrayList<String> getValidMapFiles() {
+        return validFiles;
+    }
 }
