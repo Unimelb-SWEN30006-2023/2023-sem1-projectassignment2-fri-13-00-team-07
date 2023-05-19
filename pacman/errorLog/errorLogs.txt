@@ -1,2 +1,0 @@
-null - no start for PacMan
-null - portal White count is not 2: (1,3); (20,3); (20,9)

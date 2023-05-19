@@ -138,6 +138,9 @@ public class Level extends GameGrid {
         } else if (player.getNbPills() >= maxPillsCount) {
             setWinEnding();
             if (completionHandler.isPresent() && game.isPresent()) {
+                if (!game.get().get().isLevelsEmpty()) {
+                    this.hide();
+                }
                 completionHandler.get().handler(game.get().get());
             }
         }

@@ -34,7 +34,6 @@ public class Game {
                     game.runNext();
                 }
             }), Optional.of(new WeakReference<>(this))));
-
         }
         run();
     }
@@ -47,5 +46,9 @@ public class Game {
         if (!levels.isEmpty()) {
             levels.remove(0).run();
         }
+    }
+
+    public boolean isLevelsEmpty() {
+        return levels.isEmpty();
     }
 }
