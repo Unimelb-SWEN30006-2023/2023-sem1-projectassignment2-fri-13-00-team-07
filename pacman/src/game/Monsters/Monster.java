@@ -5,7 +5,10 @@ import game.CharacterType;
 import game.Level;
 import game.MovingActor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Abstract class for a monster.

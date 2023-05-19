@@ -1,7 +1,5 @@
 package checker;
 
-import ch.aplu.jgamegrid.Location;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

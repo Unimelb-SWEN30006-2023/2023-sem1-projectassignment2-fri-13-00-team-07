@@ -3,8 +3,6 @@ package game;
 import ch.aplu.jgamegrid.Location;
 import game.Maps.PacManMap;
 
-import java.util.ArrayList;
-
 public class OneWayChecker {
 
     private static OneWayChecker instance;
