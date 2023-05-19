@@ -35,16 +35,6 @@ public class SettingManager implements PacManMap {
         return isInBound(location) && itemManager.isWallAt(location);
     }
 
-    /**
-     * Checks if the location is in bound of the grid.
-     * @param location: location to be checked
-     * @return true if it's in bound, false otherwise.
-     */
-    public boolean isInBound(Location location) {
-        return location.x >= 0 && location.x < itemManager.getHorizontalCellsCount()
-                && location.y >= 0 && location.y < itemManager.getVerticalCellsCount();
-    }
-
     /* Wrapper methods using delegation */
 
     public HashMap<Location, ActorType> getItemLocations() {
