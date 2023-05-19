@@ -252,17 +252,22 @@ public abstract class MovingActor extends Actor {
                 Optional<Edge> value = paths.stream().filter(i -> i.destination.equals(finalDestination)).findFirst();
 
                 while (value.isPresent()) {
+                    if (map.getTypeAt(value.get().source) instanceof CellType && ((CellType) map.getTypeAt(value.get().source)).isPortal() && map.getTypeAt(value.get().destination) instanceof CellType && ((CellType) map.getTypeAt(value.get().destination)).isPortal()) {
+                        result.removeLast();
+                    }
+
                     destination = value.get().source;
-                    result.add(destination);
                     Location finalDestination1 = destination;
                     value = paths.stream().filter(i -> i.destination.equals(finalDestination1)).findFirst();
+
+                    result.add(destination);
                 }
                 Collections.reverse(result);
                 result.remove(); // the first element is its current location
 
-                for (final var v: result) {
-                    //System.out.println("The path is through " + v.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
-                }
+//                for (final var v: result) {
+//                    System.out.println("The path is through " + v.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+//                }
 
                 return result;
             } else {
@@ -275,14 +280,16 @@ public abstract class MovingActor extends Actor {
                     markLocationAsVisited(neighbour, visitedSet, map);
                     //System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                     ActorType neighbourType = map.getTypeAt(neighbour);
+                    paths.add(new Edge(vertex, neighbour));
+
                     if (neighbourType instanceof CellType && ((CellType) neighbourType).isPortal()) {
                         final var locations = portalLocations.get(neighbourType);
-                        neighbour = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);
+                        final var neighbourDestination = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);;
+                        paths.add(new Edge(neighbour, neighbourDestination));
+                        neighbour = neighbourDestination;
                     }
 
                     queue.add(neighbour);
-
-                    paths.add(new Edge(vertex, neighbour));
                 }
             }
         }
