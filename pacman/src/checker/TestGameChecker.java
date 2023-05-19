@@ -5,7 +5,7 @@ public class TestGameChecker {
 
     public static void main(String[] args){
         GameChecker gameChecker = GameChecker.getInstance();
-        String dir = "pacman/data";
+        String dir = "pacman/data/ultimateTest";
 
         if (gameChecker.checkGame(dir)) {
             for(String name: gameChecker.getValidMapFiles()){
