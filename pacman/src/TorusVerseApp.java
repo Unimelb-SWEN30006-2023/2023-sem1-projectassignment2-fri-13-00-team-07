@@ -5,6 +5,9 @@ import game.Maps.PacManMap;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class TorusVerseApp {
     // default EDIT mode
@@ -23,7 +26,7 @@ public class TorusVerseApp {
         if (file.isDirectory()) {
             mode = AppMode.TEST;
 
-            File[] allFiles = file.listFiles();
+            List<File> allFiles = Arrays.stream(file.listFiles()).sorted(Comparator.comparing(File::getName)).toList();
             ArrayList<PacManMap> maps = new ArrayList<>();
             for (File f : allFiles) {
                 PacManMap map = getMap(dir + "/" + f.getName());
