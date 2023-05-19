@@ -79,6 +79,10 @@ public enum CellType implements ActorType {
         return BY_COLOR.get(color);
     }
 
+    /**
+     * Gets the list of portals.
+     * @return The list of portals.
+     */
     public static ArrayList<CellType> Portals() {
         return new ArrayList<>(List.of(new CellType[]{PORTAL_WHITE, PORTAL_DARK_GOLD, PORTAL_DARK_GRAY, PORTAL_YELLOW}));
     }
@@ -102,6 +106,10 @@ public enum CellType implements ActorType {
         return name;
     }
 
+    /**
+     * Gets the name to the type.
+     * @return The name, pretty printed.
+     */
     @Override
     public String getName() {
         return name;
@@ -115,6 +123,10 @@ public enum CellType implements ActorType {
         return color;
     }
 
+    /**
+     * Given the type, determines if it is a portal.
+     * @return A boolean determining whetehr it is a portal.
+     */
     public Boolean isPortal() {
         return this == CellType.PORTAL_DARK_GRAY || this == CellType.PORTAL_DARK_GOLD || this == CellType.PORTAL_WHITE || this == CellType.PORTAL_YELLOW;
     }

@@ -6,6 +6,10 @@ import game.CharacterType;
 
 import java.awt.event.KeyEvent;
 
+
+/**
+ * The actual player that response to user interaction.
+ */
 public class ManualPlayer extends Player implements GGKeyRepeatListener {
 
     // whether the pacActor can move in this simulation iteration
@@ -17,10 +21,9 @@ public class ManualPlayer extends Player implements GGKeyRepeatListener {
      * @param isRotatable : if true, the actor's image may be rotated when the direction changes
      * @param nbSprites   : the number of sprite images for the same actor
      * @param seed        : the seed for random behaviors of the actor
-     * @param type
      */
-    public ManualPlayer(boolean isRotatable, int nbSprites, int seed, CharacterType type) {
-        super(isRotatable, nbSprites, seed, type);
+    protected ManualPlayer(boolean isRotatable, int nbSprites, int seed) {
+        super(isRotatable, nbSprites, seed);
     }
 
     /**
@@ -45,16 +48,19 @@ public class ManualPlayer extends Player implements GGKeyRepeatListener {
         shouldMove = true;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void setNextDirection() {
         // nothing, already set.
     }
 
+    /** {@inheritDoc} */
     @Override
     protected boolean shouldMove() {
         return shouldMove;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void resetMove() {
         shouldMove = false;

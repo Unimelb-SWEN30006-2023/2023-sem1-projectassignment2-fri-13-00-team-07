@@ -10,7 +10,6 @@ import game.MovingActor;
 /**
  * The PacMan.
  */
-
 public abstract class Player extends MovingActor {
     private int idSprite = 0;
     private int nbPills = 0;
@@ -22,10 +21,9 @@ public abstract class Player extends MovingActor {
      * @param isRotatable : if true, the actor's image may be rotated when the direction changes
      * @param nbSprites   : the number of sprite images for the same actor
      * @param seed        : the seed for random behaviors of the actor
-     * @param type
      */
-    public Player(boolean isRotatable, int nbSprites, int seed, CharacterType type) {
-        super(isRotatable, nbSprites, seed, type);
+    public Player(boolean isRotatable, int nbSprites, int seed) {
+        super(isRotatable, nbSprites, seed, CharacterType.PACMAN);
     }
 
     /**
@@ -106,7 +104,13 @@ public abstract class Player extends MovingActor {
             idSprite = 0;
     }
 
+    /**
+     * @return Whether the actor should move towards its given direction in this update.
+     */
     protected abstract boolean shouldMove();
 
+    /**
+     * Reset the `shouldMove` flag.
+     */
     protected abstract void resetMove();
 }

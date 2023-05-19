@@ -37,6 +37,7 @@ public class Pill extends Item {
         return scoreEffect;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isEatable() {
         return true;

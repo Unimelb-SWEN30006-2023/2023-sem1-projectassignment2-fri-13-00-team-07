@@ -10,6 +10,10 @@ import game.MovingActor;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+
+/**
+ * The smart auto player.
+ */
 public class AutoPlayer extends Player {
 
     private ArrayList<String> propertyMoves;
@@ -20,13 +24,12 @@ public class AutoPlayer extends Player {
     /**
      * Creates a moving actor based on one or more sprite images.
      *
-     * @param isRotatable : if true, the actor's image may be rotated when the direction changes
-     * @param nbSprites   : the number of sprite images for the same actor
-     * @param seed        : the seed for random behaviors of the actor
-     * @param type
+     * @param isRotatable  if true, the actor's image may be rotated when the direction changes
+     * @param nbSprites    the number of sprite images for the same actor
+     * @param seed         the seed for random behaviors of the actor
      */
-    public AutoPlayer(boolean isRotatable, int nbSprites, int seed, CharacterType type) {
-        super(isRotatable, nbSprites, seed, type);
+    protected AutoPlayer(boolean isRotatable, int nbSprites, int seed) {
+        super(isRotatable, nbSprites, seed);
     }
 
     /**
@@ -89,11 +92,13 @@ public class AutoPlayer extends Player {
         this.propertyMoves = propertyMoves;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected boolean shouldMove() {
         return shouldMove;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void resetMove() {
         shouldMove = false;

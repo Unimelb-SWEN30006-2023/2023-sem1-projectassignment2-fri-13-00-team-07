@@ -4,7 +4,7 @@ import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 import game.Items.CellType;
 import game.Items.Item;
-import game.Items.ItemPredicate;
+import game.Items.LocationPredicate;
 import game.Items.Portal;
 import game.Maps.PacManMap;
 import game.Monsters.Monster;
@@ -209,21 +209,43 @@ public abstract class MovingActor extends Actor {
                 && !map.isWallAt(location);
     }
 
+    /**
+     * Find the optimal path from `source` to `sink`.
+     *
+     * @param source The source location.
+     * @param sink The destination.
+     * @param map The map on which the path is to be found.
+     *
+     * @return The optimal path, null on failure.
+     */
     public static LinkedList<Location> findOptimalPath(Location source, Location sink, PacManMap map) {
         return findOptimalPath(source, i -> i.equals(sink), map);
     }
 
     /**
      * Finds the optimal path to a sink that satisfies the `predicate`.
+     *
+     * @param source The source location.
+     * @param predicate The predicate for a location to be considered a destination.
+     * @param map The map on which the path is to be found.
+     *
+     * @return The optimal path, null on failure.
      */
-    public static LinkedList<Location> findOptimalPath(Location source, ItemPredicate predicate, PacManMap map) {
+    public static LinkedList<Location> findOptimalPath(Location source, LocationPredicate predicate, PacManMap map) {
         return findOptimalPath(source, predicate, map, null);
     }
 
     /**
-     * Finds the optimal path to a sink that satisfies the `predicate`.
+     * Finds the optimal path to a sink that satisfies the `predicate` and avoids the monsters.
+     *
+     * @param source The source location.
+     * @param predicate The predicate for a location to be considered a destination.
+     * @param map The map on which the path is to be found.
+     * @param monsters The monsters on the map. The monsters are avoided when finding the path.
+     *
+     * @return The optimal path, null on failure.
      */
-    public static LinkedList<Location> findOptimalPath(Location source, ItemPredicate predicate, PacManMap map, ArrayList<Monster> monsters) {
+    public static LinkedList<Location> findOptimalPath(Location source, LocationPredicate predicate, PacManMap map, ArrayList<Monster> monsters) {
         LinkedList<Edge> paths = new LinkedList<>();
         HashSet<Integer> visitedSet = new HashSet<>();
 
@@ -257,16 +279,16 @@ public abstract class MovingActor extends Actor {
                 result.add(vertex);
                 Location destination = vertex;
                 Location finalDestination = destination;
-                Optional<Edge> value = paths.stream().filter(i -> i.destination.equals(finalDestination)).findFirst();
+                Optional<Edge> value = paths.stream().filter(i -> i.getDestination().equals(finalDestination)).findFirst();
 
                 while (value.isPresent()) {
-                    if (map.getTypeAt(value.get().source) instanceof CellType && ((CellType) map.getTypeAt(value.get().source)).isPortal() && map.getTypeAt(value.get().destination) instanceof CellType && ((CellType) map.getTypeAt(value.get().destination)).isPortal()) {
+                    if (map.getTypeAt(value.get().getSource()) instanceof CellType && ((CellType) map.getTypeAt(value.get().getSource())).isPortal() && map.getTypeAt(value.get().getDestination()) instanceof CellType && ((CellType) map.getTypeAt(value.get().getDestination())).isPortal()) {
                         result.removeLast();
                     }
 
-                    destination = value.get().source;
+                    destination = value.get().getSource();
                     Location finalDestination1 = destination;
-                    value = paths.stream().filter(i -> i.destination.equals(finalDestination1)).findFirst();
+                    value = paths.stream().filter(i -> i.getDestination().equals(finalDestination1)).findFirst();
 
                     result.add(destination);
                 }

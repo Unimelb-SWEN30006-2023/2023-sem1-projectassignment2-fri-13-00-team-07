@@ -14,16 +14,23 @@ import java.util.*;
  */
 
 public class ItemManager implements PacManMap {
-    /* Maps the index of a location in the grid to an item
+    /** Maps the index of a location in the grid to an item
      * Cannot use location directly as the key, as Location does not implement hashCode correctly.
+     * for later lookups
      */
-    // for later lookups
     private final HashMap<Integer, Item> items = new HashMap<>();
     private final HashSet<Integer> wallLocations = new HashSet<>();
 
     private final int horizontalCellsCount;
     private final int verticalCellsCount;
 
+    /** Creates a manager to keep track of the unmovable actors.
+     *
+     * @param itemLocations The map to the items and their locations.
+     * @param horizontalCellsCount The width of the map.
+     * @param verticalCellsCount The height of the map.
+     * @param level The level on which the items are kept.
+     */
     public ItemManager(HashMap<Location, ActorType> itemLocations, int horizontalCellsCount, int verticalCellsCount, Level level) {
         this.horizontalCellsCount = horizontalCellsCount;
         this.verticalCellsCount = verticalCellsCount;
@@ -202,18 +209,22 @@ public class ItemManager implements PacManMap {
         return location.y * horizontalCellsCount + location.x;
     }
 
+    /** {@inheritDoc} */
     public CellType getTypeAt(Location location) {
         return getItem(location).getType();
     }
 
+    /** {@inheritDoc} */
     public int getHorizontalCellsCount() {
         return horizontalCellsCount;
     }
 
+    /** {@inheritDoc} */
     public int getVerticalCellsCount() {
         return verticalCellsCount;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isWallAt(Location location) {
         return wallLocations.contains(getIndexByLocation(location));

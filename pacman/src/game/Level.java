@@ -20,7 +20,6 @@ import java.util.*;
  * The PacMan Level, which contains all the actors, a property reader,
  * and a setting manager.
  */
-
 public class Level extends GameGrid {
     /* Setting constants */
     public final static int DEFAULT_NB_HORZ_CELLS = 20;
@@ -44,7 +43,13 @@ public class Level extends GameGrid {
 
     private int maxPillsCount = 0;
 
-    // Level creation using properties file only for isAuto and seed, and a separate map
+    /** Level creation using properties file only for isAuto and seed, and a separate map
+     *
+     * @param properties The property file to configure the level.
+     * @param map The map for the level.
+     * @param completionHandler The handler called when the level completes.
+     * @param game The game on which the level is based.
+     */
     public Level(Properties properties, PacManMap map, Optional<LevelCompletionHandler> completionHandler, Optional<WeakReference<Game>> game) {
         super(map.getHorizontalCellsCount(), map.getVerticalCellsCount(), CELL_SIZE, false);
         this.gameCallback = new GameCallback();
@@ -55,12 +60,19 @@ public class Level extends GameGrid {
     }
 
 
-    // Level creation using properties file for setting
+    /**
+     * Level creation using properties file for setting
+     *
+     * @param properties The property file for configuring the level.
+     */
     public Level(Properties properties) {
         // Setup game level
         this(properties, new PacManGameGrid(), Optional.empty(), Optional.empty()); // uses the default string map (original behavior)
     }
 
+    /**
+     * Starts the level.
+     */
     public void run() {
         // Initializations
         setSimulationPeriod(SIMULATION_PERIOD);
@@ -119,6 +131,9 @@ public class Level extends GameGrid {
         player.setSlowDown(SLOW_DOWN_FACTOR);
     }
 
+    /**
+     * @return The game callback shared.
+     */
     public GameCallback getGameCallback() {
         return gameCallback;
     }
@@ -220,6 +235,9 @@ public class Level extends GameGrid {
         gameCallback.endOfGame(title);
     }
 
+    /**
+     * @return The list of monsters on the level.
+     */
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }

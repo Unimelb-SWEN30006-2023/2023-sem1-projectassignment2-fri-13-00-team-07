@@ -8,7 +8,6 @@ import game.Level;
 /**
  * Grid for a PacMan Level.
  */
-
 public class PacManGameGrid implements PacManMap {
     private final char[][] mazeArray;
 
@@ -32,6 +31,11 @@ public class PacManGameGrid implements PacManMap {
         this(Level.DEFAULT_NB_HORZ_CELLS, Level.DEFAULT_NB_VERT_CELLS);
     }
 
+    /**
+     * Creates a grid using the internal representation of the grid.
+     *
+     * @param mazeArray The array in the internal representation.
+     */
     public PacManGameGrid(char[][] mazeArray) {
         this.mazeArray = mazeArray;
     }
@@ -70,16 +74,19 @@ public class PacManGameGrid implements PacManMap {
         return CellType.valueOfCellChar(getCellChar(location));
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getHorizontalCellsCount() {
         return Level.DEFAULT_NB_HORZ_CELLS;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getVerticalCellsCount() {
         return Level.DEFAULT_NB_VERT_CELLS;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isWallAt(Location location) {
         return getTypeAt(location) == CellType.WALL;

@@ -16,7 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 
 
+/**
+ * A map, typically one loaded from a `.xml` file on disk.
+ */
 public class EditorMap implements PacManMap {
+
     private final ActorType[][] map;
     private String fileName;
 
@@ -51,11 +55,11 @@ public class EditorMap implements PacManMap {
     }};
 
 
-    public EditorMap(String fileName, ActorType[][] map) {
-        this.fileName = fileName;
-        this.map = map;
-    }
-
+    /**
+     * Creates a map using the internal representation of `Map Editor View Controller`.
+     *
+     * @param mazeArray The map array made up of internal representations.
+     */
     public EditorMap(char[][] mazeArray) {
         this.map = new ActorType[mazeArray.length][mazeArray[0].length];
 
@@ -66,6 +70,11 @@ public class EditorMap implements PacManMap {
         }
     }
 
+    /**
+     * Creates a map from a given file path. The file should be encoded in a xml file.
+     *
+     * @param filePath The absolute or relative path of the file, with working directory at the top level. (The folder with `pacman`).
+     */
     public EditorMap(String filePath) throws IOException, JDOMException {
         this.fileName = filePath;
 
@@ -101,32 +110,44 @@ public class EditorMap implements PacManMap {
     }
 
 
+    /**
+     * @return The name of the file used to construct the map.
+     */
     public String getFileName(){
         return fileName;
     }
 
-    public void setFileName(String fileName){
-        this.fileName = fileName;
-    }
-
+    /** {@inheritDoc} */
     @Override
     public ActorType getTypeAt(Location loc) {
         return map[loc.y][loc.x];
     }
 
+    /**
+     * @param loc The target location.
+     *
+     * @return Whether the item at the given location is an ice cube.
+     */
     public boolean isCellType(Location loc) {
         return map[loc.y][loc.x] instanceof CellType;
     }
 
+    /**
+     * @param loc The target location.
+     *
+     * @return Whether the item at the given location is an character ie, actors that can move.
+     */
     public boolean isCharacterType(Location loc){
         return map[loc.y][loc.x] instanceof CharacterType;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getVerticalCellsCount() {
         return map.length;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getHorizontalCellsCount() {
         return map[0].length;
@@ -142,6 +163,7 @@ public class EditorMap implements PacManMap {
         return MovingActor.findOptimalPath(from, to, this) != null;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isWallAt(Location location) {
         return map[location.y][location.x] == CellType.WALL;

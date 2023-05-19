@@ -69,17 +69,20 @@ public class SettingManager implements PacManMap {
 
     public void removeItem(Location location) { itemManager.removeItem(location); }
 
+    /** {@inheritDoc} */
     @Override
     public CellType getTypeAt(Location location) {
         Item item = getItem(location);
         return item == null ? null : item.getType();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getHorizontalCellsCount() {
         return itemManager.getHorizontalCellsCount();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getVerticalCellsCount() {
         return itemManager.getVerticalCellsCount();
