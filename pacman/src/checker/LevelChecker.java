@@ -39,7 +39,7 @@ public class LevelChecker extends Checker {
         // only check if gold/pill accessible if
         // 1. valid pac start location
         // 2. valid portals
-        if(pacStartFlag && portalPairFlag){
+        if (pacStartFlag && portalPairFlag) {
             checkGoldPillAccessible.check(map, errors);
         }
         // report errors

@@ -116,8 +116,7 @@ public class Controller implements ActionListener, GUIInformation {
 			EditorMap map = new EditorMap(model.getMap());
 			if (LevelChecker.getInstance().checkLevel(map)) {
 				Game game = new Game(map);
-			} else {
-
+				game.run();
 			}
 		}
 	}
