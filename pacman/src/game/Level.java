@@ -138,7 +138,7 @@ public class Level extends GameGrid {
         } else if (pacActor.getNbPills() >= maxPillsCount) {
             setWinEnding();
             if (completionHandler.isPresent() && game.isPresent()) {
-                completionHandler.get().hander(game.get().get());
+                completionHandler.get().handler(game.get().get());
             }
         }
 

@@ -30,7 +30,7 @@ public class Game {
         for (PacManMap map : maps) {
             levels.add(new Level(properties, map, Optional.of(new LevelCompletionHandler() {
                 @Override
-                public void hander(Game game) {
+                public void handler(Game game) {
                     game.runNext();
                 }
             }), Optional.of(new WeakReference<>(this))));
