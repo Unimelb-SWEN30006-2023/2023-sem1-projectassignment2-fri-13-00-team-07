@@ -39,6 +39,7 @@ public class Level extends GameGrid {
 
 
     private int maxPillsCount = 0;
+    private boolean levelOver = false;
 
     // Level creation using properties file only for isAuto and seed, and a separate map
     public Level(Properties properties, PacManMap map, Optional<LevelCompletionHandler> completionHandler) {
@@ -129,13 +130,17 @@ public class Level extends GameGrid {
         if (maxPillsCount == 0)
             maxPillsCount = settingManager.countPills(); // store the pills count
 
-        boolean gameOver = pacActorCollidedWithMonster();
-        if (gameOver)
+        levelOver = pacActorCollidedWithMonster();
+        if (levelOver)
             setLostEnding();
         else if (pacActor.getNbPills() >= maxPillsCount)
             setWinEnding();
 
         super.act();
+    }
+
+    public boolean levelIsOver() {
+        return levelOver;
     }
 
     /**

@@ -33,7 +33,10 @@ public class Game {
     }
 
     public void run() {
-        for (Level level : levels)
+        for (Level level : levels) {
             level.run();
+            if (level.levelIsOver())
+                break;
+        }
     }
 }
