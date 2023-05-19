@@ -19,7 +19,7 @@ public abstract class Checker {
                 System.out.println("No errors found under this check, flush everything in the errorLogs");
                 return true;
             }
-            else{
+            else {
                 for (String line : errors) {
                     writer.write(line);
                     writer.newLine();
