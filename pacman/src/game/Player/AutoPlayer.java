@@ -14,8 +14,6 @@ public class AutoPlayer extends Player {
 
     private ArrayList<String> propertyMoves;
 
-    private LinkedList<Location> currentAutoPath = new LinkedList<>();
-
     // whether the pacActor can move in this simulation iteration
     private boolean shouldMove = false;
 
@@ -46,17 +44,25 @@ public class AutoPlayer extends Player {
         shouldMove = true;
         PacManMap map = ((Level) gameGrid).getSettingManager();
 
-        if (currentAutoPath == null || currentAutoPath.isEmpty()) {
-            currentAutoPath = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map);
-        }
-        if (currentAutoPath != null && !currentAutoPath.isEmpty()) {
-            Location target = currentAutoPath.remove(0);
+        LinkedList<Location> path = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map, ((Level) gameGrid).getMonsters());
+
+        if (path != null && !path.isEmpty()) {
+            Location target = path.remove(0);
             assert this.getLocation().getDistanceTo(target) == 1;
             this.setDirectionToTarget(target);
+            return;
         } else {
-            // last resort: random walk
-            setRandomMoveDirection(this.getDirection());
+            path = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map, null);
+
+            if (path != null && !path.isEmpty()) {
+                Location target = path.remove(0);
+                assert this.getLocation().getDistanceTo(target) == 1;
+                this.setDirectionToTarget(target);
+                return;
+            }
         }
+
+        setRandomMoveDirection(this.getDirection());
     }
 
     /**

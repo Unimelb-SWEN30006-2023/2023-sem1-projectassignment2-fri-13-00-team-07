@@ -219,4 +219,8 @@ public class Level extends GameGrid {
 
         gameCallback.endOfGame(title);
     }
+
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
+    }
 }
