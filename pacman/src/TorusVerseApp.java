@@ -4,6 +4,7 @@ import game.Game;
 import game.Maps.EditorMap;
 import game.Maps.PacManMap;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
@@ -24,24 +25,25 @@ public class TorusVerseApp {
         if (file.isDirectory()) {
             mode = AppMode.TEST;
             GameChecker gameChecker = GameChecker.getInstance();
-            ArrayList<String> validFiles = new ArrayList<>();
             if (gameChecker.checkGame(dir)) {
-                validFiles.addAll(gameChecker.getValidMapFiles());
+                ArrayList<String> validFiles = gameChecker.getValidMapFiles();
                 Collections.sort(validFiles);
-            }
 
-            ArrayList<PacManMap> maps = new ArrayList<>();
-            for (String f : validFiles) {
-                PacManMap map = getMap(f);
-                if (!LevelChecker.getInstance().checkLevel((EditorMap) map)) { // can always cast, as it is a xml
-                    mode = AppMode.EDIT;
-                    editorAdapter.runEditor(f);
-                    return;
+                ArrayList<PacManMap> maps = new ArrayList<>();
+                for (String f : validFiles) {
+                    PacManMap map = getMap(dir + "/" + f);
+                    if (!LevelChecker.getInstance().checkLevel((EditorMap) map)) { // can always cast, as it is a xml
+                        mode = AppMode.EDIT;
+                        editorAdapter.runEditor(dir + "/" + f);
+                        return;
+                    }
+                    maps.add(map);
                 }
-                maps.add(map);
-            }
 
-            game = new Game(maps);
+                game = new Game(maps);
+            } else {
+                JOptionPane.showMessageDialog(null, "The game check failed", "Cannot run", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else {
             // returning to edit mode with no current map
             mode = AppMode.EDIT;

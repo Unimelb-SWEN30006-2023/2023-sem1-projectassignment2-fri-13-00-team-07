@@ -7,6 +7,7 @@ import game.Items.Item;
 import game.Items.ItemPredicate;
 import game.Items.Portal;
 import game.Maps.PacManMap;
+import game.Monsters.Monster;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -216,6 +217,13 @@ public abstract class MovingActor extends Actor {
      * Finds the optimal path to a sink that satisfies the `predicate`.
      */
     public static LinkedList<Location> findOptimalPath(Location source, ItemPredicate predicate, PacManMap map) {
+        return findOptimalPath(source, predicate, map, null);
+    }
+
+    /**
+     * Finds the optimal path to a sink that satisfies the `predicate`.
+     */
+    public static LinkedList<Location> findOptimalPath(Location source, ItemPredicate predicate, PacManMap map, ArrayList<Monster> monsters) {
         LinkedList<Edge> paths = new LinkedList<>();
         HashSet<Integer> visitedSet = new HashSet<>();
 
@@ -278,6 +286,12 @@ public abstract class MovingActor extends Actor {
                                 .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map)).toList();
                 for (var neighbour: unvisitedNeighbours) {
                     markLocationAsVisited(neighbour, visitedSet, map);
+                    final var capturedNeighbour = neighbour;
+                    if (monsters != null && monsters.stream().map(Monster::getLocation).anyMatch(i -> i.equals(capturedNeighbour))) {
+                        // monster there, not through here!
+                        continue;
+                    }
+
                     //System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                     ActorType neighbourType = map.getTypeAt(neighbour);
                     paths.add(new Edge(vertex, neighbour));
