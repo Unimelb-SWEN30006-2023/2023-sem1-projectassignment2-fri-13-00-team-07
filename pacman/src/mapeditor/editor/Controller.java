@@ -231,8 +231,11 @@ public class Controller implements ActionListener, GUIInformation {
 
 				List rows = rootNode.getChildren("row");
 
-				this.model = new GridModel(((Element) rows.get(0)).getChildren("cell").size(), rows.size(), 'a');
-				for (int y = 0; y < rows.size(); y++) {
+				if (model == null) {
+					this.model = new GridModel(((Element) rows.get(0)).getChildren("cell").size(), rows.size(), 'a');
+				}
+
+ 				for (int y = 0; y < rows.size(); y++) {
 					Element cellsElem = (Element) rows.get(y);
 					List cells = cellsElem.getChildren("cell");
 
