@@ -257,7 +257,6 @@ public class Controller implements ActionListener, GUIInformation {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return;
 	}
 
 	/**

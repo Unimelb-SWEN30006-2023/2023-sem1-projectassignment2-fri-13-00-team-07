@@ -42,6 +42,7 @@ public class TorusVerseApp {
         } else {
             // returning to edit mode with no current map
             mode = AppMode.EDIT;
+            editorAdapter.setMap(dir);
             editorAdapter.runEditor(dir);
         }
     }

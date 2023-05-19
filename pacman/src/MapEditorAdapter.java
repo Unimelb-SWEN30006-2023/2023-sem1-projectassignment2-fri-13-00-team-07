@@ -73,4 +73,9 @@ public class MapEditorAdapter implements EditorAdapter {
         // FIXME: implementation
         return false;
     }
+
+    @Override
+    public void setMap(String mapFile) {
+        editor.loadFile(mapFile);
+    }
 }
