@@ -32,10 +32,10 @@ public class TorusVerseApp {
 
             ArrayList<PacManMap> maps = new ArrayList<>();
             for (String f : validFiles) {
-                PacManMap map = getMap(dir + "/" + f);
+                PacManMap map = getMap(f);
                 if (!LevelChecker.getInstance().checkLevel((EditorMap) map)) { // can always cast, as it is a xml
                     mode = AppMode.EDIT;
-                    editorAdapter.runEditor(dir + "/" + f);
+                    editorAdapter.runEditor(f);
                     return;
                 }
                 maps.add(map);
