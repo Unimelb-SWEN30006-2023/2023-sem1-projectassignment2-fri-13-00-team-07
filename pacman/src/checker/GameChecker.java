@@ -32,7 +32,7 @@ public class GameChecker extends Checker {
     }
 
     public boolean checkGame(String mapFolderDir) {
-        validFiles = new ArrayList<>(); //prevent override
+        validFiles = new ArrayList<>(); //prevent overlap
         ArrayList<String> errors = new ArrayList<>();
         // check
         checkMapAndMapSequence.check(mapFolderDir, errors, validFiles);
