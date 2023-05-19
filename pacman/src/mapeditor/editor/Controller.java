@@ -117,6 +117,8 @@ public class Controller implements ActionListener, GUIInformation {
 			if (LevelChecker.getInstance().checkLevel(map)) {
 				Game game = new Game(map);
 				game.run();
+			} else {
+				JOptionPane.showMessageDialog(null, "The map check failed", "Cannot run", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
