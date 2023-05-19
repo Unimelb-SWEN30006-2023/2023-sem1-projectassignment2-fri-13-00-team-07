@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 public class Driver {
     public static final String DEFAULT_PROPERTIES_PATH = "properties/test2.properties";
 
@@ -7,10 +9,14 @@ public class Driver {
      */
 
     public static void main(String args[]) {
-        if (args.length > 0) {
-            new TorusVerseApp(args[0]);
-        } else {
-            new TorusVerseApp(null);
+        try {
+            if (args.length > 0) {
+                new TorusVerseApp(args[0]);
+            } else {
+                new TorusVerseApp(null);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e, "Cannot run", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

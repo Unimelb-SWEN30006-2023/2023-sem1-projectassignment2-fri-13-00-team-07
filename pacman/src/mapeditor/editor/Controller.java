@@ -1,12 +1,16 @@
 package mapeditor.editor;
 
+import ch.aplu.jgamegrid.Location;
 import checker.LevelChecker;
+import game.ActorType;
+import game.CharacterType;
 import game.Game;
+import game.Items.CellType;
 import game.Maps.EditorMap;
 import mapeditor.grid.*;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
+import org.jdom.JDOMException;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
@@ -49,8 +53,8 @@ public class Controller implements ActionListener, GUIInformation {
 	private int gridWith = Constants.MAP_WIDTH;
 	private int gridHeight = Constants.MAP_HEIGHT;
 
-	private HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>();
-	private HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>();
+	private final HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>();
+	private final HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>();
 	private static final char[] TILE_CHARS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'}; // 'a' is default
 	private static final String[] TILE_TYPES = {"PathTile", "WallTile", "PillTile",
 												"GoldTile", "IceTile", "PacTile",
@@ -58,15 +62,49 @@ public class Controller implements ActionListener, GUIInformation {
 												"PortalYellowTile", "PortalDarkGoldTile",
 												"PortalDarkGrayTile"
 												};
-	private String dataDir = "pacman/sprites/editor data/"; // default
+	private static final String dataDir = "pacman/sprites/editor data/"; // default
+
+	private static final HashMap<ActorType, Character> actorTypeToControllerInternalRepresentationDictionary = new HashMap<>() {{
+		put(CellType.SPACE, 'a');
+		put(CellType.WALL, 'b');
+		put(CellType.PILL, 'c');
+		put(CellType.GOLD, 'd');
+		put(CellType.ICE, 'e');
+		put(CharacterType.PACMAN, 'f');
+		put(CharacterType.M_TROLL, 'g');
+		put(CharacterType.M_TX5, 'h');
+		put(CellType.PORTAL_WHITE, 'i');
+		put(CellType.PORTAL_YELLOW, 'j');
+		put(CellType.PORTAL_DARK_GOLD, 'k');
+		put(CellType.PORTAL_DARK_GRAY, 'l');
+	}};
+
 	/**
 	 * Construct the controller.
 	 */
 	public Controller() {
 		setUpDicts();
+		run();
 	}
 
-	public void run() {
+	public Controller(String filePath) throws IOException, JDOMException {
+		EditorMap map = new EditorMap(filePath);
+		this.init(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
+		view.setSize(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
+
+		loadObjectsFrom(map);
+		grid.redrawGrid();
+	}
+
+	private void loadObjectsFrom(EditorMap map) {
+		for (int y = 0; y < map.getVerticalCellsCount(); y++) {
+			for (int x = 0; x < map.getHorizontalCellsCount(); x++) {
+				model.setTile(x, y, actorTypeToControllerInternalRepresentationDictionary.get(map.getTypeAt(new Location(x, y))));
+			}
+		}
+	}
+
+	private void run() {
 		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 	}
 
@@ -77,7 +115,7 @@ public class Controller implements ActionListener, GUIInformation {
 		}
 	}
 
-	public void init(int width, int height) {
+	private void init(int width, int height) {
 		this.tiles = TileManager.getTilesFromFolder(dataDir);
 		this.model = new GridModel(width, height, tiles.get(0).getCharacter());
 		this.camera = new GridCamera(model, Constants.GRID_WIDTH,
@@ -108,7 +146,12 @@ public class Controller implements ActionListener, GUIInformation {
 			saveFile();
 		} else if (e.getActionCommand().equals("load")) {
 			// LevelChecker.getInstance().check();
-			loadFile(null);
+			try {
+				loadFile();
+			} catch (Exception exception) {
+				JOptionPane.showMessageDialog(null, exception, "Cannot load a file",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		} else if (e.getActionCommand().equals("update")) {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
@@ -123,7 +166,7 @@ public class Controller implements ActionListener, GUIInformation {
 		}
 	}
 
-	public void updateGrid(int width, int height) {
+	private void updateGrid(int width, int height) {
 		view.close();
 		init(width, height);
 		view.setSize(width, height);
@@ -183,8 +226,7 @@ public class Controller implements ActionListener, GUIInformation {
 				}
 				XMLOutputter xmlOutput = new XMLOutputter();
 				xmlOutput.setFormat(Format.getPrettyFormat());
-				xmlOutput
-						.output(doc, new FileWriter(chooser.getSelectedFile()));
+				xmlOutput.output(doc, new FileWriter(chooser.getSelectedFile()));
 			}
 		} catch (FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(null, "Invalid file!", "error",
@@ -196,67 +238,26 @@ public class Controller implements ActionListener, GUIInformation {
 	/**
 	 * Load the map at path of `currentMap`, or ask user to select one if the argument is null;
 	 */
-	public void loadFile(String currentMap) {
-		SAXBuilder builder = new SAXBuilder();
-		try {
-			File selectedFile;
-			Document document;
-			if (currentMap == null) {
-				JFileChooser chooser = new JFileChooser();
-				File workingDirectory = new File(System.getProperty("user.dir"));
-				chooser.setCurrentDirectory(workingDirectory);
+	private void loadFile() throws IOException, JDOMException {
 
-				int returnVal = chooser.showOpenDialog(null);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					selectedFile = chooser.getSelectedFile();
-				} else {
-					return; // fixme: maybe throw some error?
-				}
-			} else {
-				selectedFile = new File(currentMap);
-			}
+		File selectedFile;
+		JFileChooser chooser = new JFileChooser();
+		File workingDirectory = new File(System.getProperty("user.dir"));
+		chooser.setCurrentDirectory(workingDirectory);
 
-			if (selectedFile.canRead() && selectedFile.exists()) {
-				document = (Document) builder.build(selectedFile);
-
-				Element rootNode = document.getRootElement();
-
-				List sizeList = rootNode.getChildren("size");
-				Element sizeElem = (Element) sizeList.get(0);
-				int height = Integer.parseInt(sizeElem
-						.getChildText("height"));
-				int width = Integer
-						.parseInt(sizeElem.getChildText("width"));
-				if (grid != null) {
-					updateGrid(width, height);
-				}
-
-				List rows = rootNode.getChildren("row");
-
-				if (model == null) {
-					this.model = new GridModel(((Element) rows.get(0)).getChildren("cell").size(), rows.size(), 'a');
-				}
-
- 				for (int y = 0; y < rows.size(); y++) {
-					Element cellsElem = (Element) rows.get(y);
-					List cells = cellsElem.getChildren("cell");
-
-					for (int x = 0; x < cells.size(); x++) {
-						Element cell = (Element) cells.get(x);
-						String cellValue = cell.getText();
-
-						char tileNr = STR_TO_CHAR_DICT.getOrDefault(cellValue, 'a');
-						model.setTile(x, y, tileNr);
-					}
-				}
-
-				if (grid != null) {
-					grid.redrawGrid();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		int returnVal = chooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			selectedFile = chooser.getSelectedFile();
+		} else {
+			throw new IOException("Did not read anything!");
 		}
+
+		EditorMap map = new EditorMap(selectedFile.getPath());
+		updateGrid(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
+
+		loadObjectsFrom(map);
+
+		grid.redrawGrid();
 	}
 
 	/**
@@ -265,13 +266,5 @@ public class Controller implements ActionListener, GUIInformation {
 	@Override
 	public Tile getSelectedTile() {
 		return selectedTile;
-	}
-
-	public char[][] getMap() {
-		return model.getMap();
-	}
-
-	public HashMap<Character, String> getCharToStrDict() {
-		return CHAR_TO_STR_DICT;
 	}
 }

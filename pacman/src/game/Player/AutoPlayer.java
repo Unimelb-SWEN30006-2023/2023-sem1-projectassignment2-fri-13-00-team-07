@@ -52,7 +52,7 @@ public class AutoPlayer extends Player {
             this.setDirectionToTarget(target);
             return;
         } else {
-            path = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map, null);
+            path = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map);
 
             if (path != null && !path.isEmpty()) {
                 Location target = path.remove(0);
