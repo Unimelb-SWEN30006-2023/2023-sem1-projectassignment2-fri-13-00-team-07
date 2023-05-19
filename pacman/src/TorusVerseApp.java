@@ -1,4 +1,4 @@
-import checker.GameChecker;
+import checker.LevelChecker;
 import game.Game;
 import game.Maps.EditorMap;
 import game.Maps.PacManMap;
@@ -22,24 +22,25 @@ public class TorusVerseApp {
         File file = new File(dir);
         if (file.isDirectory()) {
             mode = AppMode.TEST;
-            if (GameChecker.getInstance().checkGame(dir)) {
-                game = new Game(getMaps(dir));
+
+            File[] allFiles = file.listFiles();
+            ArrayList<PacManMap> maps = new ArrayList<>();
+            for (File f : allFiles) {
+                PacManMap map = getMap(dir + "/" + f.getName());
+                if (!LevelChecker.getInstance().checkLevel((EditorMap) map)) { // can always cast, as it is a xml
+                    mode = AppMode.EDIT;
+                    editorAdapter.runEditor(dir + "/" + f.getName());
+                    return;
+                }
+                maps.add(map);
             }
+
+            game = new Game(maps);
         } else {
             // returning to edit mode with no current map
             mode = AppMode.EDIT;
             editorAdapter.runEditor(dir);
         }
-    }
-
-    private ArrayList<PacManMap> getMaps(String dir) {
-        File file = new File(dir);
-        File[] allFiles = file.listFiles();
-        ArrayList<PacManMap> maps = new ArrayList<>();
-        for (File f : allFiles) {
-            maps.add(getMap(dir + "/" + f.getName()));
-        }
-        return maps;
     }
 
     /**

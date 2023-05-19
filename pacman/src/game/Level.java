@@ -11,6 +11,7 @@ import game.Monsters.Troll;
 import game.utility.GameCallback;
 
 import java.awt.*;
+import java.lang.ref.WeakReference;
 import java.util.*;
 
 /**
@@ -36,25 +37,26 @@ public class Level extends GameGrid {
     private final GameCallback gameCallback;
 
     private final Optional<LevelCompletionHandler> completionHandler;
+    private final Optional<WeakReference<Game>> game;
 
 
     private int maxPillsCount = 0;
-    private boolean levelOver = false;
 
     // Level creation using properties file only for isAuto and seed, and a separate map
-    public Level(Properties properties, PacManMap map, Optional<LevelCompletionHandler> completionHandler) {
+    public Level(Properties properties, PacManMap map, Optional<LevelCompletionHandler> completionHandler, Optional<WeakReference<Game>> game) {
         super(map.getHorizontalCellsCount(), map.getVerticalCellsCount(), CELL_SIZE, false);
         this.gameCallback = new GameCallback();
         this.settingManager = new SettingManager(properties, map, this);
 
         this.completionHandler = completionHandler;
+        this.game = game;
     }
 
 
     // Level creation using properties file for setting
     public Level(Properties properties) {
         // Setup game level
-        this(properties, new PacManGameGrid(), Optional.empty()); // uses the default string map (original behavior)
+        this(properties, new PacManGameGrid(), Optional.empty(), Optional.empty()); // uses the default string map (original behavior)
     }
 
     public void run() {
@@ -130,17 +132,17 @@ public class Level extends GameGrid {
         if (maxPillsCount == 0)
             maxPillsCount = settingManager.countPills(); // store the pills count
 
-        levelOver = pacActorCollidedWithMonster();
-        if (levelOver)
+        boolean gameOver = pacActorCollidedWithMonster();
+        if (gameOver) {
             setLostEnding();
-        else if (pacActor.getNbPills() >= maxPillsCount)
+        } else if (pacActor.getNbPills() >= maxPillsCount) {
             setWinEnding();
+            if (completionHandler.isPresent() && game.isPresent()) {
+                completionHandler.get().hander(game.get().get());
+            }
+        }
 
         super.act();
-    }
-
-    public boolean levelIsOver() {
-        return levelOver;
     }
 
     /**
