@@ -34,7 +34,7 @@ public class TorusVerseApp {
         File[] allFiles = file.listFiles();
         ArrayList<PacManMap> maps = new ArrayList<>();
         for (File f : allFiles) {
-            maps.add(getMap(f.getName()));
+            maps.add(getMap(dir + "/" + f.getName()));
         }
         return maps;
     }

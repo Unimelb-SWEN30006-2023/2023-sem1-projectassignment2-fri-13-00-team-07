@@ -4,6 +4,7 @@ import game.Maps.PacManMap;
 import game.utility.PropertiesLoader;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Properties;
 
 public class Game {
@@ -19,14 +20,14 @@ public class Game {
 
     public Game(PacManMap map) {
         Properties properties = PropertiesLoader.loadPropertiesFile(DEFAULT_PROPERTIES_PATH);
-        levels.add(new Level(properties, map)); // single level
+        levels.add(new Level(properties, map, Optional.empty())); // single level
         run();
     }
 
     public Game(ArrayList<PacManMap> maps) {
         Properties properties = PropertiesLoader.loadPropertiesFile(DEFAULT_PROPERTIES_PATH);
         for (PacManMap map : maps) {
-            levels.add(new Level(properties, map));
+            levels.add(new Level(properties, map, Optional.empty()));
         }
         run();
     }

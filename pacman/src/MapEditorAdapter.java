@@ -29,6 +29,7 @@ public class MapEditorAdapter implements EditorAdapter {
      */
     public ActorType[][] getMap(String mapFile) {
         setUpConverter();
+        editor.loadFile(mapFile);
         char[][] mapWithChars = editor.getMap();
         int numRows = mapWithChars.length;
         int numCols = mapWithChars[0].length;

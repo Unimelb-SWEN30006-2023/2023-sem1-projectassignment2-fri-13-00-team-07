@@ -1,5 +1,6 @@
 package mapeditor.editor;
 
+import checker.LevelChecker;
 import game.Game;
 import game.Maps.EditorMap;
 import mapeditor.grid.*;
@@ -113,8 +114,11 @@ public class Controller implements ActionListener, GUIInformation {
 		} else if (e.getActionCommand().equals("start_game")) {
 			// Code to switch to pacman game
 			EditorMap map = new EditorMap(model.getMap());
-			Game game = new Game(map);
-			//FIXME: maybe an alert? or, an observer to disable the button?
+			if (LevelChecker.getInstance().checkLevel(map)) {
+				Game game = new Game(map);
+			} else {
+
+			}
 		}
 	}
 
@@ -211,7 +215,6 @@ public class Controller implements ActionListener, GUIInformation {
 				selectedFile = new File(currentMap);
 			}
 
-
 			if (selectedFile.canRead() && selectedFile.exists()) {
 				document = (Document) builder.build(selectedFile);
 
@@ -223,9 +226,13 @@ public class Controller implements ActionListener, GUIInformation {
 						.getChildText("height"));
 				int width = Integer
 						.parseInt(sizeElem.getChildText("width"));
-				updateGrid(width, height);
+				if (grid != null) {
+					updateGrid(width, height);
+				}
 
 				List rows = rootNode.getChildren("row");
+
+				this.model = new GridModel(((Element) rows.get(0)).getChildren("cell").size(), rows.size(), 'a');
 				for (int y = 0; y < rows.size(); y++) {
 					Element cellsElem = (Element) rows.get(y);
 					List cells = cellsElem.getChildren("cell");
@@ -239,7 +246,9 @@ public class Controller implements ActionListener, GUIInformation {
 					}
 				}
 
-				grid.redrawGrid();
+				if (grid != null) {
+					grid.redrawGrid();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

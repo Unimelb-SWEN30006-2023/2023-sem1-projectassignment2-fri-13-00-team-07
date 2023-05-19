@@ -11,10 +11,7 @@ import game.Monsters.Troll;
 import game.utility.GameCallback;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * The PacMan Level, which contains all the actors, a property reader,
@@ -38,21 +35,25 @@ public class Level extends GameGrid {
     private final SettingManager settingManager;
     private final GameCallback gameCallback;
 
+    private final Optional<LevelCompletionHandler> completionHandler;
+
 
     private int maxPillsCount = 0;
 
     // Level creation using properties file only for isAuto and seed, and a separate map
-    public Level(Properties properties, PacManMap map) {
+    public Level(Properties properties, PacManMap map, Optional<LevelCompletionHandler> completionHandler) {
         super(map.getHorizontalCellsCount(), map.getVerticalCellsCount(), CELL_SIZE, false);
         this.gameCallback = new GameCallback();
         this.settingManager = new SettingManager(properties, map, this);
+
+        this.completionHandler = completionHandler;
     }
 
 
     // Level creation using properties file for setting
     public Level(Properties properties) {
         // Setup game level
-        this(properties, new PacManGameGrid()); // uses the default string map (original behavior)
+        this(properties, new PacManGameGrid(), Optional.empty()); // uses the default string map (original behavior)
     }
 
     public void run() {
