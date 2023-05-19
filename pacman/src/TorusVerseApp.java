@@ -1,3 +1,4 @@
+import checker.GameChecker;
 import game.Game;
 import game.Maps.EditorMap;
 import game.Maps.PacManMap;
@@ -21,7 +22,9 @@ public class TorusVerseApp {
         File file = new File(dir);
         if (file.isDirectory()) {
             mode = AppMode.TEST;
-            game = new Game(getMaps(dir));
+            if (GameChecker.getInstance().checkGame(dir)) {
+                game = new Game(getMaps(dir));
+            }
         } else {
             // returning to edit mode with no current map
             mode = AppMode.EDIT;

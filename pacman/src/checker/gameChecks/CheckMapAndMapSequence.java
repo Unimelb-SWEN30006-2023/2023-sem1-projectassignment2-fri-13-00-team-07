@@ -27,6 +27,7 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
             String fileName = file.getFileName().toString();
             return Files.isRegularFile(file) && fileName.endsWith(".xml") && Character.isDigit(fileName.charAt(0));
         };
+
         // Iterate through the directory and extract .xml file names
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, filter)) {
             for (Path file : stream) {
@@ -37,8 +38,9 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
             errors.add(ErrorMessagesBody.GAME_FAIL_IO);
             return false;
         }
+
         /* check 1. there has to be at least one map with valid name in directory */
-        if(filenameStore.size() == 0){
+        if (filenameStore.size() == 0) {
             errors.add(mapFolderDir + ErrorMessagesBody.GAME_NO_MAPS_FOUND);
             return false;
         }
@@ -63,11 +65,11 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
             }
         }
         //build error messages
-        for(int digit:hm.keySet()){
-            if(hm.get(digit).size() > 1){
+        for (int digit:hm.keySet()) {
+            if (hm.get(digit).size() > 1) {
                 String errorStr = mapFolderDir + ErrorMessagesBody.GAME_MULTI_MAPS_SAME_LEVEL;
                 ArrayList<String> filenameLst = new ArrayList<>();
-                for(int i:hm.get(digit)){
+                for (int i:hm.get(digit)) {
                     filenameLst.add(filenameStore.get(i));
                 }
                 errors.add(errorStr + semicolonStringBuilder(filenameLst));

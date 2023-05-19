@@ -19,19 +19,19 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
         ArrayList<Location> errorPills = new ArrayList<>();
         Location pac = null;
         // extract all golds, pills, and pac locations
-        for(int i = 0; i < map.getVerticalCellsCount(); i++){
-            for(int j = 0; j < map.getHorizontalCellsCount(); j++){
+        for (int i = 0; i < map.getVerticalCellsCount(); i++) {
+            for (int j = 0; j < map.getHorizontalCellsCount(); j++) {
                 Location loc = new Location(j, i);
-                if(map.getTypeAt(loc) == CellType.GOLD) {
+                if (map.getTypeAt(loc) == CellType.GOLD) {
                     golds.add(loc);
                 }
-                else if(map.getTypeAt(loc) == CellType.PILL){
+                else if (map.getTypeAt(loc) == CellType.PILL){
                     pills.add(loc);
                 }
-                else if(map.getTypeAt(loc) == CharacterType.PACMAN){
+                else if (map.getTypeAt(loc) == CharacterType.PACMAN) {
                     // !!! in theory, if run verifyPacStartPoint in advance, there shouldn't be multiple start Location
                     // but for safete concerns, check if there are multiple start here
-                    if(pac != null){
+                    if (pac != null) {
                         return false;
                     }
                     pac = loc;

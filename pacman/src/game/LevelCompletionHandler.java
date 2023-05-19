@@ -6,6 +6,6 @@ public interface LevelCompletionHandler {
 
     Game getGame();
 
-    void hander(Game game);
+    void handler(Game game);
 
 }

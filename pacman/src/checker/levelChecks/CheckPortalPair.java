@@ -31,9 +31,9 @@ public class CheckPortalPair extends Check implements LevelCheck{
             }
         }
         // build error string
-        for(CellType type:hm.keySet()){
+        for (CellType type:hm.keySet()) {
             ArrayList<Location> lst = hm.get(type);
-            if(lst.size() != 2){
+            if (lst.size() != 2){
                 flag = false;
                 errors.add(map.getFileName() + " - " + type.getName() + ErrorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
             }
