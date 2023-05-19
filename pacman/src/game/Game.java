@@ -3,6 +3,7 @@ package game;
 import game.Maps.PacManMap;
 import game.utility.PropertiesLoader;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Properties;
@@ -20,20 +21,31 @@ public class Game {
 
     public Game(PacManMap map) {
         Properties properties = PropertiesLoader.loadPropertiesFile(DEFAULT_PROPERTIES_PATH);
-        levels.add(new Level(properties, map, Optional.empty())); // single level
+        levels.add(new Level(properties, map, Optional.empty(), Optional.of(new WeakReference<>(this)))); // single level
         run();
     }
 
     public Game(ArrayList<PacManMap> maps) {
         Properties properties = PropertiesLoader.loadPropertiesFile(DEFAULT_PROPERTIES_PATH);
         for (PacManMap map : maps) {
-            levels.add(new Level(properties, map, Optional.empty()));
+            levels.add(new Level(properties, map, Optional.of(new LevelCompletionHandler() {
+                @Override
+                public void hander(Game game) {
+                    game.runNext();
+                }
+            }), Optional.of(new WeakReference<>(this))));
+
         }
         run();
     }
 
     public void run() {
-        for (Level level : levels)
-            level.run();
+        runNext();
+    }
+
+    public void runNext() {
+        if (!levels.isEmpty()) {
+            levels.remove(0).run();
+        }
     }
 }
