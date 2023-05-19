@@ -279,15 +279,18 @@ public abstract class MovingActor extends Actor {
 
                 return result;
             } else {
+
                 List<Location> unvisitedNeighbours =
                         IntStream.rangeClosed(0, 3)
                                 .boxed()
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
-                                .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map)).toList();
+                                .filter(i -> !locationIsVisited(i, visitedSet, map) && isValidLocation(i, map))
+                                .sorted(Comparator.comparingInt(i -> OneWayChecker.getInstance().isOneWayAt(i, map, (int) vertex.getDirectionTo(i))))
+                                .toList();
                 for (var neighbour: unvisitedNeighbours) {
                     markLocationAsVisited(neighbour, visitedSet, map);
                     final var capturedNeighbour = neighbour;
-                    if (monsters != null && monsters.stream().map(Monster::getLocation).anyMatch(i -> i.equals(capturedNeighbour))) {
+                    if (monsters != null && monsters.stream().map(Monster::getLocation).anyMatch(i -> i.getDistanceTo(capturedNeighbour) < 2)) {
                         // monster there, not through here!
                         continue;
                     }
