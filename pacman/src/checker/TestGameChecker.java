@@ -5,9 +5,12 @@ public class TestGameChecker {
 
     public static void main(String[] args){
         GameChecker gameChecker = GameChecker.getInstance();
-        String dir = "pacman/data/wrongSequenceMapFolder_GameCheckerTest";
+        String dir = "pacman/data/ultimateTest";
 
         if (gameChecker.checkGame(dir)) {
+            for(String name: gameChecker.getValidMapFiles()){
+                System.out.println(name);
+            }
             System.out.println("test success");
         } else {
             System.out.println("Test fails");

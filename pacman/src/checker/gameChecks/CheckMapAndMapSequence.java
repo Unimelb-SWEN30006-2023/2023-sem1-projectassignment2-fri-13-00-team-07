@@ -58,7 +58,7 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
             int digit = Integer.parseInt(filenameStore.get(i).substring(0, k));
             // discard 0
             if(digit == 0){
-                break;
+                continue;
             }
             if(hm.containsKey(digit)){
                 hm.get(digit).add(i);
@@ -83,10 +83,10 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
         }
         // build valid filenames
         if(flag){
-            // extract such files names
-            //ArrayList<String> fileNames = new ArrayList<>();
             for(int digit:hm.keySet()){
-                validFileNames.add(filenameStore.get(hm.get(digit).get(0)));
+                if(hm.get(digit).size() == 1){
+                    validFileNames.add(filenameStore.get(hm.get(digit).get(0)));
+                }
             }
         }
         return flag;
