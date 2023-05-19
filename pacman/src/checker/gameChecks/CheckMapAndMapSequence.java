@@ -9,12 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class CheckMapAndMapSequence extends Check implements GameCheck{
 
     @Override
-    public boolean check(String mapFolderDir, ArrayList<String> errors) {
+    public boolean check(String mapFolderDir, ArrayList<String> errors, ArrayList<String> validFileNames) {
         ArrayList<String> filenameStore = new ArrayList<>();
         Path dir = Paths.get(mapFolderDir);
         // Check if the given path is a directory
@@ -55,6 +56,10 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
                 k++;
             }
             int digit = Integer.parseInt(filenameStore.get(i).substring(0, k));
+            // discard 0
+            if(digit == 0){
+                break;
+            }
             if(hm.containsKey(digit)){
                 hm.get(digit).add(i);
             }
@@ -74,6 +79,14 @@ public class CheckMapAndMapSequence extends Check implements GameCheck{
                 }
                 errors.add(errorStr + semicolonStringBuilder(filenameLst));
                 flag = false;
+            }
+        }
+        // build valid filenames
+        if(flag){
+            // extract such files names
+            //ArrayList<String> fileNames = new ArrayList<>();
+            for(int digit:hm.keySet()){
+                validFileNames.add(filenameStore.get(hm.get(digit).get(0)));
             }
         }
         return flag;

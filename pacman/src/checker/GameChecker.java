@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -31,9 +32,12 @@ public class GameChecker extends Checker {
     }
 
     public boolean checkGame(String mapFolderDir) {
+        validFiles = new ArrayList<>(); //prevent override
         ArrayList<String> errors = new ArrayList<>();
         // check
-        checkMapAndMapSequence.check(mapFolderDir, errors);
+        checkMapAndMapSequence.check(mapFolderDir, errors, validFiles);
+        Collections.sort(validFiles);
+
         // report errors
         return inspectAndLogErrors(errors);
     }
