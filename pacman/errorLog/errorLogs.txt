@@ -1,2 +1,0 @@
-null - no start for PacMan
-null - less than 2 Gold and Pill
