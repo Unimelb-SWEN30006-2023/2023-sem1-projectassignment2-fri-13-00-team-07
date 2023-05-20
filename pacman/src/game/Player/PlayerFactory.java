@@ -36,7 +36,7 @@ public class PlayerFactory {
      */
     public Player createPlayer(boolean isAuto, int seed, ArrayList<String> propertyMoves, Level level) {
         if (isAuto) {
-            AutoPlayer player = new  AutoPlayer(true, NB_SPRITES, seed);
+            AutoPlayer player = new AutoPlayer(true, NB_SPRITES, seed);
             if (propertyMoves != null)
                 player.setPropertyMoves(propertyMoves);
 
