@@ -36,11 +36,17 @@ public class PropertyMapReader implements MapReader {
                 Location location = new Location(x, y);
                 ActorType cellType = map.getTypeAt(location);
                 if (cellType.equals(CellType.GOLD)) {
-                    if (useMazeGoldLocations)
+                    if (useMazeGoldLocations) {
                         itemLocations.put(location, cellType);
+                    } else {
+                        itemLocations.put(location, CellType.SPACE);
+                    }
                 } else if (cellType.equals(CellType.PILL)) {
-                    if (useMazePillLocations)
+                    if (useMazePillLocations) {
                         itemLocations.put(location, cellType);
+                    } else {
+                        itemLocations.put(location, CellType.SPACE);
+                    }
                 } else {
                     itemLocations.put(location, cellType);
                 }
