@@ -1,6 +1,6 @@
 import checker.CheckerType;
-import checker.GameChecker;
-import checker.LevelChecker;
+import checker.levelChecks.CompositeLevelChecker;
+import checker.gameChecks.GameChecker;
 import game.Maps.EditorMap;
 import game.Maps.PacManMap;
 import org.jdom.JDOMException;
@@ -26,7 +26,7 @@ public class TorusVerseApp {
         if (file.isDirectory()) {
             mode = AppMode.TEST;
             GameChecker gameChecker = (GameChecker) factory.getChecker(CheckerType.GAME_CHECKER);
-            if (gameChecker.checkGame(dir)) {
+            if (gameChecker.check(dir)) {
                 ArrayList<String> validFiles = gameChecker.getValidMapFiles();
                 Collections.sort(validFiles);
 
@@ -34,8 +34,8 @@ public class TorusVerseApp {
                 for (String f : validFiles) {
                     EditorMap map = new EditorMap(dir + "/" + f);
 
-                    LevelChecker levelChecker = (LevelChecker) factory.getChecker(CheckerType.LEVEL_CHECKER);
-                    if (!levelChecker.checkLevel(map)) { // can always cast, as it is a xml
+                    CompositeLevelChecker compositeLevelChecker = (CompositeLevelChecker) factory.getChecker(CheckerType.LEVEL_CHECKER);
+                    if (!compositeLevelChecker.check(map)) { // can always cast, as it is a xml
                         mode = AppMode.EDIT;
                         editorAdapter.runEditor(dir + "/" + f);
                         return;

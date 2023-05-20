@@ -1,8 +1,7 @@
 package checker.levelChecks;
 
 import ch.aplu.jgamegrid.Location;
-import checker.Check;
-import checker.ErrorMessagesBody;
+import checker.ErrorMessageBody;
 import game.CharacterType;
 import game.Items.CellType;
 import game.Maps.EditorMap;
@@ -13,15 +12,16 @@ import java.util.ArrayList;
  * Check if all gold and pills are accessible in a level
  * Only make sense to run this check if other tests are passed
  */
-public class CheckGoldPillAccessible extends Check implements LevelCheck {
+public class GoldPillAccessibleChecker extends LevelCheck {
+    private boolean flag = true;
+
     @Override
-    public boolean check(EditorMap map, ArrayList<String> errors) {
-        boolean flag = true;
+    public boolean check(EditorMap map) {
         ArrayList<Location> golds = new ArrayList<>();
         ArrayList<Location> pills = new ArrayList<>();
         ArrayList<Location> errorGolds = new ArrayList<>();
         ArrayList<Location> errorPills = new ArrayList<>();
-        Location pac = null;
+        Location pacLocation = null;
         // extract all golds, pills, and pac locations
         for (int i = 0; i < map.getVerticalCellsCount(); i++) {
             for (int j = 0; j < map.getHorizontalCellsCount(); j++) {
@@ -32,40 +32,38 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck {
                     pills.add(loc);
                 } else if (map.getTypeAt(loc) == CharacterType.PACMAN) {
                     // !!! in theory, if run verifyPacStartPoint in advance, there shouldn't be multiple start Location
-                    // but for safete concerns, check if there are multiple start here
-                    if (pac != null) {
+                    // but for safety concerns, check if there are multiple start here
+                    if (pacLocation != null) { // second occurrence
                         return false;
                     }
-                    pac = loc;
+                    pacLocation = loc;
                 }
             }
         }
-        // !!! in theory, if run verifyPacStartPoint in advance, there shouldn't be no start Location
-        // but for safete concerns, check if there are multiple start here
-        if (pac == null) {
+
+        if (pacLocation == null) { // no valid PacActor starting point
             return false;
         }
+
         // build gold error string
-        for (Location loc:golds) {
-            //System.out.println(loc.toString());
-            if (!map.canReach(pac, loc)) {
-                errorGolds.add(loc);
-            }
-        }
-        if (errorGolds.size() > 0) {
-            flag = false;
-            errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_GOLD_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
-        }
+        buildErrors(golds, errorGolds, ErrorMessageBody.LEVEL_D_GOLD_NOT_ACC, map, pacLocation);
+
         // build pill error String
-        for (Location loc:pills) {
-            if (!map.canReach(pac, loc)) {
-                errorPills.add(loc);
+        buildErrors(pills, errorPills, ErrorMessageBody.LEVEL_D_PILL_NOT_ACC, map, pacLocation);
+
+        return flag;
+    }
+
+    private void buildErrors(ArrayList<Location> originalItems, ArrayList<Location> errorItems, String errorMessageBody, EditorMap map, Location pacLocation) {
+        for (Location loc : originalItems) {
+            if (!map.canReach(pacLocation, loc)) {
+                errorItems.add(loc);
             }
         }
-        if (errorPills.size() > 0) {
+
+        if (errorItems.size() > 0) {
             flag = false;
-            errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorPills));
+            addError(map.getFileName() + errorMessageBody + semicolonLocationStringBuilder(errorItems));
         }
-        return flag;
     }
 }

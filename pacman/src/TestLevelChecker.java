@@ -1,12 +1,12 @@
 import checker.CheckerType;
-import checker.LevelChecker;
+import checker.levelChecks.CompositeLevelChecker;
 import game.Maps.EditorMap;
 import org.jdom.JDOMException;
 
 import java.io.IOException;
 
 /**
- * our tests for a LevelChecker, not part of the functionality of this game
+ * our tests for a CompositeLevelChecker, not part of the functionality of this game
  */
 public class TestLevelChecker {
 
@@ -16,8 +16,8 @@ public class TestLevelChecker {
             EditorAdapter editorAdapter = AppComponentFactory.getInstance().getEditorAdapter();
             editorAdapter.runEditor(dir);
             EditorMap editorMap = new EditorMap(dir);
-            LevelChecker levelChecker = (LevelChecker) AppComponentFactory.getInstance().getChecker(CheckerType.LEVEL_CHECKER);
-            if (levelChecker.checkLevel(editorMap)) {
+            CompositeLevelChecker compositeLevelChecker = (CompositeLevelChecker) AppComponentFactory.getInstance().getChecker(CheckerType.LEVEL_CHECKER);
+            if (compositeLevelChecker.check(editorMap)) {
                 System.out.println("Level Checker test: all test passed");
             } else {
                 System.out.println("Level Checker test: some test failed");

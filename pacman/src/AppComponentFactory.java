@@ -1,4 +1,6 @@
 import checker.*;
+import checker.gameChecks.GameChecker;
+import checker.levelChecks.CompositeLevelChecker;
 import game.Game;
 import game.Maps.PacManMap;
 
@@ -23,7 +25,7 @@ public class AppComponentFactory {
         if (checkerType.equals(CheckerType.GAME_CHECKER))
             return new GameChecker();
 
-        return new LevelChecker(); // default
+        return new CompositeLevelChecker(); // default
     }
 
     public Game getGame(ArrayList<PacManMap> maps) {

@@ -1,20 +1,17 @@
 package checker.levelChecks;
 
 import ch.aplu.jgamegrid.Location;
-import checker.Check;
-import checker.ErrorMessagesBody;
+import checker.ErrorMessageBody;
 import game.Items.CellType;
 import game.Maps.EditorMap;
-
-import java.util.ArrayList;
 
 /**
  * Check if the total of golds and pills are at least 2
  */
-public class CheckNumGoldPill extends Check implements LevelCheck{
+public class NumGoldPillChecker extends LevelCheck {
 
     @Override
-    public boolean check(EditorMap map, ArrayList<String> errors) {
+    public boolean check(EditorMap map) {
         int counter = 0;
         for (int i = 0; i < map.getVerticalCellsCount(); i++) {
             for (int j = 0; j < map.getHorizontalCellsCount(); j++) {
@@ -26,7 +23,7 @@ public class CheckNumGoldPill extends Check implements LevelCheck{
         }
 
         if (counter < 2) {
-            errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_C_LESS_TWO_GOLD_PILL);
+            addError(map.getFileName() + ErrorMessageBody.LEVEL_C_LESS_TWO_GOLD_PILL);
             return false;
         }
         return true;

@@ -1,8 +1,7 @@
 package checker.levelChecks;
 
 import ch.aplu.jgamegrid.Location;
-import checker.Check;
-import checker.ErrorMessagesBody;
+import checker.ErrorMessageBody;
 import game.Items.CellType;
 import game.Maps.EditorMap;
 
@@ -12,9 +11,9 @@ import java.util.HashMap;
 /**
  * check all portal pairs are valid
  */
-public class CheckPortalPair extends Check implements LevelCheck {
+public class PortalPairChecker extends LevelCheck {
     @Override
-    public boolean check(EditorMap map, ArrayList<String> errors) {
+    public boolean check(EditorMap map) {
         boolean flag = true;
         HashMap<CellType, ArrayList<Location>> hm = new HashMap<>();
         for (int i = 0; i < map.getVerticalCellsCount(); i++) {
@@ -37,7 +36,7 @@ public class CheckPortalPair extends Check implements LevelCheck {
             ArrayList<Location> lst = hm.get(type);
             if (lst.size() != 2) {
                 flag = false;
-                errors.add(map.getFileName() + " - " + type.getName() + ErrorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
+                addError(map.getFileName() + " - " + type.getName() + ErrorMessageBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
             }
         }
         return flag;

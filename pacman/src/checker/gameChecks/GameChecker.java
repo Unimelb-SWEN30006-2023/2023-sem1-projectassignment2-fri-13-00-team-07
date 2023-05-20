@@ -1,7 +1,7 @@
-package checker;
+package checker.gameChecks;
 
-import checker.gameChecks.CheckMapAndMapSequence;
-import checker.gameChecks.GameCheck;
+import checker.Checker;
+import checker.gameChecks.MapAndMapSequenceChecker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,14 +11,10 @@ import java.util.Collections;
  */
 public class GameChecker extends Checker {
 
-    private static GameChecker instance;
-
-    private final GameCheck checkMapAndMapSequence;
-    private ArrayList<String> validFiles = new ArrayList<>();
+    private final MapAndMapSequenceChecker mapAndMapSequenceChecker;
 
     public GameChecker() {
-        super(CheckerType.GAME_CHECKER);
-        checkMapAndMapSequence = new CheckMapAndMapSequence();
+        mapAndMapSequenceChecker = new MapAndMapSequenceChecker();
     }
 
     /**
@@ -26,15 +22,12 @@ public class GameChecker extends Checker {
      * @param mapFolderDir The directory that contains all maps
      * @return true if this game is valid. otherwise, return false and log errors .
      */
-    public boolean checkGame(String mapFolderDir) {
-        validFiles = new ArrayList<>(); //prevent overlap
-        ArrayList<String> errors = new ArrayList<>();
-        // check
-        checkMapAndMapSequence.check(mapFolderDir, errors, validFiles);
-        Collections.sort(validFiles);
+    @Override
+    public boolean check(String mapFolderDir) {
+        mapAndMapSequenceChecker.check(mapFolderDir);
 
         // report errors
-        return inspectAndLogErrors(errors);
+        return inspectAndLogErrors(mapAndMapSequenceChecker.getErrors());
     }
 
     /**
@@ -42,6 +35,8 @@ public class GameChecker extends Checker {
      * @return an ArrayList of valid map filenames
      */
     public ArrayList<String> getValidMapFiles() {
+        ArrayList<String> validFiles = mapAndMapSequenceChecker.getValidFileNames();
+        Collections.sort(validFiles);
         return validFiles;
     }
 }

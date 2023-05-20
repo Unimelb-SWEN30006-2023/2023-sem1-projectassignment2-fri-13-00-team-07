@@ -3,7 +3,7 @@ package checker;
 /**
  * Error messages' body
  */
-public class ErrorMessagesBody {
+public class ErrorMessageBody {
     public static final String GAME_INVALID_DIR = "The directory you specified is invalid";
     public static final String GAME_FAIL_IO = "Some IO exceptions are raised when reading map names";
     public static final String GAME_NO_MAPS_FOUND = " – no maps found";

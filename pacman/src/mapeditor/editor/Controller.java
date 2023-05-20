@@ -1,7 +1,7 @@
 package mapeditor.editor;
 
 import ch.aplu.jgamegrid.Location;
-import checker.LevelChecker;
+import checker.levelChecks.CompositeLevelChecker;
 import game.ActorType;
 import game.CharacterType;
 import game.Game;
@@ -149,10 +149,10 @@ public class Controller implements ActionListener, GUIInformation {
 		if (e.getActionCommand().equals("flipGrid")) {
 			// view.flipGrid();
 		} else if (e.getActionCommand().equals("save")) {
-			// LevelChecker.getInstance().check();
+			// CompositeLevelChecker.getInstance().check();
 			saveFile();
 		} else if (e.getActionCommand().equals("load")) {
-			// LevelChecker.getInstance().check();
+			// CompositeLevelChecker.getInstance().check();
 			try {
 				loadFile();
 			} catch (Exception exception) {
@@ -164,7 +164,7 @@ public class Controller implements ActionListener, GUIInformation {
 		} else if (e.getActionCommand().equals("start_game")) {
 			// Code to switch to pacman game
 			EditorMap map = new EditorMap(model.getMap());
-			if (new LevelChecker().checkLevel(map)) {
+			if (new CompositeLevelChecker().check(map)) {
 				Game game = new Game(map);
 				game.run();
 			} else {
