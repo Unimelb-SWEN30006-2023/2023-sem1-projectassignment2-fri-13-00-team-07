@@ -10,6 +10,11 @@ import java.util.ArrayList;
  */
 public abstract class Checker {
     private static final String errorLogPath = "pacman/errorLog/errorLogs.txt";
+    private CheckerType type;
+
+    public Checker(CheckerType type) {
+        this.type = type;
+    }
 
     protected boolean inspectAndLogErrors(ArrayList<String> errors){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(errorLogPath, false))) {

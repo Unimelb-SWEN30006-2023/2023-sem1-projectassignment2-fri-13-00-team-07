@@ -1,3 +1,4 @@
+import checker.CheckerType;
 import checker.LevelChecker;
 import game.Maps.EditorMap;
 import org.jdom.JDOMException;
@@ -12,7 +13,7 @@ public class TestLevelChecker {
             EditorAdapter editorAdapter = AppComponentFactory.getInstance().getEditorAdapter();
             editorAdapter.runEditor(dir);
             EditorMap editorMap = new EditorMap(dir);
-            LevelChecker levelChecker = LevelChecker.getInstance();
+            LevelChecker levelChecker = (LevelChecker) AppComponentFactory.getInstance().getChecker(CheckerType.LEVEL_CHECKER);
             if (levelChecker.checkLevel(editorMap)) {
                 System.out.println("Level Checker test: all test passed");
             } else {

@@ -95,7 +95,7 @@ public class Level extends GameGrid {
     public void run() {
         // Initializations
         setSimulationPeriod(SIMULATION_PERIOD);
-        setTitle("[PacMan in the Multiverse]");
+        setTitle("[PacMan in the TorusVerse]");
         setUpActors();
 
         // Run this level

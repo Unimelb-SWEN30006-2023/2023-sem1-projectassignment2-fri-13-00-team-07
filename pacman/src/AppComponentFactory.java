@@ -1,9 +1,10 @@
+import checker.*;
+
 /**
  * A singleton factory for producing the app's components,
  * such as the editor adapter.
  */
 public class AppComponentFactory {
-    private EditorAdapter editorAdapter = null;
     private static AppComponentFactory instance = null; // singleton
 
     /**
@@ -11,9 +12,14 @@ public class AppComponentFactory {
      * @return an editor adapter
      */
     public EditorAdapter getEditorAdapter() {
-        if (editorAdapter == null)
-            editorAdapter = new MapEditorAdapter(); // lazy creation
-        return editorAdapter;
+        return new MapEditorAdapter(); // lazy creation
+    }
+
+    public Checker getChecker(CheckerType checkerType) {
+        if (checkerType.equals(CheckerType.GAME_CHECKER))
+            return new GameChecker();
+
+        return new LevelChecker(); // default
     }
 
     /**

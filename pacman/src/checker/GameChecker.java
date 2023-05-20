@@ -10,19 +10,12 @@ import java.util.Collections;
  * GameChecker
  */
 public class GameChecker extends Checker {
-    private static GameChecker instance = null;
     private final GameCheck checkMapAndMapSequence;
     private ArrayList<String> validFiles = new ArrayList<>();
 
     public GameChecker() {
+        super(CheckerType.GAME_CHECKER);
         checkMapAndMapSequence = new CheckMapAndMapSequence();
-    }
-
-    public static GameChecker getInstance() {
-        if (instance == null) {
-            instance = new GameChecker();
-        }
-        return instance;
     }
 
     public boolean checkGame(String mapFolderDir) {

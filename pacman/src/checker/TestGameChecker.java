@@ -1,10 +1,11 @@
 package checker;
 
 
+
 public class TestGameChecker {
 
     public static void main(String[] args){
-        GameChecker gameChecker = GameChecker.getInstance();
+        GameChecker gameChecker = new GameChecker();
         String dir = "pacman/data/ultimateTest";
 
         if (gameChecker.checkGame(dir)) {
