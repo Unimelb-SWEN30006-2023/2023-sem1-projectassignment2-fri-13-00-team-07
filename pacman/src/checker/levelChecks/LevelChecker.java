@@ -5,12 +5,11 @@ import game.Maps.EditorMap;
 import org.jdom.JDOMException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * All checks applied on a level should implement this interface
  */
-public abstract class LevelCheck extends Checker {
+public abstract class LevelChecker extends Checker {
 
     public boolean check(String mapFile) throws IOException, JDOMException {
         return check(new EditorMap(mapFile));

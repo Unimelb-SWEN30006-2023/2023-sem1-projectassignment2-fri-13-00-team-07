@@ -11,7 +11,7 @@ import java.util.HashMap;
 /**
  * check all portal pairs are valid
  */
-public class PortalPairChecker extends LevelCheck {
+public class PortalPairChecker extends LevelChecker {
     @Override
     public boolean check(EditorMap map) {
         boolean flag = true;

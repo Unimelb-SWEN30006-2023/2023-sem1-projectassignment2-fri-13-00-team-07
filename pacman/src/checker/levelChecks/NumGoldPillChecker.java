@@ -8,7 +8,7 @@ import game.Maps.EditorMap;
 /**
  * Check if the total of golds and pills are at least 2
  */
-public class NumGoldPillChecker extends LevelCheck {
+public class NumGoldPillChecker extends LevelChecker {
 
     @Override
     public boolean check(EditorMap map) {

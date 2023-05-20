@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Check if all gold and pills are accessible in a level
  * Only make sense to run this check if other tests are passed
  */
-public class GoldPillAccessibleChecker extends LevelCheck {
+public class GoldPillAccessibleChecker extends LevelChecker {
     private boolean flag = true;
 
     @Override

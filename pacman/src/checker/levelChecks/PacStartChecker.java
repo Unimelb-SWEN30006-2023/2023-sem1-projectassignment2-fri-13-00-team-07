@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * check if there is one and only one pac start location
  */
-public class PacStartChecker extends LevelCheck {
+public class PacStartChecker extends LevelChecker {
 
     @Override
     public boolean check(EditorMap map) {

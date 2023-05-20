@@ -1,6 +1,5 @@
 package checker.levelChecks;
 
-import checker.levelChecks.*;
 import game.Maps.EditorMap;
 
 import java.util.ArrayList;
@@ -8,16 +7,16 @@ import java.util.ArrayList;
 /**
  * a CompositeLevelChecker. Checks if a level is valid based on a customizable sequence of maps
  */
-public class CompositeLevelChecker extends LevelCheck {
-    private final ArrayList<LevelCheck> individualLevelChecks = new ArrayList<>();
+public class CompositeLevelChecker extends LevelChecker {
+    private final ArrayList<LevelChecker> individualLevelCheckers = new ArrayList<>();
     // will be treated separately
     private GoldPillAccessibleChecker goldPillAccessibleChecker;
 
 
     public CompositeLevelChecker() {
-        individualLevelChecks.add(new PacStartChecker());
-        individualLevelChecks.add(new PortalPairChecker());
-        individualLevelChecks.add(new NumGoldPillChecker());
+        individualLevelCheckers.add(new PacStartChecker());
+        individualLevelCheckers.add(new PortalPairChecker());
+        individualLevelCheckers.add(new NumGoldPillChecker());
         goldPillAccessibleChecker = new GoldPillAccessibleChecker();
     }
 
@@ -29,7 +28,7 @@ public class CompositeLevelChecker extends LevelCheck {
     public boolean check(EditorMap map) {
         boolean pacStartFlag = true;
         boolean portalPairFlag = true;
-        for (LevelCheck check : individualLevelChecks) {
+        for (LevelChecker check : individualLevelCheckers) {
             boolean flag = check.check(map);
             if (check instanceof PacStartChecker)
                 pacStartFlag = flag;
@@ -45,7 +44,7 @@ public class CompositeLevelChecker extends LevelCheck {
         }
 
         // gather the errors
-        for (LevelCheck check : individualLevelChecks) {
+        for (LevelChecker check : individualLevelCheckers) {
             addErrors(check.getErrors());
         }
 
