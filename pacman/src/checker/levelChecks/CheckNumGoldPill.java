@@ -8,6 +8,9 @@ import game.Maps.EditorMap;
 
 import java.util.ArrayList;
 
+/**
+ * Check if the total of golds and pills are at least 2
+ */
 public class CheckNumGoldPill extends Check implements LevelCheck{
 
     @Override

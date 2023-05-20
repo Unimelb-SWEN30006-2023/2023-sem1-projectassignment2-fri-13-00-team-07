@@ -11,6 +11,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * check if map sequence is defined correctly within the specified folder
+ * update errors if any. update validFileNames is there is a valid map sequence
+ */
 public class CheckMapAndMapSequence extends Check implements GameCheck{
 
     @Override

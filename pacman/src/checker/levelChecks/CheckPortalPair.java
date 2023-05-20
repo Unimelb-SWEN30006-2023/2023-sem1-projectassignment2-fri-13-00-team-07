@@ -9,6 +9,9 @@ import game.Maps.EditorMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * check all portal pairs are valid
+ */
 public class CheckPortalPair extends Check implements LevelCheck{
     @Override
     public boolean check(EditorMap map, ArrayList<String> errors) {
