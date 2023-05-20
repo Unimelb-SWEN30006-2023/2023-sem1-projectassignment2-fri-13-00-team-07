@@ -12,9 +12,6 @@ import java.awt.event.KeyEvent;
  */
 public class ManualPlayer extends Player implements GGKeyRepeatListener {
 
-    // whether the pacActor can move in this simulation iteration
-    private boolean shouldMove = false;
-
     /**
      * Creates a moving actor based on one or more sprite images.
      *
@@ -33,7 +30,7 @@ public class ManualPlayer extends Player implements GGKeyRepeatListener {
     @Override
     public void keyRepeated(int keyCode) {
         if (isRemoved())  return; // pacActor removed
-        shouldMove = false;
+        resetMove();
 
         // Set the direction according to the key code
         switch (keyCode) {
@@ -45,24 +42,12 @@ public class ManualPlayer extends Player implements GGKeyRepeatListener {
         }
 
         if (!isMoveValid())  return;
-        shouldMove = true;
+        setShouldMove(true);
     }
 
     /** {@inheritDoc} */
     @Override
     protected void setNextDirection() {
         // nothing, already set.
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected boolean shouldMove() {
-        return shouldMove;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void resetMove() {
-        shouldMove = false;
     }
 }

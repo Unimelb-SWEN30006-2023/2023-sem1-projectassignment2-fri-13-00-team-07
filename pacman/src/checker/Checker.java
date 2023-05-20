@@ -11,6 +11,11 @@ import java.util.ArrayList;
 public abstract class Checker {
 
     private static final String errorLogPath = "pacman/errorLog/errorLogs.txt";
+    private CheckerType type;
+
+    public Checker(CheckerType type) {
+        this.type = type;
+    }
 
 
     /**

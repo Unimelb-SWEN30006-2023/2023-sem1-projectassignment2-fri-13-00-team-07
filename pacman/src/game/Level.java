@@ -15,8 +15,6 @@ import game.utility.GameCallback;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.lang.ref.WeakReference;
 import java.util.*;
 
@@ -95,7 +93,7 @@ public class Level extends GameGrid {
     public void run() {
         // Initializations
         setSimulationPeriod(SIMULATION_PERIOD);
-        setTitle("[PacMan in the Multiverse]");
+        setTitle("[PacMan in the TorusVerse]");
         setUpActors();
 
         // Run this level
@@ -121,9 +119,10 @@ public class Level extends GameGrid {
         int seed = settingManager.getSeed();
         Location pacActorLocation = null;
 
-        HashMap<Location, ActorType> characterLocations = settingManager.getCharacterLocations();
-        for (Map.Entry<Location, ActorType> entry : characterLocations.entrySet()) {
-            Location location = entry.getKey();
+        HashMap<Integer, ActorType> characterLocations = settingManager.getCharacterLocations();
+        LocationIndexConverter indexConverter = settingManager.getIndexConverter();
+        for (Map.Entry<Integer, ActorType> entry : characterLocations.entrySet()) {
+            Location location = indexConverter.getLocationByIndex(entry.getKey());
             ActorType type = entry.getValue();
             if (type.equals(CharacterType.PACMAN)) {
                 setUpPacActor(seed);

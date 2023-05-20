@@ -9,19 +9,19 @@ import java.util.ArrayList;
  * a LevelChecker. Checks if a level is valid based on a customizable sequence of maps
  */
 public class LevelChecker extends Checker {
-    private static LevelChecker instance = null;
     private final LevelCheck checkPacStart;
     private final LevelCheck checkPortalPair;
     private final LevelCheck checkNumGoldPill;
     private final LevelCheck checkGoldPillAccessible;
 
     public LevelChecker() {
+        super(CheckerType.LEVEL_CHECKER);
         checkPacStart = new CheckPacStart();
         checkPortalPair = new CheckPortalPair();
         checkNumGoldPill = new CheckNumGoldPill();
         checkGoldPillAccessible = new CheckGoldPillAccessible();
     }
-
+    
     public static LevelChecker getInstance() {
         if (instance == null) {
             instance = new LevelChecker();

@@ -89,7 +89,7 @@ public class Controller implements ActionListener, GUIInformation {
 	}};
 
 	/**
-	 * Construct the controller.
+	 * Constructs the controller.
 	 */
 	public Controller() {
 		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
@@ -164,7 +164,7 @@ public class Controller implements ActionListener, GUIInformation {
 		} else if (e.getActionCommand().equals("start_game")) {
 			// Code to switch to pacman game
 			EditorMap map = new EditorMap(model.getMap());
-			if (LevelChecker.getInstance().checkLevel(map)) {
+			if (new LevelChecker().checkLevel(map)) {
 				Game game = new Game(map);
 				game.run();
 			} else {

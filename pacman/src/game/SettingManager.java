@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
-public class SettingManager implements PacManMap {
+public class SettingManager {
     private final MapReader mapReader;
     private final PropertyReader propertyReader;
     private final ItemManager itemManager;
@@ -22,7 +22,8 @@ public class SettingManager implements PacManMap {
         else
             mapReader = new PropertyMapReader((PacManGameGrid) map, propertyReader);
 
-        itemManager = new ItemManager(mapReader.getItemLocations(), map.getHorizontalCellsCount(), map.getVerticalCellsCount(), level);
+        /* mapReader passed as a context object */
+        itemManager = new ItemManager(mapReader, level);
     }
 
 
@@ -32,16 +33,20 @@ public class SettingManager implements PacManMap {
      * @return true if it's a wall, false otherwise.
      */
     public boolean isWallAt(Location location) {
-        return isInBound(location) && itemManager.isWallAt(location);
+        return mapReader.getMap().isInBound(location) && itemManager.isWallAt(location);
     }
 
     /* Wrapper methods using delegation */
 
-    public HashMap<Location, ActorType> getItemLocations() {
+    public ItemManager getItemManager() {
+        return itemManager;
+    }
+
+    public HashMap<Integer, ActorType> getItemLocations() {
         return mapReader.getItemLocations();
     }
 
-    public HashMap<Location, ActorType> getCharacterLocations() {
+    public HashMap<Integer, ActorType> getCharacterLocations() {
         return mapReader.getCharacterLocations();
     }
 
@@ -70,21 +75,29 @@ public class SettingManager implements PacManMap {
     public void removeItem(Location location) { itemManager.removeItem(location); }
 
     /** {@inheritDoc} */
-    @Override
-    public CellType getTypeAt(Location location) {
-        Item item = getItem(location);
-        return item == null ? null : item.getType();
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public int getHorizontalCellsCount() {
         return itemManager.getHorizontalCellsCount();
     }
 
     /** {@inheritDoc} */
-    @Override
     public int getVerticalCellsCount() {
         return itemManager.getVerticalCellsCount();
     }
+
+    /**
+     * Gets the map.
+     * @return a PacManMap.
+     */
+    public PacManMap getMap() {
+        return mapReader.getMap();
+    }
+
+    public boolean isInBound(Location location) {
+        return mapReader.getMap().isInBound(location);
+    }
+
+    public LocationIndexConverter getIndexConverter() {
+        return LocationIndexConverter.getInstance(mapReader.getMap().getHorizontalCellsCount());
+    }
+
 }

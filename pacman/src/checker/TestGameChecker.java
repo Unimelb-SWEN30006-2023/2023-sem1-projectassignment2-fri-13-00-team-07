@@ -1,12 +1,13 @@
 package checker;
 
+
 /**
  * our tests for a GameChecker, not part of the functionality of this game
  */
 public class TestGameChecker {
 
     public static void main(String[] args){
-        GameChecker gameChecker = GameChecker.getInstance();
+        GameChecker gameChecker = new GameChecker();
         String dir = "pacman/data/ultimateTest";
 
         if (gameChecker.checkGame(dir)) {
