@@ -45,7 +45,7 @@ public class ItemManager implements LocationExpert {
             Location location = indexConverter.getLocationByIndex(entry.getKey());
             ActorType cellType = entry.getValue();
 
-            if (cellType instanceof CellType && CellType.Portals().contains((CellType) cellType)) {
+            if (cellType instanceof CellType && CellType.PORTALS.contains((CellType) cellType)) {
                 portalLocations.computeIfAbsent((CellType) cellType, k -> new ArrayList<>());
                 portalLocations.get(cellType).add(location);
             } else {

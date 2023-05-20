@@ -39,6 +39,7 @@ public enum CellType implements ActorType {
     private final char cellChar;
     private final String name;
     private final Color color;
+    public static final ArrayList<CellType> PORTALS = new ArrayList<>(List.of(new CellType[]{PORTAL_WHITE, PORTAL_DARK_GOLD, PORTAL_DARK_GRAY, PORTAL_YELLOW}));
 
     /**
      * Creates a cell type.
@@ -79,13 +80,6 @@ public enum CellType implements ActorType {
         return BY_COLOR.get(color);
     }
 
-    /**
-     * Gets the list of portals.
-     * @return The list of portals.
-     */
-    public static ArrayList<CellType> Portals() {
-        return new ArrayList<>(List.of(new CellType[]{PORTAL_WHITE, PORTAL_DARK_GOLD, PORTAL_DARK_GRAY, PORTAL_YELLOW}));
-    }
 
     /* for completeness */
 

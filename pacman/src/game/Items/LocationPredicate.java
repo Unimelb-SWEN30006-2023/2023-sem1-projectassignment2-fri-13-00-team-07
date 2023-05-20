@@ -6,7 +6,7 @@ import game.LocationExpert;
 /**
  * The closure to determine if a location satisfies a given predicate.
  */
-public interface LocationPredicate <Expert extends LocationExpert> {
+public interface LocationPredicate {
 
     /**
      * The predicate to determine if the location satisfies a certain condition.
@@ -16,6 +16,6 @@ public interface LocationPredicate <Expert extends LocationExpert> {
      *
      * @return Whether the condition is satisfied on the given location.
      */
-    boolean satisfies(Location location, Expert expert);
+    boolean satisfies(Location location, LocationExpert expert);
 
 }

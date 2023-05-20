@@ -28,11 +28,10 @@ public interface PathFindingStrategy {
      *
      * @return The optimal path, null on failure or empty.
      */
-    <Expert extends LocationExpert> LinkedList<Location> findPath(Location source,
-                                  LocationPredicate<Expert> predicate,
-                                  Expert locationExpert,
-                                  ArrayList<Monster> monsters
-    );
+    LinkedList<Location> findPath(Location source,
+                                  LocationPredicate predicate,
+                                  LocationExpert locationExpert,
+                                  ArrayList<Monster> monsters);
 
     /**
      * Finds the optimal path to a sink that satisfies the `predicate`.
@@ -43,9 +42,9 @@ public interface PathFindingStrategy {
      *
      * @return The optimal path, null on failure or empty.
      */
-    default <Expert extends LocationExpert> LinkedList<Location> findPath(Location source,
-                                                                  LocationPredicate<Expert> predicate,
-                                                                  Expert locationExpert
+    default LinkedList<Location> findPath(Location source,
+                                                         LocationPredicate predicate,
+                                                         LocationExpert locationExpert
     ) {
         return findPath(source, predicate, locationExpert, null);
     }
@@ -59,9 +58,9 @@ public interface PathFindingStrategy {
      *
      * @return The optimal path, null on failure or empty.
      */
-    default <Expert extends LocationExpert> LinkedList<Location> findPath(Location source,
-                                                                          Location sink,
-                                                                          Expert locationExpert
+    default LinkedList<Location> findPath(Location source,
+                                          Location sink,
+                                          LocationExpert locationExpert
     ) {
         return findPath(source, (i, expert) -> i.equals(sink), locationExpert, null);
     }
