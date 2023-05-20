@@ -14,6 +14,8 @@ public abstract class Player extends MovingActor {
     private int idSprite = 0;
     private int nbPills = 0;
     private int score = 0;
+    // whether the pacActor can move in this simulation iteration
+    private boolean shouldMove = false;
 
     /**
      * Creates a moving actor based on one or more sprite images.
@@ -34,7 +36,7 @@ public abstract class Player extends MovingActor {
         updateSprite();
         super.act();
         ((Level) gameGrid).getGameCallback()
-                         .pacManLocationChanged(getLocation(), score, nbPills);
+                          .pacManLocationChanged(getLocation(), score, nbPills);
     }
 
     /**
@@ -107,10 +109,18 @@ public abstract class Player extends MovingActor {
     /**
      * @return Whether the actor should move towards its given direction in this update.
      */
-    protected abstract boolean shouldMove();
+    protected boolean shouldMove() {
+        return shouldMove;
+    }
+
+    protected void setShouldMove(boolean shouldMove) {
+        this.shouldMove = shouldMove;
+    }
 
     /**
      * Reset the `shouldMove` flag.
      */
-    protected abstract void resetMove();
+    protected void resetMove() {
+        setShouldMove(false);
+    }
 }

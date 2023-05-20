@@ -89,7 +89,7 @@ public class Controller implements ActionListener, GUIInformation {
 	}};
 
 	/**
-	 * Construct the controller.
+	 * Constructs the controller.
 	 */
 	public Controller() {
 		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);

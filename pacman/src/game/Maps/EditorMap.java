@@ -4,7 +4,7 @@ import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.CharacterType;
 import game.Items.CellType;
-import game.MovingActor;
+import game.Player.OptimalPathFindingStrategy;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -93,6 +93,7 @@ public class EditorMap implements PacManMap {
             this.map = new ActorType[height][width];
 
             final List rows = rootNode.getChildren("row");
+            System.out.println(rows.getClass());
             for (int y = 0; y < rows.size(); y++) {
                 Element cellsElem = (Element) rows.get(y);
                 final List cells = cellsElem.getChildren("cell");
@@ -135,7 +136,7 @@ public class EditorMap implements PacManMap {
     /**
      * @param loc The target location.
      *
-     * @return Whether the item at the given location is an character ie, actors that can move.
+     * @return Whether the item at the given location is a character ie, actors that can move.
      */
     public boolean isCharacterType(Location loc){
         return map[loc.y][loc.x] instanceof CharacterType;
@@ -159,8 +160,8 @@ public class EditorMap implements PacManMap {
      * @param to to location
      * @return true if accessible, false if not
      */
-    public boolean canReach(Location from, Location to){
-        return MovingActor.findOptimalPath(from, to, this) != null;
+    public boolean canReach(Location from, Location to) {
+        return (new OptimalPathFindingStrategy().findPath(from, i -> i.equals(to), this, null) != null);
     }
 
     /** {@inheritDoc} */

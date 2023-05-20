@@ -44,13 +44,13 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
             return false;
         }
         // build gold error string
-        for (Location loc:golds){
+        for (Location loc:golds) {
             //System.out.println(loc.toString());
-            if(!map.canReach(pac, loc)){
+            if (!map.canReach(pac, loc)) {
                 errorGolds.add(loc);
             }
         }
-        if(errorGolds.size() > 0){
+        if (errorGolds.size() > 0) {
             flag = false;
             errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_GOLD_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
         }

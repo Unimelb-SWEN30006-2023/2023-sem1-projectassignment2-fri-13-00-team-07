@@ -11,10 +11,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PropertyMapReader implements MapReader {
-    HashMap<Location, ActorType> characterLocations;
-    HashMap<Location, ActorType> itemLocations;
+    private PacManGameGrid map;
+    private HashMap<Location, ActorType> characterLocations;
+    private HashMap<Location, ActorType> itemLocations;
+
+    public PropertyMapReader(PropertyReader propertyReader) {
+        this(new PacManGameGrid(), propertyReader);
+    }
 
     public PropertyMapReader(PacManGameGrid map, PropertyReader propertyReader) {
+        this.map = map;
+
         characterLocations = new HashMap<>();
         CharacterType[] characters = new CharacterType[]{CharacterType.PACMAN, CharacterType.M_TROLL, CharacterType.M_TX5};
         for (CharacterType character : characters) {
@@ -58,6 +65,11 @@ public class PropertyMapReader implements MapReader {
             itemLocations.put(location, CellType.GOLD);
         for (Location location : propertyPillLocations)
             itemLocations.put(location, CellType.PILL);
+    }
+
+    @Override
+    public PacManMap getMap() {
+        return map;
     }
 
     @Override

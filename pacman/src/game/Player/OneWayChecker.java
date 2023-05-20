@@ -1,4 +1,4 @@
-package game;
+package game.Player;
 
 import ch.aplu.jgamegrid.Location;
 import game.Maps.PacManMap;

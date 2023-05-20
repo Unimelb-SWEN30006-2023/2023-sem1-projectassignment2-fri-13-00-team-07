@@ -1,11 +1,9 @@
 package game.Player;
 
 import ch.aplu.jgamegrid.Location;
-import game.CharacterType;
 import game.Items.CellType;
 import game.Level;
 import game.Maps.PacManMap;
-import game.MovingActor;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,7 +17,7 @@ public class AutoPlayer extends Player {
     private ArrayList<String> propertyMoves;
 
     // whether the pacActor can move in this simulation iteration
-    private boolean shouldMove = false;
+    private PathFindingStrategy pathFindingStrategy = new OptimalPathFindingStrategy();
 
     /**
      * Creates a moving actor based on one or more sprite images.
@@ -44,28 +42,32 @@ public class AutoPlayer extends Player {
         }
 
         // at this stage: either go to a valid pill, or move randomly
-        shouldMove = true;
-        PacManMap map = ((Level) gameGrid).getSettingManager();
+        setShouldMove(true);
+        PacManMap map = ((Level) gameGrid).getSettingManager().getMap();
 
-        LinkedList<Location> path = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map, ((Level) gameGrid).getMonsters());
+        LinkedList<Location> path =
+                pathFindingStrategy.findPath(getLocation(),
+                        i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL,
+                        map, ((Level) gameGrid).getMonsters()
+                );
 
         if (path != null && !path.isEmpty()) {
             Location target = path.remove(0);
-            assert this.getLocation().getDistanceTo(target) == 1;
-            this.setDirectionToTarget(target);
+            assert getLocation().getDistanceTo(target) == 1;
+            setDirectionToTarget(target);
             return;
         } else {
-            path = MovingActor.findOptimalPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map);
+            path = pathFindingStrategy.findPath(this.getLocation(), i -> map.getTypeAt(i) == CellType.GOLD || map.getTypeAt(i) == CellType.PILL, map, null);
 
             if (path != null && !path.isEmpty()) {
                 Location target = path.remove(0);
-                assert this.getLocation().getDistanceTo(target) == 1;
-                this.setDirectionToTarget(target);
+                assert getLocation().getDistanceTo(target) == 1;
+                setDirectionToTarget(target);
                 return;
             }
         }
 
-        setRandomMoveDirection(this.getDirection());
+        setRandomMoveDirection(getDirection());
     }
 
     /**
@@ -78,7 +80,7 @@ public class AutoPlayer extends Player {
             case "L" -> turn(-90);
             case "M" -> {
                 if (isMoveValid()) {
-                    shouldMove = true;
+                    setShouldMove(true);
                 }
             }
         }
@@ -90,17 +92,5 @@ public class AutoPlayer extends Player {
      */
     public void setPropertyMoves(ArrayList<String> propertyMoves) {
         this.propertyMoves = propertyMoves;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected boolean shouldMove() {
-        return shouldMove;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void resetMove() {
-        shouldMove = false;
     }
 }

@@ -4,6 +4,7 @@ import ch.aplu.jgamegrid.GGBackground;
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Level;
+import game.Maps.MapReader;
 import game.Maps.PacManMap;
 
 import java.util.*;
@@ -26,14 +27,13 @@ public class ItemManager implements PacManMap {
 
     /** Creates a manager to keep track of the unmovable actors.
      *
-     * @param itemLocations The map to the items and their locations.
-     * @param horizontalCellsCount The width of the map.
-     * @param verticalCellsCount The height of the map.
+     *
      * @param level The level on which the items are kept.
      */
-    public ItemManager(HashMap<Location, ActorType> itemLocations, int horizontalCellsCount, int verticalCellsCount, Level level) {
-        this.horizontalCellsCount = horizontalCellsCount;
-        this.verticalCellsCount = verticalCellsCount;
+    public ItemManager(MapReader mapReader, Level level) {
+        HashMap<Location, ActorType> itemLocations = mapReader.getItemLocations();
+        this.horizontalCellsCount = mapReader.getMap().getHorizontalCellsCount();
+        this.verticalCellsCount = mapReader.getMap().getVerticalCellsCount();
 
         GGBackground bg = level.getBg();
 

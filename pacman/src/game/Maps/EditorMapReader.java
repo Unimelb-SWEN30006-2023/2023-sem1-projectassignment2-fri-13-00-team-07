@@ -7,10 +7,12 @@ import game.Items.CellType;
 import java.util.HashMap;
 
 public class EditorMapReader implements MapReader {
-    HashMap<Location, ActorType> characterLocations;
-    HashMap<Location, ActorType> itemLocations;
+    private HashMap<Location, ActorType> characterLocations;
+    private HashMap<Location, ActorType> itemLocations;
+    private EditorMap map;
 
     public EditorMapReader(EditorMap map) {
+        this.map = map;
         characterLocations = new HashMap<>();
         itemLocations = new HashMap<>();
 
@@ -36,5 +38,10 @@ public class EditorMapReader implements MapReader {
     @Override
     public HashMap<Location, ActorType> getItemLocations() {
         return this.itemLocations;
+    }
+
+    @Override
+    public PacManMap getMap() {
+        return map;
     }
 }

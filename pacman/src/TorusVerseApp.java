@@ -31,7 +31,7 @@ public class TorusVerseApp {
 
                 ArrayList<PacManMap> maps = new ArrayList<>();
                 for (String f : validFiles) {
-                    EditorMap map = new EditorMap((dir + "/" + f));
+                    EditorMap map = new EditorMap(dir + "/" + f);
 
                     if (!LevelChecker.getInstance().checkLevel(map)) { // can always cast, as it is a xml
                         mode = AppMode.EDIT;
@@ -51,7 +51,4 @@ public class TorusVerseApp {
         }
     }
 
-    private boolean isMap(File f) {
-        return Character.isDigit(f.getName().charAt(0)) && f.getName().endsWith(".xml");
-    }
 }
