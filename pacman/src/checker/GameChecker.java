@@ -10,6 +10,9 @@ import java.util.Collections;
  * a GameChecker, checks if a game is valid based on a customizable sequence of checks.
  */
 public class GameChecker extends Checker {
+
+    private static GameChecker instance;
+
     private final GameCheck checkMapAndMapSequence;
     private ArrayList<String> validFiles = new ArrayList<>();
 
