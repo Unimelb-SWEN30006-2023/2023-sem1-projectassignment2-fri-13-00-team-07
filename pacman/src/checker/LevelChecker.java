@@ -14,6 +14,8 @@ public class LevelChecker extends Checker {
     private final LevelCheck checkNumGoldPill;
     private final LevelCheck checkGoldPillAccessible;
 
+    private static LevelChecker instance;
+
     public LevelChecker() {
         super(CheckerType.LEVEL_CHECKER);
         checkPacStart = new CheckPacStart();
