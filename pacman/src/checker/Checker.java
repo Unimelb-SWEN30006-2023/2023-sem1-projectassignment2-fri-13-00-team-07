@@ -24,7 +24,7 @@ public abstract class Checker {
      @param errors An ArrayList of String objects representing the errors to be logged.
      @return true if no errors are found, false otherwise.
      */
-    protected boolean inspectAndLogErrors(ArrayList<String> errors){
+    protected boolean inspectAndLogErrors(ArrayList<String> errors) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(errorLogPath, false))) {
             if(errors.size() == 0){
                 System.out.println("No errors found under this check, flush everything in the errorLogs");

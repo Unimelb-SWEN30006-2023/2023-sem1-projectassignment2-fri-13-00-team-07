@@ -18,13 +18,6 @@ public class GameChecker extends Checker {
         checkMapAndMapSequence = new CheckMapAndMapSequence();
     }
 
-    public static GameChecker getInstance() {
-        if (instance == null) {
-            instance = new GameChecker();
-        }
-        return instance;
-    }
-
     /**
      * check if a game is valid based on a customizable sequence of checks
      * @param mapFolderDir The directory that contains all maps

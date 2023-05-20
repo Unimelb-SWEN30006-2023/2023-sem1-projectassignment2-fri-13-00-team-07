@@ -12,22 +12,21 @@ import java.util.HashMap;
 /**
  * check all portal pairs are valid
  */
-public class CheckPortalPair extends Check implements LevelCheck{
+public class CheckPortalPair extends Check implements LevelCheck {
     @Override
     public boolean check(EditorMap map, ArrayList<String> errors) {
         boolean flag = true;
         HashMap<CellType, ArrayList<Location>> hm = new HashMap<>();
-        for(int i = 0; i < map.getVerticalCellsCount(); i++){
-            for(int j = 0; j < map.getHorizontalCellsCount(); j++){
+        for (int i = 0; i < map.getVerticalCellsCount(); i++) {
+            for (int j = 0; j < map.getHorizontalCellsCount(); j++) {
                 Location loc = new Location(j, i);
-                if(map.isCellType(loc) && ((CellType)map.getTypeAt(loc)).getCellChar() == 'p'){
+                if (map.isCellType(loc) && ((CellType) map.getTypeAt(loc)).getCellChar() == 'p') {
                     CellType type = (CellType)map.getTypeAt(loc);
-                    if(!hm.containsKey(type)){
+                    if (!hm.containsKey(type)) {
                         ArrayList<Location> lst = new ArrayList<>();
                         lst.add(loc);
                         hm.put(type, lst);
-                    }
-                    else{
+                    } else {
                         hm.get(type).add(loc);
                     }
                 }
@@ -36,7 +35,7 @@ public class CheckPortalPair extends Check implements LevelCheck{
         // build error string
         for (CellType type:hm.keySet()) {
             ArrayList<Location> lst = hm.get(type);
-            if (lst.size() != 2){
+            if (lst.size() != 2) {
                 flag = false;
                 errors.add(map.getFileName() + " - " + type.getName() + ErrorMessagesBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(lst));
             }

@@ -1,7 +1,6 @@
 import checker.CheckerType;
 import checker.GameChecker;
 import checker.LevelChecker;
-import game.Game;
 import game.Maps.EditorMap;
 import game.Maps.PacManMap;
 import org.jdom.JDOMException;

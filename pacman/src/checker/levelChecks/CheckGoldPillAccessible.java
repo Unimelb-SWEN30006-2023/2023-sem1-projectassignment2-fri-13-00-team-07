@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Check if all gold and pills are accessible in a level
  * Only make sense to run this check if other tests are passed
  */
-public class CheckGoldPillAccessible extends Check implements LevelCheck{
+public class CheckGoldPillAccessible extends Check implements LevelCheck {
     @Override
     public boolean check(EditorMap map, ArrayList<String> errors) {
         boolean flag = true;
@@ -28,11 +28,9 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
                 Location loc = new Location(j, i);
                 if (map.getTypeAt(loc) == CellType.GOLD) {
                     golds.add(loc);
-                }
-                else if (map.getTypeAt(loc) == CellType.PILL){
+                } else if (map.getTypeAt(loc) == CellType.PILL) {
                     pills.add(loc);
-                }
-                else if (map.getTypeAt(loc) == CharacterType.PACMAN) {
+                } else if (map.getTypeAt(loc) == CharacterType.PACMAN) {
                     // !!! in theory, if run verifyPacStartPoint in advance, there shouldn't be multiple start Location
                     // but for safete concerns, check if there are multiple start here
                     if (pac != null) {

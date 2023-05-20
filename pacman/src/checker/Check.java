@@ -17,9 +17,9 @@ public abstract class Check {
     protected String semicolonStringBuilder(ArrayList<String> lst){
         // !!! grid start from (1, 1), not (0, 0) change this later
         String str = "";
-        for(int i = 0; i < lst.size(); i++){
+        for (int i = 0; i < lst.size(); i++) {
             str += lst.get(i);
-            if(i != lst.size() - 1){
+            if (i != lst.size() - 1) {
                 str += "; ";
             }
         }
@@ -35,7 +35,7 @@ public abstract class Check {
      */
     protected String semicolonLocationStringBuilder(ArrayList<Location> locList){
         ArrayList<String> locStrLst = new ArrayList<>();
-        for(Location loc:locList){
+        for (Location loc:locList) {
             locStrLst.add("(" + (loc.x + 1) + "," + (loc.y + 1) + ")");
         }
         return semicolonStringBuilder(locStrLst);

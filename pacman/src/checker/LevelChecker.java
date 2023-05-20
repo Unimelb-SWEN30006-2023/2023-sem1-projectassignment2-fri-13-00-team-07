@@ -21,27 +21,20 @@ public class LevelChecker extends Checker {
         checkNumGoldPill = new CheckNumGoldPill();
         checkGoldPillAccessible = new CheckGoldPillAccessible();
     }
-    
-    public static LevelChecker getInstance() {
-        if (instance == null) {
-            instance = new LevelChecker();
-        }
-        return instance;
-    }
 
     /**
      * Checks if a level is valid based on a customizable sequence of maps
      * @param map the level to be checked
      * @return true if all tests are passed. otherwise, return false and log errors
      */
-    public boolean checkLevel(EditorMap map){
+    public boolean checkLevel(EditorMap map) {
         ArrayList<String> errors = new ArrayList<>();
         boolean pacStartFlag = checkPacStart.check(map, errors);
         boolean portalPairFlag = checkPortalPair.check(map, errors);
         boolean numGoldPillFlag = checkNumGoldPill.check(map, errors);
-        // only check if gold/pill accessible if
-        // 1. valid pac start location
-        // 2. valid portals
+        // only check if gold/pill is accessible if
+        // 1. The PacActor's start location is valid
+        // 2. The portals are valid
         if (pacStartFlag && portalPairFlag) {
             checkGoldPillAccessible.check(map, errors);
         }
