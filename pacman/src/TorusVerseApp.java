@@ -44,7 +44,7 @@ public class TorusVerseApp {
                     maps.add(map);
                 }
 
-                Game game = new Game(maps);
+                factory.getGame(maps);
             } else {
                 throw new IOException("Game check failed");
             }

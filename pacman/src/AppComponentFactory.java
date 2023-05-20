@@ -1,4 +1,8 @@
 import checker.*;
+import game.Game;
+import game.Maps.PacManMap;
+
+import java.util.ArrayList;
 
 /**
  * A singleton factory for producing the app's components,
@@ -20,6 +24,10 @@ public class AppComponentFactory {
             return new GameChecker();
 
         return new LevelChecker(); // default
+    }
+
+    public Game getGame(ArrayList<PacManMap> maps) {
+        return new Game(maps);
     }
 
     /**
