@@ -15,7 +15,7 @@ import java.util.HashMap;
  * check if map sequence is defined correctly within the specified folder
  * update errors if any. update validFileNames is there is a valid map sequence
  */
-public class MapAndMapSequenceChecker extends Checker {
+public class MapNameChecker extends Checker {
     private ArrayList<String> validFileNames = new ArrayList<>();
     private ArrayList<String> filenameStore = new ArrayList<>();
     private String mapFolderDir;

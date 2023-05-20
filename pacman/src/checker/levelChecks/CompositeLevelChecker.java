@@ -10,14 +10,14 @@ import java.util.ArrayList;
 public class CompositeLevelChecker extends LevelChecker {
     private final ArrayList<LevelChecker> individualLevelCheckers = new ArrayList<>();
     // will be treated separately
-    private GoldPillAccessibleChecker goldPillAccessibleChecker;
+    private GoldPillAccessibilityChecker goldPillAccessibilityChecker;
 
 
     public CompositeLevelChecker() {
         individualLevelCheckers.add(new PacStartChecker());
         individualLevelCheckers.add(new PortalPairChecker());
         individualLevelCheckers.add(new NumGoldPillChecker());
-        goldPillAccessibleChecker = new GoldPillAccessibleChecker();
+        goldPillAccessibilityChecker = new GoldPillAccessibilityChecker();
     }
 
     /**
@@ -40,7 +40,7 @@ public class CompositeLevelChecker extends LevelChecker {
         // 1. The PacActor's start location is valid
         // 2. The portals are valid
         if (pacStartFlag && portalPairFlag) {
-            goldPillAccessibleChecker.check(map);
+            goldPillAccessibilityChecker.check(map);
         }
 
         // gather the errors
@@ -48,7 +48,7 @@ public class CompositeLevelChecker extends LevelChecker {
             addErrors(check.getErrors());
         }
 
-        addErrors(goldPillAccessibleChecker.getErrors());
+        addErrors(goldPillAccessibilityChecker.getErrors());
         // report errors
         return inspectAndLogErrors();
     }

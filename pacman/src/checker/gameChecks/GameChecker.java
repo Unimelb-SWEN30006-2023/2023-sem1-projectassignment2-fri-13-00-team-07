@@ -1,7 +1,6 @@
 package checker.gameChecks;
 
 import checker.Checker;
-import checker.gameChecks.MapAndMapSequenceChecker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +10,10 @@ import java.util.Collections;
  */
 public class GameChecker extends Checker {
 
-    private final MapAndMapSequenceChecker mapAndMapSequenceChecker;
+    private final MapNameChecker mapNameChecker;
 
     public GameChecker() {
-        mapAndMapSequenceChecker = new MapAndMapSequenceChecker();
+        mapNameChecker = new MapNameChecker();
     }
 
     /**
@@ -24,10 +23,10 @@ public class GameChecker extends Checker {
      */
     @Override
     public boolean check(String mapFolderDir) {
-        mapAndMapSequenceChecker.check(mapFolderDir);
+        mapNameChecker.check(mapFolderDir);
 
         // report errors
-        return mapAndMapSequenceChecker.inspectAndLogErrors();
+        return mapNameChecker.inspectAndLogErrors();
     }
 
     /**
@@ -35,7 +34,7 @@ public class GameChecker extends Checker {
      * @return an ArrayList of valid map filenames
      */
     public ArrayList<String> getValidMapFiles() {
-        ArrayList<String> validFiles = mapAndMapSequenceChecker.getValidFileNames();
+        ArrayList<String> validFiles = mapNameChecker.getValidFileNames();
         Collections.sort(validFiles);
         return validFiles;
     }
