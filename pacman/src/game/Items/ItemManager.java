@@ -4,9 +4,9 @@ import ch.aplu.jgamegrid.GGBackground;
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Level;
+import game.LocationExpert;
 import game.LocationIndexConverter;
 import game.Maps.MapReader;
-import game.Maps.PacManMap;
 
 import java.util.*;
 
@@ -15,7 +15,7 @@ import java.util.*;
  * Connects the game and the grid.
  */
 
-public class ItemManager implements PacManMap {
+public class ItemManager implements LocationExpert {
     /** Maps the index of a location in the grid to an item
      * Cannot use location directly as the key, as Location does not implement hashCode correctly.
      * for later lookups
@@ -196,7 +196,8 @@ public class ItemManager implements PacManMap {
 
     /** {@inheritDoc} */
     public CellType getTypeAt(Location location) {
-        return getItem(location).getType();
+        Item item = getItem(location);
+        return item == null ? null : item.getType();
     }
 
     /** {@inheritDoc} */
@@ -213,13 +214,5 @@ public class ItemManager implements PacManMap {
     @Override
     public boolean isWallAt(Location location) {
         return wallLocations.contains(indexConverter.getIndexByLocation(location));
-    }
-
-    public HashMap<Integer, ActorType> getDynamicItems() {
-        HashMap<Integer, ActorType> dynamicItems = new HashMap<>();
-        for (Map.Entry<Integer, Item> entry : items.entrySet()) {
-            dynamicItems.put(entry.getKey(), entry.getValue().getType());
-        }
-        return dynamicItems;
     }
 }

@@ -2,6 +2,7 @@ package game.Player;
 
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
+import game.LocationExpert;
 import game.Maps.PacManMap;
 
 import java.util.HashMap;
@@ -10,12 +11,12 @@ import java.util.HashMap;
  * The checker to determine if a path is one way, and could be cornered by monsters.
  */
 public class OneWayChecker {
-    private PacManMap map;
+    private LocationExpert locationExpert;
     /// 0 for false, 1 for true, 2+ for multiple.
 
 
-    public OneWayChecker(PacManMap map) {
-        this.map = map;
+    public OneWayChecker(LocationExpert locationExpert) {
+        this.locationExpert = locationExpert;
     }
 
     /**
@@ -26,16 +27,16 @@ public class OneWayChecker {
      * @return
      */
     public int isOneWayAt(Location location, int direction) {
-        if (!map.isInBound(location.getNeighbourLocation(direction))
-                || map.isWallAt(location.getNeighbourLocation(direction))) {
+        if (!locationExpert.isInBound(location.getNeighbourLocation(direction))
+                || locationExpert.isWallAt(location.getNeighbourLocation(direction))) {
             return 0;
         }
 
         // assuming the direction is up
-        boolean leftIsWall  = !map.isInBound(location.getNeighbourLocation(direction).getNeighbourLocation(direction + 90)) || map.isWallAt(location.getNeighbourLocation(direction).getNeighbourLocation(direction + 90));
+        boolean leftIsWall  = !locationExpert.isInBound(location.getNeighbourLocation(direction).getNeighbourLocation(direction + 90)) || locationExpert.isWallAt(location.getNeighbourLocation(direction).getNeighbourLocation(direction + 90));
         boolean rightIsWall =
-                !map.isInBound(location.getNeighbourLocation(direction).getNeighbourLocation(direction - 90))
-                        || map.isWallAt(location.getNeighbourLocation(direction).getNeighbourLocation(direction - 90));
+                !locationExpert.isInBound(location.getNeighbourLocation(direction).getNeighbourLocation(direction - 90))
+                        || locationExpert.isWallAt(location.getNeighbourLocation(direction).getNeighbourLocation(direction - 90));
 
         if (leftIsWall && rightIsWall) {
             return isOneWayAt(location.getNeighbourLocation(direction), direction);

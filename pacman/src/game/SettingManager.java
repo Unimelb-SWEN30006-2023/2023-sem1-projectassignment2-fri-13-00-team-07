@@ -38,8 +38,8 @@ public class SettingManager {
 
     /* Wrapper methods using delegation */
 
-    public HashMap<Integer, ActorType> getDynamicItemLocations() {
-        return itemManager.getDynamicItems();
+    public ItemManager getItemManager() {
+        return itemManager;
     }
 
     public HashMap<Integer, ActorType> getItemLocations() {
@@ -75,12 +75,6 @@ public class SettingManager {
     public void removeItem(Location location) { itemManager.removeItem(location); }
 
     /** {@inheritDoc} */
-    public CellType getTypeAt(Location location) {
-        Item item = getItem(location);
-        return item == null ? null : item.getType();
-    }
-
-    /** {@inheritDoc} */
     public int getHorizontalCellsCount() {
         return itemManager.getHorizontalCellsCount();
     }
@@ -106,7 +100,4 @@ public class SettingManager {
         return LocationIndexConverter.getInstance(mapReader.getMap().getHorizontalCellsCount());
     }
 
-    public MapReader getMapReader() {
-        return mapReader;
-    }
 }

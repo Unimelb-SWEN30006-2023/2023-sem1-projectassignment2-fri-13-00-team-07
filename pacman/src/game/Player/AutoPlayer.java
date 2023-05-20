@@ -2,6 +2,7 @@ package game.Player;
 
 import ch.aplu.jgamegrid.Location;
 import game.Items.CellType;
+import game.Items.ItemManager;
 import game.Level;
 import game.Maps.PacManMap;
 import game.SettingManager;
@@ -44,13 +45,12 @@ public class AutoPlayer extends Player {
 
         // at this stage: either go to a valid pill, or move randomly
         setShouldMove(true);
-        SettingManager settingManager = ((Level) gameGrid).getSettingManager();
-        PacManMap map = settingManager.getMapReader().getMap();
+        ItemManager itemManager = ((Level) gameGrid).getSettingManager().getItemManager();
 
         LinkedList<Location> path =
                 pathFindingStrategy.findPath(getLocation(),
-                        i -> settingManager.getTypeAt(i) == CellType.GOLD || settingManager.getTypeAt(i) == CellType.PILL,
-                        map, settingManager.getDynamicItemLocations(), ((Level) gameGrid).getMonsters()
+                        i -> itemManager.getTypeAt(i) == CellType.GOLD || itemManager.getTypeAt(i) == CellType.PILL,
+                        itemManager, ((Level) gameGrid).getMonsters()
                 );
 
         if (path != null && !path.isEmpty()) {
@@ -61,8 +61,8 @@ public class AutoPlayer extends Player {
         } else {
             path = pathFindingStrategy.findPath(
                     this.getLocation(),
-                    i -> settingManager.getTypeAt(i) == CellType.GOLD || settingManager.getTypeAt(i) == CellType.PILL,
-                    map, settingManager.getDynamicItemLocations(), null
+                    i -> itemManager.getTypeAt(i) == CellType.GOLD || itemManager.getTypeAt(i) == CellType.PILL,
+                    itemManager, null
             );
 
             if (path != null && !path.isEmpty()) {

@@ -3,6 +3,7 @@ package game.Player;
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Items.LocationPredicate;
+import game.LocationExpert;
 import game.Maps.PacManMap;
 import game.Monsters.Monster;
 import game.SettingManager;
@@ -17,7 +18,7 @@ import java.util.LinkedList;
 
 public interface PathFindingStrategy {
     LinkedList<Location> findPath(Location source, LocationPredicate predicate,
-                                  PacManMap map, HashMap<Integer, ActorType> itemLocations,
+                                  LocationExpert locationExpert,
                                   ArrayList<Monster> monsters);
 
 }
