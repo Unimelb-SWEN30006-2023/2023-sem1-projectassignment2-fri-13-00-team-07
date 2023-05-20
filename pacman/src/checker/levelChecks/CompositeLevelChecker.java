@@ -50,6 +50,6 @@ public class CompositeLevelChecker extends LevelChecker {
 
         addErrors(goldPillAccessibleChecker.getErrors());
         // report errors
-        return inspectAndLogErrors(getErrors());
+        return inspectAndLogErrors();
     }
 }

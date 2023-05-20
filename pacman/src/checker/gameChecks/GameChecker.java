@@ -27,7 +27,7 @@ public class GameChecker extends Checker {
         mapAndMapSequenceChecker.check(mapFolderDir);
 
         // report errors
-        return inspectAndLogErrors(mapAndMapSequenceChecker.getErrors());
+        return mapAndMapSequenceChecker.inspectAndLogErrors();
     }
 
     /**

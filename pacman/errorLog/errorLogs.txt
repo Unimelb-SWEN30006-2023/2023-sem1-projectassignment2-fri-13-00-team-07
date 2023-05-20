@@ -1,2 +1,1 @@
-null - no start for PacMan
-null - less than 2 Gold and Pill
+null - portal White count is not 2: (11,7); (15,7); (14,8); (15,9); (17,10)
