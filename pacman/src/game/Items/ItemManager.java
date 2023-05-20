@@ -35,7 +35,7 @@ public class ItemManager implements LocationExpert {
         HashMap<Integer, ActorType> itemLocations = mapReader.getItemLocations();
         this.horizontalCellsCount = mapReader.getMap().getHorizontalCellsCount();
         this.verticalCellsCount = mapReader.getMap().getVerticalCellsCount();
-        this.indexConverter = LocationIndexConverter.getInstance(horizontalCellsCount);
+        this.indexConverter = new LocationIndexConverter(horizontalCellsCount);
 
         GGBackground bg = level.getBg();
 
@@ -122,7 +122,7 @@ public class ItemManager implements LocationExpert {
             if (item.getType() != CellType.PILL && !item.isVisible())
                 continue; // already removed
 
-            Location itemLocation = LocationIndexConverter.getInstance(horizontalCellsCount).getLocationByIndex(entry.getKey());
+            Location itemLocation = new LocationIndexConverter(horizontalCellsCount).getLocationByIndex(entry.getKey());
             int distanceToItem = target.getDistanceTo(itemLocation);
 
             if (distanceToItem < currentMinDistance) {

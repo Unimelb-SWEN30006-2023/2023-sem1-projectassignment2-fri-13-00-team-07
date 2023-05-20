@@ -19,7 +19,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
     @Override
     public LinkedList<Location> findPath(Location source, LocationPredicate predicate, LocationExpert locationExpert, ArrayList<Monster> monsters) {
         //System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
-        LocationIndexConverter indexConverter = LocationIndexConverter.getInstance(locationExpert.getHorizontalCellsCount());
+        LocationIndexConverter indexConverter = new LocationIndexConverter(locationExpert.getHorizontalCellsCount());
 
         final HashMap<CellType, ArrayList<Location>> portalLocations = locationExpert.getPortalLocations();
         final HashSet<Integer> visitedSet = new HashSet<>();

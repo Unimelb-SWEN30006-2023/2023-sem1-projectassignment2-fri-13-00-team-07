@@ -19,7 +19,7 @@ public class PropertyMapReader implements MapReader {
     public PropertyMapReader(PacManGameGrid map, PropertyReader propertyReader) {
         this.map = map;
 
-        LocationIndexConverter indexConverter = LocationIndexConverter.getInstance(map.getHorizontalCellsCount());
+        LocationIndexConverter indexConverter = new LocationIndexConverter(map.getHorizontalCellsCount());
 
         characterLocations = new HashMap<>();
         CharacterType[] characters = new CharacterType[]{CharacterType.PACMAN, CharacterType.M_TROLL, CharacterType.M_TX5};

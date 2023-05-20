@@ -96,8 +96,4 @@ public class SettingManager {
         return mapReader.getMap().isInBound(location);
     }
 
-    public LocationIndexConverter getIndexConverter() {
-        return LocationIndexConverter.getInstance(mapReader.getMap().getHorizontalCellsCount());
-    }
-
 }

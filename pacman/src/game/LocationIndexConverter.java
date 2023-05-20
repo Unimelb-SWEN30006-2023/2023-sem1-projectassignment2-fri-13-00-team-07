@@ -5,12 +5,8 @@ import ch.aplu.jgamegrid.Location;
 public class LocationIndexConverter {
     private final int horizontalCellsCount;
 
-    private LocationIndexConverter(int horizontalCellsCount) {
+    public LocationIndexConverter(int horizontalCellsCount) {
         this.horizontalCellsCount = horizontalCellsCount;
-    }
-
-    public static LocationIndexConverter getInstance(int horizontalCellsCount) {
-        return new LocationIndexConverter(horizontalCellsCount);
     }
 
     /**

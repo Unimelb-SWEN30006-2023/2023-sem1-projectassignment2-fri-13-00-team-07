@@ -84,7 +84,7 @@ public abstract class Player extends MovingActor {
             score += pill.getScoreEffect();
         }
 
-        String title = "[PacMan in the Multiverse] Current score: " + score;
+        String title = "[PacMan in the TorusVerse] Current score: " + score;
         gameGrid.setTitle(title);
     }
 

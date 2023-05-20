@@ -17,7 +17,7 @@ public class EditorMapReader implements MapReader {
         characterLocations = new HashMap<>();
         itemLocations = new HashMap<>();
 
-        LocationIndexConverter indexConverter = LocationIndexConverter.getInstance(map.getHorizontalCellsCount());
+        LocationIndexConverter indexConverter = new LocationIndexConverter(map.getHorizontalCellsCount());
 
         for (int i = 0; i < map.getVerticalCellsCount(); i++) {
             for (int j = 0; j < map.getHorizontalCellsCount(); j++) {
