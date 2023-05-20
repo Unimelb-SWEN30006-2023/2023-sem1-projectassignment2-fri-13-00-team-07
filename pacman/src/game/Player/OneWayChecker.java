@@ -11,20 +11,22 @@ import java.util.HashMap;
  * The checker to determine if a path is one way, and could be cornered by monsters.
  */
 public class OneWayChecker {
-    private LocationExpert locationExpert;
-    /// 0 for false, 1 for true, 2+ for multiple.
+
+    private final LocationExpert locationExpert;
 
 
     public OneWayChecker(LocationExpert locationExpert) {
         this.locationExpert = locationExpert;
     }
 
+    /// 0 for false, 1 for true, 2+ for multiple.
     /**
      * Determines whether it is one way walk given the direction and location.
      *
      * @param location The current location of the player.
      * @param direction The direction of the player. Only the direction the player is facing is considered.
-     * @return
+     *
+     * @return Whether it is one way.
      */
     public int isOneWayAt(Location location, int direction) {
         if (!locationExpert.isInBound(location.getNeighbourLocation(direction))

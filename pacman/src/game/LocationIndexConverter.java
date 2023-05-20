@@ -3,19 +3,14 @@ package game;
 import ch.aplu.jgamegrid.Location;
 
 public class LocationIndexConverter {
-    private int horizontalCellsCount;
-    private static LocationIndexConverter instance = null;
+    private final int horizontalCellsCount;
 
     private LocationIndexConverter(int horizontalCellsCount) {
         this.horizontalCellsCount = horizontalCellsCount;
     }
 
     public static LocationIndexConverter getInstance(int horizontalCellsCount) {
-        if (instance == null)
-            instance = new LocationIndexConverter(horizontalCellsCount);
-        else if (instance.horizontalCellsCount != horizontalCellsCount)
-            instance.horizontalCellsCount = horizontalCellsCount;
-        return instance;
+        return new LocationIndexConverter(horizontalCellsCount);
     }
 
     /**

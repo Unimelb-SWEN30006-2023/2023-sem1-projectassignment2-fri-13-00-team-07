@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PropertyMapReader implements MapReader {
-    private PacManGameGrid map;
-    private HashMap<Integer, ActorType> characterLocations;
-    private HashMap<Integer, ActorType> itemLocations;
+    private final PacManGameGrid map;
+    private final HashMap<Integer, ActorType> characterLocations;
+    private final HashMap<Integer, ActorType> itemLocations;
 
     public PropertyMapReader(PropertyReader propertyReader) {
         this(new PacManGameGrid(), propertyReader);

@@ -197,7 +197,7 @@ public class ItemManager implements LocationExpert {
     /** {@inheritDoc} */
     public CellType getTypeAt(Location location) {
         Item item = getItem(location);
-        return item == null ? null : item.getType();
+        return item == null ? CellType.SPACE : item.getType();
     }
 
     /** {@inheritDoc} */

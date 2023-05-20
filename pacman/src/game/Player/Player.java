@@ -11,6 +11,7 @@ import game.MovingActor;
  * The PacMan.
  */
 public abstract class Player extends MovingActor {
+
     private int idSprite = 0;
     private int nbPills = 0;
     private int score = 0;

@@ -19,7 +19,6 @@ public class AutoPlayer extends Player {
     private ArrayList<String> propertyMoves;
 
     // whether the pacActor can move in this simulation iteration
-    private PathFindingStrategy pathFindingStrategy = new OptimalPathFindingStrategy();
 
     /**
      * Creates a moving actor based on one or more sprite images.
@@ -47,10 +46,13 @@ public class AutoPlayer extends Player {
         setShouldMove(true);
         ItemManager itemManager = ((Level) gameGrid).getSettingManager().getItemManager();
 
+        PathFindingStrategy pathFindingStrategy = new OptimalPathFindingStrategy();
         LinkedList<Location> path =
-                pathFindingStrategy.findPath(getLocation(),
-                        i -> itemManager.getTypeAt(i) == CellType.GOLD || itemManager.getTypeAt(i) == CellType.PILL,
-                        itemManager, ((Level) gameGrid).getMonsters()
+                pathFindingStrategy.findPath(
+                        getLocation(),
+                        (i, expert) -> expert.getTypeAt(i).equals(CellType.PILL) || expert.getTypeAt(i).equals(CellType.GOLD),
+                        itemManager,
+                        ((Level) gameGrid).getMonsters()
                 );
 
         if (path != null && !path.isEmpty()) {
@@ -61,8 +63,8 @@ public class AutoPlayer extends Player {
         } else {
             path = pathFindingStrategy.findPath(
                     this.getLocation(),
-                    i -> itemManager.getTypeAt(i) == CellType.GOLD || itemManager.getTypeAt(i) == CellType.PILL,
-                    itemManager, null
+                    (i, expert) -> expert.getTypeAt(i).equals(CellType.PILL) || expert.getTypeAt(i).equals(CellType.GOLD),
+                    itemManager
             );
 
             if (path != null && !path.isEmpty()) {
