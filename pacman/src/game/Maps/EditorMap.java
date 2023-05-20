@@ -161,7 +161,7 @@ public class EditorMap implements PacManMap {
      * @return true if accessible, false if not
      */
     public boolean canReach(Location from, Location to) {
-        return (new OptimalPathFindingStrategy().findPath(from, i -> i.equals(to), this, null) != null);
+        return (new OptimalPathFindingStrategy().findPath(from, i -> i.equals(to), this, new EditorMapReader(this).getItemLocations(), null) != null);
     }
 
     /** {@inheritDoc} */
