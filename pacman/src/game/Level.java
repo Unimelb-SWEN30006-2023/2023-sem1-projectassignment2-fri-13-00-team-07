@@ -1,6 +1,7 @@
 package game;
 
 import ch.aplu.jgamegrid.Actor;
+import ch.aplu.jgamegrid.GGExitListener;
 import ch.aplu.jgamegrid.GameGrid;
 import ch.aplu.jgamegrid.Location;
 import game.Maps.PacManGameGrid;
@@ -12,7 +13,10 @@ import game.Player.Player;
 import game.Player.PlayerFactory;
 import game.utility.GameCallback;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.ref.WeakReference;
 import java.util.*;
 
@@ -57,6 +61,21 @@ public class Level extends GameGrid {
 
         this.completionHandler = completionHandler;
         this.game = game;
+
+        JFrame frame = this.getFrame();
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        final Level level = this;
+
+        this.addExitListener(new GGExitListener() {
+            @Override
+            public boolean notifyExit() {
+
+                level.hide();
+                level.stopGameThread();
+                return false;
+            }
+        });
     }
 
 
