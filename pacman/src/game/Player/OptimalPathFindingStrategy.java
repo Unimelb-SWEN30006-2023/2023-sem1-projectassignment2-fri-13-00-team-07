@@ -21,7 +21,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
         //System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
         LocationIndexConverter indexConverter = LocationIndexConverter.getInstance(locationExpert.getHorizontalCellsCount());
 
-        final HashMap<CellType, ArrayList<Location>> portalLocations = getPortalLocations(locationExpert);
+        final HashMap<CellType, ArrayList<Location>> portalLocations = locationExpert.getPortalLocations();
         final HashSet<Integer> visitedSet = new HashSet<>();
         final LinkedList<Edge> paths = new LinkedList<>();
         LinkedList<Location> queue = new LinkedList<>();
@@ -121,21 +121,5 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
 
     private boolean isValidLocation(Location location, LocationExpert locationExpert) {
         return locationExpert.isInBound(location) && !locationExpert.isWallAt(location);
-    }
-
-    private HashMap<CellType, ArrayList<Location>> getPortalLocations(LocationExpert locationExpert) {
-        HashMap<CellType, ArrayList<Location>> portalLocations = new HashMap<>();
-        for (int y = 0; y < locationExpert.getVerticalCellsCount(); y++) {
-            for (int x = 0; x < locationExpert.getHorizontalCellsCount(); x++) {
-                Location location = new Location(x, y);
-                ActorType cellType = locationExpert.getTypeAt(location);
-
-                if (cellType instanceof CellType && CellType.PORTALS.contains((CellType) cellType)) {
-                    portalLocations.computeIfAbsent((CellType) cellType, k -> new ArrayList<>());
-                    portalLocations.get(cellType).add(location);
-                }
-            }
-        }
-        return portalLocations;
     }
 }
