@@ -99,8 +99,16 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
         return null;
     }
 
+    /**
+     * Checks whether the location is a portal, according to the location expert.
+     * @param loc: the location to be checked
+     * @param expert: the location expert
+     * @return true if the location is a portal, false otherwise.
+     */
     private boolean isPortal(Location loc, LocationExpert expert) {
-        return expert.getTypeAt(loc) != null && expert.getTypeAt(loc) instanceof CellType && ((CellType) expert.getTypeAt(loc)).isPortal();
+        return expert.getTypeAt(loc) != null
+                && expert.getTypeAt(loc) instanceof CellType
+                && ((CellType) expert.getTypeAt(loc)).isPortal();
     }
 
     private void markLocationAsVisited(Location location, HashSet<Integer> visitedSet, LocationIndexConverter indexConverter) {
