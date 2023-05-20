@@ -4,6 +4,7 @@ import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Items.CellType;
 import game.Items.LocationPredicate;
+import game.LocationIndexConverter;
 import game.Maps.PacManMap;
 import game.Monsters.Monster;
 
@@ -14,35 +15,29 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
     private final LinkedList<Edge> paths = new LinkedList<>();
     private final HashSet<Integer> visitedSet = new HashSet<>();
     private final HashMap<CellType, ArrayList<Location>> portalLocations = new HashMap<>();
+    private HashMap<Integer, ActorType> itemLocations;
+    private PacManMap map;
+    private LocationIndexConverter indexConverter;
     /**
      * Finds the optimal path to a sink that satisfies the `predicate` and avoids the monsters.
      *
      * @param source The source location.
      * @param predicate The predicate for a location to be considered a destination.
-     * @param map The map on which the path is to be found.
      * @param monsters The monsters on the map. The monsters are avoided when finding the path.
      *
      * @return The optimal path, null on failure.
      */
     @Override
-    public LinkedList<Location> findPath(Location source, LocationPredicate predicate, PacManMap map, ArrayList<Monster> monsters) {
+    public LinkedList<Location> findPath(Location source, LocationPredicate predicate, PacManMap map, HashMap<Integer, ActorType> itemLocations, ArrayList<Monster> monsters) {
         //System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
-
-        for (int y = 0; y < map.getVerticalCellsCount(); y++) {
-            for (int x = 0; x < map.getHorizontalCellsCount(); x++) {
-                Location location = new Location(x, y);
-                ActorType cellType = map.getTypeAt(location);
-
-                if (cellType instanceof CellType && CellType.Portals().contains(cellType)) {
-                    portalLocations.computeIfAbsent((CellType) cellType, k -> new ArrayList<>());
-                    portalLocations.get(cellType).add(location);
-                }
-            }
-        }
+        this.map = map;
+        this.itemLocations = itemLocations;
+        this.indexConverter = LocationIndexConverter.getInstance(map.getHorizontalCellsCount());
+        setPortalLocations();
 
         LinkedList<Location> queue = new LinkedList<>();
         queue.add(source);
-        markLocationAsVisited(source, map);
+        markLocationAsVisited(source);
 
         while (!queue.isEmpty()) {
             Location vertex = queue.remove();
@@ -57,7 +52,9 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                 Optional<Edge> value = paths.stream().filter(i -> i.getDestination().equals(finalDestination)).findFirst();
 
                 while (value.isPresent()) {
-                    if (map.getTypeAt(value.get().getSource()) instanceof CellType && ((CellType) map.getTypeAt(value.get().getSource())).isPortal() && map.getTypeAt(value.get().getDestination()) instanceof CellType && ((CellType) map.getTypeAt(value.get().getDestination())).isPortal()) {
+                    Location valueSource = value.get().getSource();
+                    Location valueDestination = value.get().getDestination();
+                    if (isPortal(valueSource) && isPortal(valueDestination)) {
                         result.removeLast();
                     }
 
@@ -70,10 +67,6 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                 Collections.reverse(result);
                 result.remove(); // the first element is its current location
 
-//                for (final var v: result) {
-//                    System.out.println("The path is through " + v.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
-//                }
-
                 return result;
             } else {
 
@@ -81,11 +74,11 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                         IntStream.rangeClosed(0, 3)
                                 .boxed()
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
-                                .filter(i -> !locationIsVisited(i, map) && isValidLocation(i, map))
-                                .sorted(Comparator.comparingInt(i -> OneWayChecker.getInstance().isOneWayAt(i, map, (int) vertex.getDirectionTo(i))))
+                                .filter(i -> !locationIsVisited(i) && isValidLocation(i))
+                                .sorted(Comparator.comparingInt(i -> new OneWayChecker(map).isOneWayAt(i, (int) vertex.getDirectionTo(i))))
                                 .toList();
                 for (var neighbour: unvisitedNeighbours) {
-                    markLocationAsVisited(neighbour, map);
+                    markLocationAsVisited(neighbour);
                     final var capturedNeighbour = neighbour;
                     if (monsters != null && monsters.stream().map(Monster::getLocation).anyMatch(i -> i.getDistanceTo(capturedNeighbour) < 2)) {
                         // monster there, not through here!
@@ -93,11 +86,11 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                     }
 
                     //System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
-                    ActorType neighbourType = map.getTypeAt(neighbour);
+                    ActorType neighbourType = getTypeAt(neighbour);
                     paths.add(new Edge(vertex, neighbour));
 
-                    if (neighbourType instanceof CellType && ((CellType) neighbourType).isPortal()) {
-                        final var locations = portalLocations.get(neighbourType);
+                    if (isPortal(neighbour)) {
+                        final var locations = portalLocations.get((CellType) neighbourType);
                         final var neighbourDestination = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);
                         paths.add(new Edge(neighbour, neighbourDestination));
                         neighbour = neighbourDestination;
@@ -111,15 +104,37 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
         return null;
     }
 
-    private void markLocationAsVisited(Location location, PacManMap map) {
-        visitedSet.add(location.y * map.getHorizontalCellsCount() + location.x);
+    private void setPortalLocations() {
+        for (int y = 0; y < map.getVerticalCellsCount(); y++) {
+            for (int x = 0; x < map.getHorizontalCellsCount(); x++) {
+                Location location = new Location(x, y);
+                ActorType cellType = getTypeAt(location);
+
+                if (CellType.Portals().contains((CellType) cellType)) {
+                    portalLocations.computeIfAbsent((CellType) cellType, k -> new ArrayList<>());
+                    portalLocations.get(cellType).add(location);
+                }
+            }
+        }
     }
 
-    private boolean locationIsVisited(Location location, PacManMap map) {
-        return visitedSet.contains(location.y * map.getHorizontalCellsCount() + location.x);
+    private ActorType getTypeAt(Location loc) {
+        return itemLocations.get(indexConverter.getIndexByLocation(loc));
     }
 
-    private boolean isValidLocation(Location location, PacManMap map) {
+    private boolean isPortal(Location loc) {
+        return getTypeAt(loc) != null && ((CellType) getTypeAt(loc)).isPortal();
+    }
+
+    private void markLocationAsVisited(Location location) {
+        visitedSet.add(indexConverter.getIndexByLocation(location));
+    }
+
+    private boolean locationIsVisited(Location location) {
+        return visitedSet.contains(indexConverter.getIndexByLocation(location));
+    }
+
+    private boolean isValidLocation(Location location) {
         return map.isInBound(location) && !map.isWallAt(location);
     }
 }

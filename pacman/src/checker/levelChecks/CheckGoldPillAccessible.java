@@ -40,7 +40,7 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
         }
         // !!! in theory, if run verifyPacStartPoint in advance, there shouldn't be no start Location
         // but for safete concerns, check if there are multiple start here
-        if(pac == null){
+        if (pac == null) {
             return false;
         }
         // build gold error string
@@ -54,13 +54,13 @@ public class CheckGoldPillAccessible extends Check implements LevelCheck{
             flag = false;
             errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_GOLD_NOT_ACC + semicolonLocationStringBuilder(errorGolds));
         }
-        //build pill error String
-        for(Location loc:pills){
-            if(!map.canReach(pac, loc)){
+        // build pill error String
+        for (Location loc:pills) {
+            if (!map.canReach(pac, loc)) {
                 errorPills.add(loc);
             }
         }
-        if(errorPills.size() > 0){
+        if (errorPills.size() > 0) {
             flag = false;
             errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_D_PILL_NOT_ACC + semicolonLocationStringBuilder(errorPills));
         }

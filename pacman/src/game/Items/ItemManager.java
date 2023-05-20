@@ -4,6 +4,7 @@ import ch.aplu.jgamegrid.GGBackground;
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Level;
+import game.LocationIndexConverter;
 import game.Maps.MapReader;
 import game.Maps.PacManMap;
 
@@ -24,23 +25,24 @@ public class ItemManager implements PacManMap {
 
     private final int horizontalCellsCount;
     private final int verticalCellsCount;
+    private final LocationIndexConverter indexConverter;
 
     /** Creates a manager to keep track of the unmovable actors.
-     *
      *
      * @param level The level on which the items are kept.
      */
     public ItemManager(MapReader mapReader, Level level) {
-        HashMap<Location, ActorType> itemLocations = mapReader.getItemLocations();
+        HashMap<Integer, ActorType> itemLocations = mapReader.getItemLocations();
         this.horizontalCellsCount = mapReader.getMap().getHorizontalCellsCount();
         this.verticalCellsCount = mapReader.getMap().getVerticalCellsCount();
+        this.indexConverter = LocationIndexConverter.getInstance(horizontalCellsCount);
 
         GGBackground bg = level.getBg();
 
         HashMap<CellType, ArrayList<Location>> portalLocations = new HashMap<>();
 
-        for (Map.Entry<Location, ActorType> entry : itemLocations.entrySet()) {
-            Location location = entry.getKey();
+        for (Map.Entry<Integer, ActorType> entry : itemLocations.entrySet()) {
+            Location location = indexConverter.getLocationByIndex(entry.getKey());
             ActorType cellType = entry.getValue();
 
             if (cellType instanceof CellType && CellType.Portals().contains((CellType) cellType)) {
@@ -52,7 +54,7 @@ public class ItemManager implements PacManMap {
                 if (item != null) {
                     putItem(location, item, level);
                 } else if (cellType == CellType.WALL) {
-                    wallLocations.add(getIndexByLocation(location));
+                    wallLocations.add(indexConverter.getIndexByLocation(location));
                 }
             }
         }
@@ -102,7 +104,7 @@ public class ItemManager implements PacManMap {
         level.getBg().setPaintColor(item.getColor());
         level.getBg().fillCircle(level.toPoint(location), Item.getFillCircleRadius());
 
-        items.put(getIndexByLocation(location), item);
+        items.put(indexConverter.getIndexByLocation(location), item);
         level.addActor(item, location);
     }
 
@@ -120,7 +122,7 @@ public class ItemManager implements PacManMap {
             if (item.getType() != CellType.PILL && !item.isVisible())
                 continue; // already removed
 
-            Location itemLocation = getLocationByIndex(entry.getKey());
+            Location itemLocation = LocationIndexConverter.getInstance(horizontalCellsCount).getLocationByIndex(entry.getKey());
             int distanceToItem = target.getDistanceTo(itemLocation);
 
             if (distanceToItem < currentMinDistance) {
@@ -150,7 +152,7 @@ public class ItemManager implements PacManMap {
         // need to explicitly remove the pill
         // as hide() is ineffective for actors with no sprite
         if (item.getType().equals(CellType.PILL)) {
-            items.remove(getIndexByLocation(location));
+            items.remove(indexConverter.getIndexByLocation(location));
         }
     }
 
@@ -161,7 +163,7 @@ public class ItemManager implements PacManMap {
      *         null if the item is hidden or not found.
      */
     public Item getItem(Location location) {
-        Item item = items.get(getIndexByLocation(location));
+        Item item = items.get(indexConverter.getIndexByLocation(location));
         if (item != null && item.getType() != CellType.PILL && !item.isVisible()) {
             // 'removed' (hidden) gold or ice
             return null;
@@ -187,27 +189,10 @@ public class ItemManager implements PacManMap {
     public List<Location> getGoldLocations() { // for Orion
         return items.entrySet().stream()
                     .filter(i -> i.getValue() instanceof Gold)
-                    .map(i -> getLocationByIndex(i.getKey()))
+                    .map(i -> indexConverter.getLocationByIndex(i.getKey()))
                     .toList();
     }
 
-    /**
-     * Gets the location corresponding to the given index.
-     * @param index: an integer specifying the index in the game grid
-     * @return the corresponding location.
-     */
-    private Location getLocationByIndex(int index) {
-        return new Location(index % horizontalCellsCount, index / horizontalCellsCount);
-    }
-
-    /**
-     * Gets the index corresponding to the given location.
-     * @param location: location to look up
-     * @return the corresponding index in the game grid.
-     */
-    private int getIndexByLocation(Location location) {
-        return location.y * horizontalCellsCount + location.x;
-    }
 
     /** {@inheritDoc} */
     public CellType getTypeAt(Location location) {
@@ -227,6 +212,14 @@ public class ItemManager implements PacManMap {
     /** {@inheritDoc} */
     @Override
     public boolean isWallAt(Location location) {
-        return wallLocations.contains(getIndexByLocation(location));
+        return wallLocations.contains(indexConverter.getIndexByLocation(location));
+    }
+
+    public HashMap<Integer, ActorType> getDynamicItems() {
+        HashMap<Integer, ActorType> dynamicItems = new HashMap<>();
+        for (Map.Entry<Integer, Item> entry : items.entrySet()) {
+            dynamicItems.put(entry.getKey(), entry.getValue().getType());
+        }
+        return dynamicItems;
     }
 }

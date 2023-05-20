@@ -38,11 +38,15 @@ public class SettingManager {
 
     /* Wrapper methods using delegation */
 
-    public HashMap<Location, ActorType> getItemLocations() {
+    public HashMap<Integer, ActorType> getDynamicItemLocations() {
+        return itemManager.getDynamicItems();
+    }
+
+    public HashMap<Integer, ActorType> getItemLocations() {
         return mapReader.getItemLocations();
     }
 
-    public HashMap<Location, ActorType> getCharacterLocations() {
+    public HashMap<Integer, ActorType> getCharacterLocations() {
         return mapReader.getCharacterLocations();
     }
 
@@ -96,5 +100,13 @@ public class SettingManager {
 
     public boolean isInBound(Location location) {
         return mapReader.getMap().isInBound(location);
+    }
+
+    public LocationIndexConverter getIndexConverter() {
+        return LocationIndexConverter.getInstance(mapReader.getMap().getHorizontalCellsCount());
+    }
+
+    public MapReader getMapReader() {
+        return mapReader;
     }
 }
