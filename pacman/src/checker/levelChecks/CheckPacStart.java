@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * check if there is one and only one pac start location
  */
-public class CheckPacStart extends Check implements LevelCheck{
+public class CheckPacStart extends Check implements LevelCheck {
 
     @Override
     public boolean check(EditorMap map, ArrayList<String> errors) {
@@ -28,8 +28,7 @@ public class CheckPacStart extends Check implements LevelCheck{
         if (pacStarts.size() == 0) {
             flag = false;
             errors.add(map.getFileName() + ErrorMessagesBody.LEVEL_A_NO_START);
-        }
-        else if (pacStarts.size() > 1) {
+        } else if (pacStarts.size() > 1) {
             String errorStr = map.getFileName() + ErrorMessagesBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts);
             flag = false;
             errors.add(errorStr);

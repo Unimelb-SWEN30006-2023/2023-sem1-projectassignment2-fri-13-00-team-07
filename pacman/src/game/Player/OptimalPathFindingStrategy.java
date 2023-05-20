@@ -18,7 +18,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
      */
     @Override
     public <Expert extends LocationExpert> LinkedList<Location> findPath(Location source, LocationPredicate<Expert> predicate, Expert locationExpert, ArrayList<Monster> monsters) {
-        System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+        //System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
         LocationIndexConverter indexConverter = LocationIndexConverter.getInstance(locationExpert.getHorizontalCellsCount());
 
         final HashMap<CellType, ArrayList<Location>> portalLocations = new HashMap<>();
@@ -47,7 +47,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
 //            System.out.println("The vertex location is " + vertex.getNeighbourLocation(Location.CompassDirection.SOUTHEAST) + " type is " + getTypeAt(vertex) + " statisfies: " + predicate.satisfies(vertex, locationExpert) + " ?? " + (locationExpert.getTypeAt(vertex).equals(CellType.PILL)));
 
             if (predicate.satisfies(vertex, locationExpert)) {
-                System.out.println("The end location is " + vertex.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+                //System.out.println("The end location is " + vertex.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
                 LinkedList<Location> result = new LinkedList<>();
 
                 result.add(vertex);
@@ -105,7 +105,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
             }
         }
 
-        System.out.println("bfs did not find anything");
+        //System.out.println("bfs did not find anything");
 
         return null;
     }
