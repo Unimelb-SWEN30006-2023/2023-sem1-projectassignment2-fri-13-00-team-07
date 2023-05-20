@@ -6,6 +6,7 @@ import game.LocationExpert;
 /**
  * The closure to determine if a location satisfies a given predicate.
  */
+@FunctionalInterface
 public interface LocationPredicate {
 
     /**

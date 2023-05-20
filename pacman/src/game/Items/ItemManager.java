@@ -6,7 +6,9 @@ import game.ActorType;
 import game.Level;
 import game.LocationExpert;
 import game.LocationIndexConverter;
+import game.Maps.EditorMapReader;
 import game.Maps.MapReader;
+import game.Maps.PacManMap;
 
 import java.util.*;
 
@@ -31,10 +33,10 @@ public class ItemManager implements LocationExpert {
      *
      * @param level The level on which the items are kept.
      */
-    public ItemManager(MapReader mapReader, Level level) {
-        HashMap<Integer, ActorType> itemLocations = mapReader.getItemLocations();
-        this.horizontalCellsCount = mapReader.getMap().getHorizontalCellsCount();
-        this.verticalCellsCount = mapReader.getMap().getVerticalCellsCount();
+    public ItemManager(PacManMap map, MapReader mapReader, Level level) {
+        HashMap<Integer, ActorType> itemLocations = map.readMyItemLocations(new EditorMapReader());
+        this.horizontalCellsCount = map.getHorizontalCellsCount();
+        this.verticalCellsCount = map.getVerticalCellsCount();
         this.indexConverter = new LocationIndexConverter(horizontalCellsCount);
 
         GGBackground bg = level.getBg();

@@ -14,16 +14,18 @@ public class SettingManager {
     private final MapReader mapReader;
     private final PropertyReader propertyReader;
     private final ItemManager itemManager;
+    private PacManMap map;
 
     public SettingManager(Properties properties, PacManMap map, Level level) {
+        this.map = map;
         propertyReader = new PropertyReader(properties);
         if (map instanceof EditorMap)
-            mapReader = new EditorMapReader((EditorMap) map);
+            mapReader = new EditorMapReader();
         else
-            mapReader = new PropertyMapReader((PacManGameGrid) map, propertyReader);
+            mapReader = new PropertyMapReader(propertyReader);
 
         /* mapReader passed as a context object */
-        itemManager = new ItemManager(mapReader, level);
+        itemManager = new ItemManager(map, mapReader, level);
     }
 
 
@@ -33,7 +35,7 @@ public class SettingManager {
      * @return true if it's a wall, false otherwise.
      */
     public boolean isWallAt(Location location) {
-        return mapReader.getMap().isInBound(location) && itemManager.isWallAt(location);
+        return map.isInBound(location) && itemManager.isWallAt(location);
     }
 
     /* Wrapper methods using delegation */
@@ -43,11 +45,11 @@ public class SettingManager {
     }
 
     public HashMap<Integer, ActorType> getItemLocations() {
-        return mapReader.getItemLocations();
+        return mapReader.getItemLocations(map);
     }
 
     public HashMap<Integer, ActorType> getCharacterLocations() {
-        return mapReader.getCharacterLocations();
+        return mapReader.getCharacterLocations(map);
     }
 
     public int getSeed() {
@@ -89,11 +91,11 @@ public class SettingManager {
      * @return a PacManMap.
      */
     public PacManMap getMap() {
-        return mapReader.getMap();
+        return map;
     }
 
     public boolean isInBound(Location location) {
-        return mapReader.getMap().isInBound(location);
+        return map.isInBound(location);
     }
 
 }

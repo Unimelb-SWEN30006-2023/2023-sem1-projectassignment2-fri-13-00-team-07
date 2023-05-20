@@ -5,6 +5,9 @@ import game.ActorType;
 import game.Items.CellType;
 import game.Level;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Grid for a PacMan Level.
  */
@@ -90,5 +93,15 @@ public class PacManGameGrid implements PacManMap {
     @Override
     public boolean isWallAt(Location location) {
         return getTypeAt(location) == CellType.WALL;
+    }
+
+    @Override
+    public HashMap<Integer, ActorType> readMyItemLocations(MapReader reader) {
+        return reader.getItemLocations(this);
+    }
+
+    @Override
+    public HashMap<Integer, ActorType> readMyCharacterLocations(MapReader reader) {
+        return reader.getCharacterLocations(this);
     }
 }

@@ -6,31 +6,30 @@ import game.Items.CellType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 public class PropertyMapReader implements MapReader {
-    private final PacManGameGrid map;
-    private final HashMap<Integer, ActorType> characterLocations;
-    private final HashMap<Integer, ActorType> itemLocations;
+    private final HashMap<Integer, ActorType> characterLocations = new HashMap<>();
+    private final HashMap<Integer, ActorType> itemLocations = new HashMap<>();
+    private PropertyReader propertyReader;
 
     public PropertyMapReader(PropertyReader propertyReader) {
-        this(new PacManGameGrid(), propertyReader);
+        // By default, use the standard PacManGameGrid
+        this.propertyReader = propertyReader;
     }
 
-    public PropertyMapReader(PacManGameGrid map, PropertyReader propertyReader) {
-        this.map = map;
 
+    private void readPropertyMap(PacManMap map) {
         LocationIndexConverter indexConverter = new LocationIndexConverter(map.getHorizontalCellsCount());
 
-        characterLocations = new HashMap<>();
-        CharacterType[] characters = new CharacterType[]{CharacterType.PACMAN, CharacterType.M_TROLL, CharacterType.M_TX5};
-        for (CharacterType character : characters) {
+        for (CharacterType character : CharacterType.CHARACTER_TYPES) {
             Location location = propertyReader.readLocation(character.getName() + ".location");
             if (location != null && !(location.equals(new Location(-1, -1))))
                 characterLocations.put(indexConverter.getIndexByLocation(location), character);
         }
 
 
-        itemLocations = new HashMap<>();
         ArrayList<Location> propertyPillLocations = propertyReader.loadLocations("Pills.location");
         ArrayList<Location> propertyGoldLocations = propertyReader.loadLocations("Gold.location");
 
@@ -66,18 +65,16 @@ public class PropertyMapReader implements MapReader {
             itemLocations.put(indexConverter.getIndexByLocation(location), CellType.PILL);
     }
 
-    @Override
-    public PacManMap getMap() {
-        return map;
-    }
 
     @Override
-    public HashMap<Integer, ActorType> getCharacterLocations() {
+    public HashMap<Integer, ActorType> getCharacterLocations(PacManMap map) {
+        readPropertyMap(map);
         return characterLocations;
     }
 
     @Override
-    public HashMap<Integer, ActorType> getItemLocations() {
+    public HashMap<Integer, ActorType> getItemLocations(PacManMap map) {
+        readPropertyMap(map);
         return itemLocations;
     }
 }

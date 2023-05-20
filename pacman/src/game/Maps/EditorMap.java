@@ -133,6 +133,16 @@ public class EditorMap implements PacManMap {
         return map[loc.y][loc.x] instanceof CellType;
     }
 
+    @Override
+    public HashMap<Integer, ActorType> readMyItemLocations(MapReader reader) {
+        return reader.getItemLocations(this);
+    }
+
+    @Override
+    public HashMap<Integer, ActorType> readMyCharacterLocations(MapReader reader) {
+        return reader.getCharacterLocations(this);
+    }
+
     /**
      * @param loc The target location.
      *

@@ -11,6 +11,7 @@ public enum CharacterType implements ActorType {
 
     private final String name;
     private final String filePath;
+    public static final CharacterType[] CHARACTER_TYPES = {PACMAN, M_TROLL, M_TX5};
 
     CharacterType(String name, String filePath) {
         this.name = name;
