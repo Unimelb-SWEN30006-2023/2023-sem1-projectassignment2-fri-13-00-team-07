@@ -4,6 +4,9 @@ import org.jdom.JDOMException;
 
 import java.io.IOException;
 
+/**
+ * our tests for a LevelChecker, not part of the functionality of this game
+ */
 public class TestLevelChecker {
 
     public static void main(String[] args) {

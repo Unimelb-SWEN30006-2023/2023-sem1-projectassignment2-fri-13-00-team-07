@@ -5,6 +5,9 @@ import game.Maps.EditorMap;
 
 import java.util.ArrayList;
 
+/**
+ * a LevelChecker. Checks if a level is valid based on a customizable sequence of maps
+ */
 public class LevelChecker extends Checker {
     private static LevelChecker instance = null;
     private final LevelCheck checkPacStart;
@@ -26,6 +29,11 @@ public class LevelChecker extends Checker {
         return instance;
     }
 
+    /**
+     * Checks if a level is valid based on a customizable sequence of maps
+     * @param map the level to be checked
+     * @return true if all tests are passed. otherwise, return false and log errors
+     */
     public boolean checkLevel(EditorMap map){
         ArrayList<String> errors = new ArrayList<>();
         boolean pacStartFlag = checkPacStart.check(map, errors);

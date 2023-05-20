@@ -8,6 +8,9 @@ import game.Maps.EditorMap;
 
 import java.util.ArrayList;
 
+/**
+ * check if there is one and only one pac start location
+ */
 public class CheckPacStart extends Check implements LevelCheck{
 
     @Override

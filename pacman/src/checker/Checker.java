@@ -6,11 +6,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Checker
+ * abstract checker class, contains helpers for concrete checkers to use. e.g. inspect and log errors
  */
 public abstract class Checker {
+
     private static final String errorLogPath = "pacman/errorLog/errorLogs.txt";
 
+
+    /**
+     Inspects and logs errors to the error log file. If there are no errors, flush error log, otherwise, flush then
+     log them
+     @param errors An ArrayList of String objects representing the errors to be logged.
+     @return true if no errors are found, false otherwise.
+     */
     protected boolean inspectAndLogErrors(ArrayList<String> errors){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(errorLogPath, false))) {
             if(errors.size() == 0){

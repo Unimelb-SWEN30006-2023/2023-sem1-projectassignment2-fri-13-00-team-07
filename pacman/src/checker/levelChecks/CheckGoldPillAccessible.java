@@ -9,6 +9,10 @@ import game.Maps.EditorMap;
 
 import java.util.ArrayList;
 
+/**
+ * Check if all gold and pills are accessible in a level
+ * Only make sense to run this check if other tests are passed
+ */
 public class CheckGoldPillAccessible extends Check implements LevelCheck{
     @Override
     public boolean check(EditorMap map, ArrayList<String> errors) {
