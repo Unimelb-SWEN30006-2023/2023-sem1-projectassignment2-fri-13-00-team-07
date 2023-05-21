@@ -150,7 +150,6 @@ public class Controller implements ActionListener, GUIInformation {
 		if (e.getActionCommand().equals("flipGrid")) {
 			// view.flipGrid();
 		} else if (e.getActionCommand().equals("save")) {
-			checkAndShow(new EditorMap(model.getMap()), "Saving map with failed check", "Warning");
 			saveFile();
 		} else if (e.getActionCommand().equals("load")) {
 			try {
@@ -240,6 +239,7 @@ public class Controller implements ActionListener, GUIInformation {
 				XMLOutputter xmlOutput = new XMLOutputter();
 				xmlOutput.setFormat(Format.getPrettyFormat());
 				xmlOutput.output(doc, new FileWriter(chooser.getSelectedFile()));
+				checkAndShow(new EditorMap(model.getMap(), chooser.getSelectedFile().getPath()), "Saving map with failed check", "Warning");
 			}
 		} catch (FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(null, "Invalid file!", "error",

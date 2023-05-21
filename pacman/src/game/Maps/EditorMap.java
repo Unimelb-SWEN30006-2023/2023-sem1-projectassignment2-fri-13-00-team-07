@@ -72,6 +72,16 @@ public class EditorMap implements PacManMap {
     }
 
     /**
+     * Creates a map using the internal representation of `Map Editor View Controller`.
+     *
+     * @param mazeArray The map array made up of internal representations.
+     */
+    public EditorMap(char[][] mazeArray, String fileName) {
+        this(mazeArray);
+        this.fileName = fileName;
+    }
+
+    /**
      * Creates a map from a given file path. The file should be encoded in a xml file.
      *
      * @param filePath The absolute or relative path of the file, with working directory at the top level. (The folder with `pacman`).
