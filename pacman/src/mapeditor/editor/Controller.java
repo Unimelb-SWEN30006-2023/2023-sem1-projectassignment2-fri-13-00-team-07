@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller of the application.
@@ -60,14 +61,14 @@ public class Controller implements ActionListener, GUIInformation {
 												"PortalDarkGrayTile"
 												};
 	/* Maps between character and String representations of the tile types */
-	private final HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>() {{
+	private static final HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>() {{
 		for (int i = 0; i < TILE_CHARS.length; i++) {
 			put(TILE_CHARS[i], TILE_TYPES[i]);
 		}
 	}};
 
 	/* for completeness, mapping the other way around */
-	private final HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>() {{
+	private static final HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>() {{
 		for (int i = 0; i < TILE_CHARS.length; i++) {
 			put(TILE_TYPES[i], TILE_CHARS[i]);
 		}
@@ -90,6 +91,13 @@ public class Controller implements ActionListener, GUIInformation {
 		put(CellType.PORTAL_YELLOW, 'j');
 		put(CellType.PORTAL_DARK_GOLD, 'k');
 		put(CellType.PORTAL_DARK_GRAY, 'l');
+	}};
+
+	/* and the other way around */
+	private static final HashMap<Character, ActorType> CHAR_TO_ACTOR_TYPE_DICT = new HashMap<>() {{
+		for (Entry<ActorType, Character> entry : ACTOR_TYPE_TO_CHAR_DICT.entrySet()) {
+			put(entry.getValue(), entry.getKey());
+		}
 	}};
 
 	/**
@@ -297,5 +305,26 @@ public class Controller implements ActionListener, GUIInformation {
 	@Override
 	public Tile getSelectedTile() {
 		return selectedTile;
+	}
+
+	/**
+	 * Gets the editor's mapping between character and ActorType.
+	 * @return the HashMap for this mapping.
+	 */
+	public static HashMap<Character, ActorType> getCharToActorTypeDict() {
+		return CHAR_TO_ACTOR_TYPE_DICT;
+	}
+
+	/**
+	 * Gets the editor's mapping between String and ActorType.
+	 * @return the HashMap for this mapping.
+	 */
+	public static HashMap<String, ActorType> getStrToActorTypeDict() {
+		HashMap<String, ActorType> stringActorType = new HashMap<>();
+		for (Map.Entry<Character, String> entry : CHAR_TO_STR_DICT.entrySet()) {
+			char charKey = entry.getKey();
+			stringActorType.put(entry.getValue(), CHAR_TO_ACTOR_TYPE_DICT.get(charKey));
+		}
+		return stringActorType;
 	}
 }

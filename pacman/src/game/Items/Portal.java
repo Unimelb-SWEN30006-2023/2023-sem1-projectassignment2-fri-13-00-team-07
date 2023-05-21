@@ -5,7 +5,8 @@ import ch.aplu.jgamegrid.Location;
 import java.util.HashMap;
 
 /**
- * The portal, when an actor land one a portal, it would be teleported to its `partnerLocation`.
+ * A portal - when an actor lands on one portal, it would be "teleported" to
+ * its partner portal's location.
  */
 public class Portal extends Item {
 

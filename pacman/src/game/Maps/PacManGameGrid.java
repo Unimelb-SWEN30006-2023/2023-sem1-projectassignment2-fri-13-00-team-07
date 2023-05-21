@@ -9,7 +9,7 @@ import game.Workers.MapReader;
 import java.util.HashMap;
 
 /**
- * Grid for a PacMan Level.
+ * Grid for a PacMan Level, which preserves the original game's setting.
  */
 public class PacManGameGrid implements PacManMap {
     private final char[][] mazeArray;
@@ -95,11 +95,13 @@ public class PacManGameGrid implements PacManMap {
         return getTypeAt(location) == CellType.WALL;
     }
 
+    /** {@inheritDoc} */
     @Override
     public HashMap<Integer, ActorType> readMyItemLocations(MapReader reader) {
         return reader.getItemLocations(this);
     }
 
+    /** {@inheritDoc} */
     @Override
     public HashMap<Integer, ActorType> readMyCharacterLocations(MapReader reader) {
         return reader.getCharacterLocations(this);

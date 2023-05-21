@@ -17,7 +17,7 @@ public enum CellType implements ActorType {
     SPACE(' ', "Space", Color.lightGray),
     GOLD('g', "gold", Color.yellow),
     ICE('i', "ice", Color.blue),
-    PORTAL_WHITE('p', "portal White", Color.white), // variable color
+    PORTAL_WHITE('p', "portal White", Color.white),
     PORTAL_DARK_GOLD('p', "portal Dark Gold", new Color(0.71f, 0.58f, 0.06f)),
     PORTAL_DARK_GRAY('p', "portal Dark Grey", Color.darkGray),
     PORTAL_YELLOW('p', "portal Yellow", Color.yellow);
@@ -39,6 +39,7 @@ public enum CellType implements ActorType {
     private final char cellChar;
     private final String name;
     private final Color color;
+    /* All portals, with different colors */
     public static final ArrayList<CellType> PORTALS = new ArrayList<>(List.of(new CellType[]{PORTAL_WHITE, PORTAL_DARK_GOLD, PORTAL_DARK_GRAY, PORTAL_YELLOW}));
 
     /**

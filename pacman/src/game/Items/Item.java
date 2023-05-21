@@ -65,8 +65,8 @@ public abstract class Item extends Actor {
     }
 
     /**
-     * Used to distinguish whether the item is eatable.
-     * @return whether the item is eatable.
+     * Checks if the item is eatable.
+     * @return true if the item is eatable, false otherwise.
      */
     public abstract boolean isEatable();
 

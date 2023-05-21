@@ -10,10 +10,11 @@ import java.util.LinkedList;
 
 
 /**
- * The smart auto pacPlayer.
+ * A smart auto PacPlayer.
  */
 public class AutoPacPlayer extends PacPlayer {
 
+    /* for preserving the original behavior */
     private ArrayList<String> propertyMoves;
 
     // whether the pacActor can move in this simulation iteration

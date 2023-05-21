@@ -6,6 +6,7 @@ import game.CharacterType;
 import game.Items.CellType;
 import game.Player.OptimalPathFindingStrategy;
 import game.Workers.MapReader;
+import mapeditor.editor.Controller;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -18,63 +19,35 @@ import java.util.List;
 
 
 /**
- * A map, typically one loaded from a `.xml` file on disk.
+ * A map, typically one loaded from a `.xml` file on disk,
+ * and is used for the map editor.
  */
 public class EditorMap implements PacManMap {
 
     private final ActorType[][] map;
     private String fileName;
 
-    private final static HashMap<Character, ActorType> editorRepresentationDictionary = new HashMap<>() {{
-        put('a', CellType.SPACE);
-        put('b', CellType.WALL);
-        put('c', CellType.PILL);
-        put('d', CellType.GOLD);
-        put('e', CellType.ICE);
-        put('f', CharacterType.PACMAN);
-        put('g', CharacterType.M_TROLL);
-        put('h', CharacterType.M_TX5);
-        put('i', CellType.PORTAL_WHITE);
-        put('j', CellType.PORTAL_YELLOW);
-        put('k', CellType.PORTAL_DARK_GOLD);
-        put('l', CellType.PORTAL_DARK_GRAY);
-    }};
-
-    private final static HashMap<String, ActorType> xmlRepresentationDictionary = new HashMap<>() {{
-        put("PathTile", CellType.SPACE);
-        put("WallTile", CellType.WALL);
-        put("PillTile", CellType.PILL);
-        put("GoldTile", CellType.GOLD);
-        put("IceTile", CellType.ICE);
-        put("PacTile", CharacterType.PACMAN);
-        put("TrollTile", CharacterType.M_TROLL);
-        put("TX5Tile", CharacterType.M_TX5);
-        put("PortalWhiteTile", CellType.PORTAL_WHITE);
-        put("PortalYellowTile", CellType.PORTAL_YELLOW);
-        put("PortalDarkGoldTile", CellType.PORTAL_DARK_GOLD);
-        put("PortalDarkGrayTile", CellType.PORTAL_DARK_GRAY);
-    }};
-
 
     /**
-     * Creates a map using the internal representation of `Map Editor View Controller`.
+     * Creates a map using the internal representation of the Map Editor View Controller.
      *
-     * @param mazeArray The map array made up of internal representations.
+     * @param mazeArray: the 2D array map, using the editor's internal representations (characters).
      */
     public EditorMap(char[][] mazeArray) {
         this.map = new ActorType[mazeArray.length][mazeArray[0].length];
 
         for (int i = 0; i < mazeArray.length; i++) {
             for (int j = 0; j < mazeArray[0].length; j++) {
-                this.map[i][j] = editorRepresentationDictionary.getOrDefault(mazeArray[i][j], CellType.SPACE);
+                this.map[i][j] = Controller.getCharToActorTypeDict().getOrDefault(mazeArray[i][j], CellType.SPACE);
             }
         }
     }
 
     /**
-     * Creates a map using the internal representation of `Map Editor View Controller`.
+     * Creates a map using the internal representation of the Map Editor View Controller.
      *
-     * @param mazeArray The map array made up of internal representations.
+     * @param mazeArray: the 2D array map, using the editor's internal representations (characters).
+     * @param fileName: filename of the map file (source of the 2D array map).
      */
     public EditorMap(char[][] mazeArray, String fileName) {
         this(mazeArray);
@@ -82,10 +55,12 @@ public class EditorMap implements PacManMap {
     }
 
     /**
-     * Creates a map from a given file path. The file should be encoded in a xml file.
+     * Creates a map from a given file path (should be an xml file).
      *
-     * @param filePath The absolute or relative path of the file, with working directory at the top level. (The folder with `pacman`).
+     * @param filePath: The absolute or relative path of the file,
+     *                with working directory at the top level (the folder with `pacman`).
      */
+    /* Method adapted from the original loadFile() method in mapeditor.editor.Controller */
     public EditorMap(String filePath) throws IOException, JDOMException {
         this.fileName = filePath;
 
@@ -113,7 +88,7 @@ public class EditorMap implements PacManMap {
                     Element cell = (Element) cells.get(x);
                     String cellValue = cell.getText();
 
-                    this.map[y][x] = xmlRepresentationDictionary.getOrDefault(cellValue, CellType.SPACE);
+                    this.map[y][x] = Controller.getStrToActorTypeDict().getOrDefault(cellValue, CellType.SPACE);
                 }
             }
         } else {
@@ -136,28 +111,30 @@ public class EditorMap implements PacManMap {
     }
 
     /**
-     * @param loc The target location.
-     *
-     * @return Whether the item at the given location is an ice cube.
+     * Checks whether the location is for an item (i.e. of CellType).
+     * @param loc: the location to be checked.
+     * @return true if the location is for an item, false otherwise.
      */
     public boolean isCellType(Location loc) {
         return map[loc.y][loc.x] instanceof CellType;
     }
 
+    /** {@inheritDoc} */
     @Override
     public HashMap<Integer, ActorType> readMyItemLocations(MapReader reader) {
         return reader.getItemLocations(this);
     }
 
+    /** {@inheritDoc} */
     @Override
     public HashMap<Integer, ActorType> readMyCharacterLocations(MapReader reader) {
         return reader.getCharacterLocations(this);
     }
 
     /**
-     * @param loc The target location.
-     *
-     * @return Whether the item at the given location is a character ie, actors that can move.
+     * Checks whether the location is for a game character (i.e. of CharacterType).
+     * @param loc: the location to be checked.
+     * @return true if the location is for a character (i.e. a MovingActor), false otherwise.
      */
     public boolean isCharacterType(Location loc){
         return map[loc.y][loc.x] instanceof CharacterType;
@@ -176,10 +153,11 @@ public class EditorMap implements PacManMap {
     }
 
     /**
-     * check if we can reach a cell from a start location, only consider walls as obstacles
-     * @param from start location
-     * @param to to location
-     * @return true if accessible, false if not
+     * Checks if the destination (`to`) is reachable from the starting location (`from`),
+     * considering only walls as obstacles.
+     * @param from: start location
+     * @param to: destination location
+     * @return true if accessible, false if not.
      */
     public boolean canReach(Location from, Location to) {
         return (new OptimalPathFindingStrategy().findPath(from, to, this) != null);
