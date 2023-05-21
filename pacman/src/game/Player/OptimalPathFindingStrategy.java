@@ -19,7 +19,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
      */
     @Override
     public LinkedList<Location> findPath(Location source, LocationPredicate predicate, LocationExpert locationExpert, ArrayList<Monster> monsters) {
-        LocationIndexConverter indexConverter = LocationIndexConverter.getInstance(locationExpert.getHorizontalCellsCount());
+        LocationIndexConverter indexConverter = new LocationIndexConverter(locationExpert.getHorizontalCellsCount());
 
         final HashMap<CellType, ArrayList<Location>> portalLocations = locationExpert.getPortalLocations();
         final HashSet<Integer> visitedSet = new HashSet<>();
@@ -118,5 +118,40 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
 
     private boolean isValidLocation(Location location, LocationExpert locationExpert) {
         return locationExpert.isInBound(location) && !locationExpert.isWallAt(location);
+    }
+
+    /**
+     * An edge with a source and a destination.
+     */
+    private class Edge {
+
+        private final Location source;
+
+        private final Location destination;
+
+        /**
+         * Creates an edge.
+         *
+         * @param source one vertex.
+         * @param destination the other vertex.
+         */
+        public Edge(Location source, Location destination) {
+            this.source = source;
+            this.destination = destination;
+        }
+
+        /**
+         * @return One vertex.
+         */
+        public Location getSource() {
+            return source;
+        }
+
+        /**
+         * @return The other vertex.
+         */
+        public Location getDestination() {
+            return destination;
+        }
     }
 }
