@@ -13,6 +13,9 @@ public class MapEditorAdapter implements EditorAdapter {
 
     @Override
     public void runEditor(String filePath) throws IOException, JDOMException {
-        new Controller(filePath);
+        if (filePath == null)
+            new Controller();
+        else
+            new Controller(filePath);
     }
 }
