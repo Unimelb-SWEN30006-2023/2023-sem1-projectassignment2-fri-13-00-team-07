@@ -1,10 +1,9 @@
-package game.Maps;
+package game.Workers;
 
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
-import game.CharacterType;
 import game.Items.CellType;
-import game.LocationIndexConverter;
+import game.Maps.PacManMap;
 
 import java.util.HashMap;
 

@@ -1,13 +1,11 @@
-package game.Items;
+package game.Workers;
 
 import ch.aplu.jgamegrid.GGBackground;
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
+import game.Items.*;
 import game.Level;
 import game.LocationExpert;
-import game.LocationIndexConverter;
-import game.Maps.EditorMapReader;
-import game.Maps.MapReader;
 import game.Maps.PacManMap;
 
 import java.util.*;

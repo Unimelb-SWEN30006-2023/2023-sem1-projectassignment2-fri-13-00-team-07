@@ -1,9 +1,9 @@
-package game;
+package game.Workers;
 
 import ch.aplu.jgamegrid.Location;
-import game.Items.CellType;
+import game.ActorType;
 import game.Items.Item;
-import game.Items.ItemManager;
+import game.Level;
 import game.Maps.*;
 
 import java.util.ArrayList;

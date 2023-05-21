@@ -4,9 +4,9 @@ import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Items.CellType;
 import game.Level;
+import game.Workers.MapReader;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Grid for a PacMan Level.

@@ -5,6 +5,7 @@ import game.ActorType;
 import game.CharacterType;
 import game.Items.CellType;
 import game.Player.OptimalPathFindingStrategy;
+import game.Workers.MapReader;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;

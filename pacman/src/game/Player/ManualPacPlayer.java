@@ -2,15 +2,14 @@ package game.Player;
 
 import ch.aplu.jgamegrid.GGKeyRepeatListener;
 import ch.aplu.jgamegrid.Location;
-import game.CharacterType;
 
 import java.awt.event.KeyEvent;
 
 
 /**
- * The actual player that response to user interaction.
+ * The actual pacPlayer that response to user interaction.
  */
-public class ManualPlayer extends Player implements GGKeyRepeatListener {
+public class ManualPacPlayer extends PacPlayer implements GGKeyRepeatListener {
 
     /**
      * Creates a moving actor based on one or more sprite images.
@@ -19,7 +18,7 @@ public class ManualPlayer extends Player implements GGKeyRepeatListener {
      * @param nbSprites   : the number of sprite images for the same actor
      * @param seed        : the seed for random behaviors of the actor
      */
-    protected ManualPlayer(boolean isRotatable, int nbSprites, int seed) {
+    protected ManualPacPlayer(boolean isRotatable, int nbSprites, int seed) {
         super(isRotatable, nbSprites, seed);
     }
 

@@ -1,4 +1,4 @@
-package game;
+package game.Workers;
 
 import ch.aplu.jgamegrid.Location;
 

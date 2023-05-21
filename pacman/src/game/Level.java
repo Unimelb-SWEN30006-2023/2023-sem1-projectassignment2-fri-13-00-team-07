@@ -9,8 +9,10 @@ import game.Maps.PacManMap;
 import game.Monsters.Monster;
 import game.Monsters.TX5;
 import game.Monsters.Troll;
-import game.Player.Player;
+import game.Player.PacPlayer;
 import game.Player.PlayerFactory;
+import game.Workers.LocationIndexConverter;
+import game.Workers.SettingManager;
 import game.utility.GameCallback;
 
 import javax.swing.*;
@@ -34,7 +36,7 @@ public class Level extends GameGrid {
     private static final Color LOSE_COLOR = Color.red;
 
     /* Actors */
-    protected Player player;
+    protected PacPlayer pacPlayer;
     private final ArrayList<Monster> monsters = new ArrayList<>();
     private final SettingManager settingManager;
     private final GameCallback gameCallback;
@@ -137,16 +139,16 @@ public class Level extends GameGrid {
         // addActor(): actor added last will act and be painted first
         // add pacActor last so that it would `act` first
         if (pacActorLocation != null)
-            addActor(player, pacActorLocation);
+            addActor(pacPlayer, pacActorLocation);
     }
 
     private void setUpPacActor(int seed) {
         final var propertyMoves = settingManager.getPlayerMoves();
         final var isAuto = settingManager.getPlayerMode();
-        player = PlayerFactory.getInstance().createPlayer(isAuto, seed, propertyMoves, this);
+        pacPlayer = PlayerFactory.getInstance().createPlayer(isAuto, seed, propertyMoves, this);
 
         setKeyRepeatPeriod(KEY_REPEAT_PERIOD);
-        player.setSlowDown(SLOW_DOWN_FACTOR);
+        pacPlayer.setSlowDown(SLOW_DOWN_FACTOR);
     }
 
     /**
@@ -168,7 +170,7 @@ public class Level extends GameGrid {
         boolean gameOver = pacActorCollidedWithMonster();
         if (gameOver) {
             setLostEnding();
-        } else if (player.getNbPills() >= maxPillsCount) {
+        } else if (pacPlayer.getNbPills() >= maxPillsCount) {
             setWinEnding();
             if (completionHandler.isPresent() && game.isPresent()) {
                 if (!game.get().get().isLevelsEmpty()) {
@@ -194,8 +196,8 @@ public class Level extends GameGrid {
      * Gets the pacActor of the game.
      * @return the pacActor.
      */
-    public Player getPlayer() {
-        return player;
+    public PacPlayer getPlayer() {
+        return pacPlayer;
     }
 
 
@@ -205,7 +207,7 @@ public class Level extends GameGrid {
      */
     private boolean pacActorCollidedWithMonster() {
         for (Monster monster: monsters) {
-            if (collide(monster, player)) {
+            if (collide(monster, pacPlayer)) {
                 return true;
             }
         }
@@ -238,7 +240,7 @@ public class Level extends GameGrid {
     private void setLostEnding() {
         String title = "GAME OVER";
         getBg().setPaintColor(LOSE_COLOR);
-        addActor(new Actor("pacman/sprites/explosion3.gif"), player.getLocation());
+        addActor(new Actor("pacman/sprites/explosion3.gif"), pacPlayer.getLocation());
         setEnding(title);
     }
 

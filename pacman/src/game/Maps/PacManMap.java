@@ -1,8 +1,8 @@
 package game.Maps;
 
-import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.LocationExpert;
+import game.Workers.MapReader;
 
 import java.util.HashMap;
 

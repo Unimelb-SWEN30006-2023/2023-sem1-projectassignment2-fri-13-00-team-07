@@ -1,13 +1,12 @@
-package game.Maps;
+package game.Workers;
 
 import ch.aplu.jgamegrid.Location;
 import game.*;
 import game.Items.CellType;
+import game.Maps.PacManMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 public class PropertyMapReader implements MapReader {
     private final HashMap<Integer, ActorType> characterLocations = new HashMap<>();

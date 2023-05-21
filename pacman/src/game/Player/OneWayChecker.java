@@ -23,8 +23,8 @@ public class OneWayChecker {
     /**
      * Determines whether it is one way walk given the direction and location.
      *
-     * @param location The current location of the player.
-     * @param direction The direction of the player. Only the direction the player is facing is considered.
+     * @param location The current location of the pacPlayer.
+     * @param direction The direction of the pacPlayer. Only the direction the pacPlayer is facing is considered.
      *
      * @return Whether it is one way.
      */

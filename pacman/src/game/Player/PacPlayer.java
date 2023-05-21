@@ -10,7 +10,7 @@ import game.MovingActor;
 /**
  * The PacMan.
  */
-public abstract class Player extends MovingActor {
+public abstract class PacPlayer extends MovingActor {
 
     private int idSprite = 0;
     private int nbPills = 0;
@@ -25,7 +25,7 @@ public abstract class Player extends MovingActor {
      * @param nbSprites   : the number of sprite images for the same actor
      * @param seed        : the seed for random behaviors of the actor
      */
-    public Player(boolean isRotatable, int nbSprites, int seed) {
+    public PacPlayer(boolean isRotatable, int nbSprites, int seed) {
         super(isRotatable, nbSprites, seed, CharacterType.PACMAN);
     }
 

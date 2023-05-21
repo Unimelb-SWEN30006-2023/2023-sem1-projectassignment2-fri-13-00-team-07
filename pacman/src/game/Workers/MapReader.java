@@ -1,6 +1,7 @@
-package game.Maps;
+package game.Workers;
 
 import game.ActorType;
+import game.Maps.PacManMap;
 
 import java.util.HashMap;
 

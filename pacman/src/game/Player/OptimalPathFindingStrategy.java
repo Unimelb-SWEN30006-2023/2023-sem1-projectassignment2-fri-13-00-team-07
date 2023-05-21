@@ -5,7 +5,7 @@ import game.ActorType;
 import game.Items.CellType;
 import game.Items.LocationPredicate;
 import game.LocationExpert;
-import game.LocationIndexConverter;
+import game.Workers.LocationIndexConverter;
 import game.Monsters.Monster;
 
 import java.util.*;

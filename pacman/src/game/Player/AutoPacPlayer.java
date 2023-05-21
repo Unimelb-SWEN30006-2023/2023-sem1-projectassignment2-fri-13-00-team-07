@@ -2,19 +2,17 @@ package game.Player;
 
 import ch.aplu.jgamegrid.Location;
 import game.Items.CellType;
-import game.Items.ItemManager;
+import game.Workers.ItemManager;
 import game.Level;
-import game.Maps.PacManMap;
-import game.SettingManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 
 /**
- * The smart auto player.
+ * The smart auto pacPlayer.
  */
-public class AutoPlayer extends Player {
+public class AutoPacPlayer extends PacPlayer {
 
     private ArrayList<String> propertyMoves;
 
@@ -27,7 +25,7 @@ public class AutoPlayer extends Player {
      * @param nbSprites    the number of sprite images for the same actor
      * @param seed         the seed for random behaviors of the actor
      */
-    protected AutoPlayer(boolean isRotatable, int nbSprites, int seed) {
+    protected AutoPacPlayer(boolean isRotatable, int nbSprites, int seed) {
         super(isRotatable, nbSprites, seed);
     }
 
