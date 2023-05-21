@@ -146,31 +146,38 @@ public class Controller implements ActionListener, GUIInformation {
 				break;
 			}
 		}
+
 		if (e.getActionCommand().equals("flipGrid")) {
 			// view.flipGrid();
 		} else if (e.getActionCommand().equals("save")) {
-			// CompositeLevelChecker.getInstance().check();
+			checkAndShow(new EditorMap(model.getMap()), "Saving map with failed check", "Warning");
 			saveFile();
 		} else if (e.getActionCommand().equals("load")) {
-			// CompositeLevelChecker.getInstance().check();
 			try {
 				loadFile();
 			} catch (Exception exception) {
 				JOptionPane.showMessageDialog(null, exception, "Cannot load a file",
 						JOptionPane.ERROR_MESSAGE);
 			}
+			checkAndShow(new EditorMap(model.getMap()), "Loading map with failed check", "Warning");
 		} else if (e.getActionCommand().equals("update")) {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
 			// Code to switch to pacman game
 			EditorMap map = new EditorMap(model.getMap());
-			if (new CompositeLevelChecker().check(map)) {
+			if (checkAndShow(map, "The map check failed", "Cannot run")) {
 				Game game = new Game(map);
 				game.run();
-			} else {
-				JOptionPane.showMessageDialog(null, "The map check failed", "Cannot run", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
+	}
+
+	private static boolean checkAndShow(EditorMap map, String message, String title) {
+		if (new CompositeLevelChecker().check(map))
+			return true;
+
+		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+		return false;
 	}
 
 	private void updateGrid(int width, int height) {
