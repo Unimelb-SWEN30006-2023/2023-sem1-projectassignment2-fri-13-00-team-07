@@ -6,7 +6,8 @@ import org.jdom.JDOMException;
 import java.io.IOException;
 
 /**
- * our tests for a CompositeLevelChecker, not part of the functionality of this game
+ * Tests for a CompositeLevelChecker - not part of the required
+ * functionalities for this project.
  */
 public class TestLevelChecker {
 

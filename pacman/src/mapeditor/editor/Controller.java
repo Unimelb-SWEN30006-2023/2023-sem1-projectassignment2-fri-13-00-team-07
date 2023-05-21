@@ -59,20 +59,24 @@ public class Controller implements ActionListener, GUIInformation {
 												"PortalYellowTile", "PortalDarkGoldTile",
 												"PortalDarkGrayTile"
 												};
+	/* Maps between character and String representations of the tile types */
 	private final HashMap<Character, String> CHAR_TO_STR_DICT = new HashMap<>() {{
 		for (int i = 0; i < TILE_CHARS.length; i++) {
 			put(TILE_CHARS[i], TILE_TYPES[i]);
 		}
 	}};
 
+	/* for completeness, mapping the other way around */
 	private final HashMap<String, Character> STR_TO_CHAR_DICT = new HashMap<>() {{
 		for (int i = 0; i < TILE_CHARS.length; i++) {
 			put(TILE_TYPES[i], TILE_CHARS[i]);
 		}
 	}};
-	private static final String dataDir = "pacman/sprites/editor data/"; // default
 
-	/* Converts Actor Type to the internal character representation used by the editor */
+	/* default data directory */
+	private static final String DATA_DIR = "pacman/sprites/editor data/";
+
+	/* Converts ActorType to the internal character representation used by the editor */
 	private static final HashMap<ActorType, Character> ACTOR_TYPE_TO_CHAR_DICT = new HashMap<>() {{
 		put(CellType.SPACE, 'a');
 		put(CellType.WALL, 'b');
@@ -123,7 +127,7 @@ public class Controller implements ActionListener, GUIInformation {
 	}
 
 	private void init(int width, int height) {
-		this.tiles = TileManager.getTilesFromFolder(dataDir);
+		this.tiles = TileManager.getTilesFromFolder(DATA_DIR);
 		this.model = new GridModel(width, height, tiles.get(0).getCharacter());
 		this.camera = new GridCamera(model, Constants.GRID_WIDTH,
 				Constants.GRID_HEIGHT);
@@ -170,6 +174,14 @@ public class Controller implements ActionListener, GUIInformation {
 		}
 	}
 
+	/**
+	 * Applies level checking to the map,
+	 * and shows a dialogue box on failed checks.
+	 * @param map: an EditorMap to be checked
+	 * @param message: message to be displayed in the dialogue box
+	 * @param title: title of the dialogue box
+	 * @return true if the checks were passed, false otherwise.
+	 */
 	private static boolean checkAndShow(EditorMap map, String message, String title) {
 		if (new CompositeLevelChecker().check(map))
 			return true;
@@ -239,7 +251,10 @@ public class Controller implements ActionListener, GUIInformation {
 				XMLOutputter xmlOutput = new XMLOutputter();
 				xmlOutput.setFormat(Format.getPrettyFormat());
 				xmlOutput.output(doc, new FileWriter(chooser.getSelectedFile()));
-				checkAndShow(new EditorMap(model.getMap(), chooser.getSelectedFile().getPath()), "Saving map with failed check", "Warning");
+				// level check applied here,
+				// because filename used is only known at this point
+				checkAndShow(new EditorMap(model.getMap(), chooser.getSelectedFile().getPath()),
+						"Saving map with failed check", "Warning");
 			}
 		} catch (FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(null, "Invalid file!", "error",
@@ -265,6 +280,8 @@ public class Controller implements ActionListener, GUIInformation {
 			throw new IOException("Did not read anything!");
 		}
 
+		// level checks applied here,
+		// because selected file for loading is only known at this point
 		EditorMap map = new EditorMap(selectedFile.getPath());
 		checkAndShow(map, "Loading map with failed check", "Warning");
 		updateGrid(map.getHorizontalCellsCount(), map.getVerticalCellsCount());

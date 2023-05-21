@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * A singleton factory for producing the app's components,
- * such as the editor adapter.
+ * including the game, editor adapter, and checkers.
  */
 public class AppComponentFactory {
     private static AppComponentFactory instance = null; // singleton
@@ -21,13 +21,25 @@ public class AppComponentFactory {
         return new MapEditorAdapter(); // lazy creation
     }
 
+    /**
+     * Gets the required type of checker.
+     * @param checkerType: type of checker
+     * @return either a game or level checker, as required.
+     */
+
     public Checker getChecker(CheckerType checkerType) {
         if (checkerType.equals(CheckerType.GAME_CHECKER))
             return new GameChecker();
 
-        return new CompositeLevelChecker(); // default
+        // gives a LevelChecker by default
+        return new CompositeLevelChecker();
     }
 
+    /**
+     * Gets the Game.
+     * @param maps: ArrayList of PacManMaps to be used by the Game.
+     * @return: the Game created based on the maps.
+     */
     public Game getGame(ArrayList<PacManMap> maps) {
         return new Game(maps);
     }

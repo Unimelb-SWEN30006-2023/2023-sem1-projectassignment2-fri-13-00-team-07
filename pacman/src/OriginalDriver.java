@@ -1,9 +1,12 @@
 import game.Game;
 
+/**
+ * Entry point for the original PacMan game.
+ */
 public class OriginalDriver {
 
     public static void main(String[] args) {
-        Game game = new Game();
+        new Game();
     }
 
 }

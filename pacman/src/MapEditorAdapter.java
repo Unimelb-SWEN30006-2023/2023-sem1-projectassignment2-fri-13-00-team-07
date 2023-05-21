@@ -1,5 +1,3 @@
-import ch.aplu.jgamegrid.Location;
-import game.Maps.EditorMap;
 import mapeditor.editor.Controller;
 import org.jdom.JDOMException;
 
@@ -11,6 +9,9 @@ import java.io.IOException;
 
 public class MapEditorAdapter implements EditorAdapter {
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void runEditor(String filePath) throws IOException, JDOMException {
         if (filePath == null)
