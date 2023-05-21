@@ -9,16 +9,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * check all portal pairs are valid
+ * Check that all portal pairs are valid.
  */
 public class PortalPairChecker extends LevelChecker {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean check(EditorMap map) {
         boolean flag = true;
         HashMap<CellType, ArrayList<Location>> portalLocations = map.getPortalLocations();
-        // build error string
+
         for (CellType type : portalLocations.keySet()) {
             ArrayList<Location> locationList = portalLocations.get(type);
+            // should have exactly two tiles for each portal
             if (locationList.size() != 2) {
                 flag = false;
                 addError(map.getFileName() + " - " + type.getName() + ErrorMessageBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(locationList));

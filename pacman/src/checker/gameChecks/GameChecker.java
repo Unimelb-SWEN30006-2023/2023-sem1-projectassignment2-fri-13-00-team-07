@@ -6,20 +6,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * a GameChecker, checks if a game is valid based on a customizable sequence of checks.
+ * Checker for the validity of a game folder.
  */
 public class GameChecker extends Checker {
 
+    /* can add more checks in the future */
     private final MapNameChecker mapNameChecker;
 
+    /**
+     * Constructs a GameChecker.
+     */
     public GameChecker() {
         mapNameChecker = new MapNameChecker();
     }
 
     /**
-     * check if a game is valid based on a customizable sequence of checks
-     * @param mapFolderDir The directory that contains all maps
-     * @return true if this game is valid. otherwise, return false and log errors .
+     * Checks if a game is valid and logs errors if required.
+     * @param mapFolderDir: the directory of the game folder to be checked.
+     * @return true if this game is valid, false otherwise.
      */
     @Override
     public boolean check(String mapFolderDir) {
@@ -30,8 +34,8 @@ public class GameChecker extends Checker {
     }
 
     /**
-     * get a list of valid map names after checking
-     * @return an ArrayList of valid map filenames
+     * Gets a list of valid map names after checking.
+     * @return an ArrayList of valid map filenames.
      */
     public ArrayList<String> getValidMapFiles() {
         ArrayList<String> validFiles = mapNameChecker.getValidFileNames();

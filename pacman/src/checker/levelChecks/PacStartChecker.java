@@ -8,10 +8,13 @@ import game.Maps.EditorMap;
 import java.util.ArrayList;
 
 /**
- * check if there is one and only one pac start location
+ * Check if there is one and only one PacPlayer start location.
  */
 public class PacStartChecker extends LevelChecker {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean check(EditorMap map) {
         boolean flag = true;
@@ -24,10 +27,11 @@ public class PacStartChecker extends LevelChecker {
                 }
             }
         }
-        if (pacStarts.size() == 0) {
+
+        if (pacStarts.size() == 0) { // no starting point
             flag = false;
             addError(map.getFileName() + ErrorMessageBody.LEVEL_A_NO_START);
-        } else if (pacStarts.size() > 1) {
+        } else if (pacStarts.size() > 1) { // multiple starting points
             addError(map.getFileName() + ErrorMessageBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts));
             flag = false;
         }

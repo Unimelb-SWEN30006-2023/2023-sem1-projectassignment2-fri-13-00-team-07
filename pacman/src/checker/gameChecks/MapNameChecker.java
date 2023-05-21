@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * check if map sequence is defined correctly within the specified folder
- * update errors if any. update validFileNames is there is a valid map sequence
+ * Checker for the validity of map name sequence in a game folder.
  */
 public class MapNameChecker extends Checker {
     private ArrayList<String> validFileNames = new ArrayList<>();

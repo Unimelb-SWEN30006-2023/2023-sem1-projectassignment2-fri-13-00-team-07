@@ -1,7 +1,8 @@
 package checker;
 
 /**
- * Error messages' body
+ * 'Body' of the Error messages
+ * - contains all the error messages required for error-logging.
  */
 public class ErrorMessageBody {
     public static final String GAME_INVALID_DIR = "The directory you specified is invalid";

@@ -6,10 +6,13 @@ import game.Items.CellType;
 import game.Maps.EditorMap;
 
 /**
- * Check if the total of golds and pills are at least 2
+ * Check if the total number of golds and pills is at least 2.
  */
 public class NumGoldPillChecker extends LevelChecker {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean check(EditorMap map) {
         int counter = 0;

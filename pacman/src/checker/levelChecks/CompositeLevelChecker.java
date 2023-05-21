@@ -5,14 +5,16 @@ import game.Maps.EditorMap;
 import java.util.ArrayList;
 
 /**
- * a CompositeLevelChecker. Checks if a level is valid based on a customizable sequence of maps
+ * A composite checker for overall level checking.
  */
 public class CompositeLevelChecker extends LevelChecker {
     private final ArrayList<LevelChecker> individualLevelCheckers = new ArrayList<>();
-    // will be treated separately
+    // this leaf checker will be treated separately
     private GoldPillAccessibilityChecker goldPillAccessibilityChecker;
 
-
+    /**
+     * Constructs a CompositeLevelChecker.
+     */
     public CompositeLevelChecker() {
         individualLevelCheckers.add(new PacStartChecker());
         individualLevelCheckers.add(new PortalPairChecker());
@@ -22,7 +24,8 @@ public class CompositeLevelChecker extends LevelChecker {
 
     /**
      * Checks if a level is valid based on a customizable sequence of maps
-     * @return true if all tests are passed. otherwise, return false and log errors
+     * @return true if all tests are passed;
+     *         otherwise, returns false and logs errors.
      */
     @Override
     public boolean check(EditorMap map) {

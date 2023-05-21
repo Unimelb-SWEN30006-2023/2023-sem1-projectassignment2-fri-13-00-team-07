@@ -4,7 +4,7 @@ package checker;
 import checker.gameChecks.GameChecker;
 
 /**
- * our tests for a GameChecker, not part of the functionality of this game
+ * Tests for a GameChecker, not part of the functionality required for this project.
  */
 public class TestGameChecker {
 
