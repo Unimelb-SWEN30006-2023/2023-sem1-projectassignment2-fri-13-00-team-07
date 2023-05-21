@@ -159,7 +159,6 @@ public class Controller implements ActionListener, GUIInformation {
 				JOptionPane.showMessageDialog(null, exception, "Cannot load a file",
 						JOptionPane.ERROR_MESSAGE);
 			}
-			checkAndShow(new EditorMap(model.getMap()), "Loading map with failed check", "Warning");
 		} else if (e.getActionCommand().equals("update")) {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
@@ -267,6 +266,7 @@ public class Controller implements ActionListener, GUIInformation {
 		}
 
 		EditorMap map = new EditorMap(selectedFile.getPath());
+		checkAndShow(map, "Loading map with failed check", "Warning");
 		updateGrid(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
 
 		loadObjectsFrom(map);
