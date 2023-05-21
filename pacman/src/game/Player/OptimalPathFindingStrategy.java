@@ -13,29 +13,27 @@ import java.util.stream.IntStream;
 
 public class OptimalPathFindingStrategy implements PathFindingStrategy {
 
+    // the optimal pathfinder using bfs
     /**
      * {@inheritDoc}
      */
     @Override
     public LinkedList<Location> findPath(Location source, LocationPredicate predicate, LocationExpert locationExpert, ArrayList<Monster> monsters) {
-        //System.out.println("The start location is " + source.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
-        LocationIndexConverter indexConverter = new LocationIndexConverter(locationExpert.getHorizontalCellsCount());
+        LocationIndexConverter indexConverter = LocationIndexConverter.getInstance(locationExpert.getHorizontalCellsCount());
 
         final HashMap<CellType, ArrayList<Location>> portalLocations = locationExpert.getPortalLocations();
         final HashSet<Integer> visitedSet = new HashSet<>();
         final LinkedList<Edge> paths = new LinkedList<>();
         LinkedList<Location> queue = new LinkedList<>();
 
+        // enqueue the source
         queue.add(source);
         markLocationAsVisited(source, visitedSet, indexConverter);
 
         while (!queue.isEmpty()) {
-            Location vertex = queue.remove();
+            Location vertex = queue.remove(); // while possible, dequeue
 
-//            System.out.println("The vertex location is " + vertex.getNeighbourLocation(Location.CompassDirection.SOUTHEAST) + " type is " + getTypeAt(vertex) + " statisfies: " + predicate.satisfies(vertex, locationExpert) + " ?? " + (locationExpert.getTypeAt(vertex).equals(CellType.PILL)));
-
-            if (predicate.satisfies(vertex, locationExpert)) {
-                //System.out.println("The end location is " + vertex.getNeighbourLocation(Location.CompassDirection.SOUTHEAST));
+            if (predicate.satisfies(vertex, locationExpert)) { // if is destination, return
                 LinkedList<Location> result = new LinkedList<>();
 
                 result.add(vertex);
@@ -48,6 +46,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                     Location valueDestination = value.get().getDestination();
                     if (isPortal(valueSource, locationExpert) && isPortal(valueDestination, locationExpert)) {
                         result.removeLast();
+                        // if is portal, remove the internal path from portal source to sink. This is still required to be added as a link from the destination to source is needed.
                     }
 
                     destination = value.get().getSource();
@@ -59,34 +58,33 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                 Collections.reverse(result);
                 result.remove(); // the first element is its current location
 
-                return result.isEmpty() ? null : result;
+                return result.isEmpty() ? null : result; // if empty, find path is assumed to have failed. This is typically cased by errors in its arguments, not the algorithm itself
 
             } else {
-
                 List<Location> unvisitedNeighbours =
                         IntStream.rangeClosed(0, 3)
                                 .boxed()
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
                                 .filter(i -> !locationIsVisited(i, visitedSet, indexConverter) && isValidLocation(i, locationExpert))
                                 .sorted(Comparator.comparingInt(i -> new OneWayChecker(locationExpert).isOneWayAt(i, (int) vertex.getDirectionTo(i))))
-                                .toList();
+                                .toList(); // find the next unvisited locations, sorted by preferring the path not being cornered
+
                 for (var neighbour: unvisitedNeighbours) {
                     markLocationAsVisited(neighbour, visitedSet, indexConverter);
-                    final var capturedNeighbour = neighbour;
+                    final var capturedNeighbour = neighbour; // explicit capture the location to be passed to closure
                     if (monsters != null && monsters.stream().map(Monster::getLocation).anyMatch(i -> i.getDistanceTo(capturedNeighbour) < 2)) {
                         // monster there, not through here!
                         continue;
                     }
 
-//                    System.out.println("The neighbour location is " + neighbour.getNeighbourLocation(Location.CompassDirection.SOUTHEAST) + " type is " + getTypeAt(neighbour));
                     ActorType neighbourType = locationExpert.getTypeAt(neighbour);
                     paths.add(new Edge(vertex, neighbour));
 
-                    if (isPortal(neighbour, locationExpert)) {
+                    if (isPortal(neighbour, locationExpert)) { // if is portal, register the path from the portal source to sink.
                         final var locations = portalLocations.get((CellType) neighbourType);
                         final var neighbourDestination = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);
                         paths.add(new Edge(neighbour, neighbourDestination));
-                        neighbour = neighbourDestination;
+                        neighbour = neighbourDestination; // then, add only enqueue the destination of the portal
                     }
 
                     queue.add(neighbour);
@@ -94,8 +92,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
             }
         }
 
-        //System.out.println("bfs did not find anything");
-
+        // if not required, failed.
         return null;
     }
 
