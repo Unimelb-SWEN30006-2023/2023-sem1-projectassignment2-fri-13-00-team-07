@@ -16,6 +16,15 @@ import java.util.Collections;
 public class TorusVerseApp {
 
     /**
+     * Constructs and runs the TorusVerse Application with no current map.
+     * @throws IOException
+     * @throws JDOMException
+     */
+    public TorusVerseApp() throws IOException, JDOMException {
+        this(null);
+    }
+
+    /**
      * Constructs and runs the TorusVerse Application.
      * @param dir: directory or file path, on which the app is to be built.
      * @throws IOException
@@ -38,7 +47,7 @@ public class TorusVerseApp {
     /**
      * Runs the test mode of the app.
      * @param dir: directory to the map files on which the tester is to run.
-     * @throws IOException if game check failed
+     * @throws IOException
      * @throws JDOMException
      */
     private void runTestMode(String dir) throws IOException, JDOMException {

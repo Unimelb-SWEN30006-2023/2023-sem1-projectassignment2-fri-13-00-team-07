@@ -13,7 +13,7 @@ public class Driver {
             if (args.length > 0) {
                 new TorusVerseApp(args[0]);
             } else {
-                new TorusVerseApp(null);
+                new TorusVerseApp();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e, "Cannot run", JOptionPane.INFORMATION_MESSAGE);
