@@ -5,7 +5,6 @@ import checker.levelChecks.CompositeLevelChecker;
 import checker.gameChecks.GameChecker;
 import game.Maps.EditorMap;
 import game.Maps.PacManMap;
-import mainApp.AppComponentFactory;
 import org.jdom.JDOMException;
 
 import java.io.File;

@@ -167,8 +167,8 @@ public class Controller implements ActionListener, GUIInformation {
 			try {
 				loadFile();
 			} catch (Exception exception) {
-				JOptionPane.showMessageDialog(null, exception, "Cannot load a file",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, exception, "Error loading file",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (e.getActionCommand().equals("update")) {
 			updateGrid(gridWith, gridHeight);
