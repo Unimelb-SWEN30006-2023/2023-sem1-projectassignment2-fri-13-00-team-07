@@ -11,6 +11,6 @@ public interface LevelCompletionHandler {
      * The handler called when the level completes with success.
      * @param game: The game on which the level is based.
      */
-    void handler(Game game);
+    void handleCompletion(Game game);
 
 }

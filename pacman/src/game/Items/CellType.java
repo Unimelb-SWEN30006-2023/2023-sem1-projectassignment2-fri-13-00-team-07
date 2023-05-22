@@ -120,9 +120,9 @@ public enum CellType implements ActorType {
 
     /**
      * Given the type, determines if it is a portal.
-     * @return A boolean determining whetehr it is a portal.
+     * @return A boolean determining whether it is a portal.
      */
-    public Boolean isPortal() {
-        return this == CellType.PORTAL_DARK_GRAY || this == CellType.PORTAL_DARK_GOLD || this == CellType.PORTAL_WHITE || this == CellType.PORTAL_YELLOW;
+    public boolean isPortal() {
+        return PORTALS.contains(this);
     }
 }

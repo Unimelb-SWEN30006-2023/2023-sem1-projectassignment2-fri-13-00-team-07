@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 /**
  * Represents an information expert for the item locations.
+ * It can either have static knowledge (i.e. maps) or dynamic knowledge
+ * (like ItemManager) of the location.
  */
 public interface LocationExpert {
     /**

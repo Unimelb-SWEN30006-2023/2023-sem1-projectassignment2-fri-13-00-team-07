@@ -48,7 +48,7 @@ public class Game {
             // add the completionHandler for each level
             levels.add(new Level(properties, map, Optional.of(new LevelCompletionHandler() {
                 @Override
-                public void handler(Game game) {
+                public void handleCompletion(Game game) {
                     game.runNext();
                 }
             }), Optional.of(new WeakReference<>(this))));

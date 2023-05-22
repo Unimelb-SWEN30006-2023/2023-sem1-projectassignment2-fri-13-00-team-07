@@ -184,7 +184,7 @@ public class Level extends GameGrid {
                 if (!game.get().get().noMoreLevels()) {
                     this.hide();
                 }
-                completionHandler.get().handler(game.get().get());
+                completionHandler.get().handleCompletion(game.get().get());
             }
         }
 
