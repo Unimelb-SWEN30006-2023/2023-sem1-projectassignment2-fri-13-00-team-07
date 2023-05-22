@@ -53,6 +53,7 @@ public class Controller implements ActionListener, GUIInformation {
 
 	private int gridWith = Constants.MAP_WIDTH;
 	private int gridHeight = Constants.MAP_HEIGHT;
+	private String currentMapFile;
 	private static final char[] TILE_CHARS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'}; // 'a' is default
 	private static final String[] TILE_TYPES = {"PathTile", "WallTile", "PillTile",
 												"GoldTile", "IceTile", "PacTile",
@@ -114,6 +115,7 @@ public class Controller implements ActionListener, GUIInformation {
 	 * @throws JDOMException
 	 */
 	public Controller(String filePath) throws IOException, JDOMException {
+		this.currentMapFile = filePath;
 		EditorMap map = new EditorMap(filePath);
 		checkAndShow(map, "Edit mode on a map with failed check", "Warning");
 		this.init(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
@@ -175,7 +177,7 @@ public class Controller implements ActionListener, GUIInformation {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
 			// Code to switch to pacman game
-			EditorMap map = new EditorMap(model.getMap());
+			EditorMap map = new EditorMap(model.getMap(), currentMapFile);
 			if (checkAndShow(map, "The map check failed", "Cannot run")) {
 				new Game(map);
 			}
@@ -290,7 +292,8 @@ public class Controller implements ActionListener, GUIInformation {
 
 		// level checks applied here,
 		// because selected file for loading is only known at this point
-		EditorMap map = new EditorMap(selectedFile.getPath());
+		this.currentMapFile = selectedFile.getPath();
+		EditorMap map = new EditorMap(currentMapFile);
 		checkAndShow(map, "Loading map with failed check", "Warning");
 		updateGrid(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
 
