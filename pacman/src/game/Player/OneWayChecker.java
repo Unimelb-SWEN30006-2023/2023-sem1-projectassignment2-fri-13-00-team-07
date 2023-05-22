@@ -66,9 +66,9 @@ public class OneWayChecker {
      * Gets the left location relative to the current direction faced.
      * @param loc: current location
      * @param direction: current direction faced.
-     * @return
+     * @return the left location.
      */
-    Location getLeftLocation(Location loc, int direction) {
+    private Location getLeftLocation(Location loc, int direction) {
         return loc.getNeighbourLocation(direction).getNeighbourLocation(direction + 90);
     }
 
@@ -76,9 +76,9 @@ public class OneWayChecker {
      * Gets the right location relative to the current direction faced.
      * @param loc: current location
      * @param direction: current direction faced.
-     * @return
+     * @return the right location.
      */
-    Location getRightLocation(Location loc, int direction) {
+    private Location getRightLocation(Location loc, int direction) {
         return loc.getNeighbourLocation(direction).getNeighbourLocation(direction - 90);
     }
 }

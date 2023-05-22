@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * Manages the items in a game level.
- * An information expert for item locations in that level.
+ * An expert for the dynamic information of item locations in that level.
  */
 public class ItemManager implements LocationExpert {
     private final HashMap<Integer, Item> items = new HashMap<>();
@@ -20,6 +20,7 @@ public class ItemManager implements LocationExpert {
 
     private final int horizontalCellsCount;
     private final int verticalCellsCount;
+    // store the index converter for simplicity of reference
     private final LocationIndexConverter indexConverter;
 
     /**
@@ -96,7 +97,7 @@ public class ItemManager implements LocationExpert {
      * @param location: the location for the item
      * @param item: the item to put
      */
-    protected void putItem(Location location, Item item, Level level) {
+    private void putItem(Location location, Item item, Level level) {
         level.getBg().setPaintColor(item.getColor());
         level.getBg().fillCircle(level.toPoint(location), Item.getFillCircleRadius());
 

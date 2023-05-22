@@ -3,7 +3,6 @@ package game.Player;
 import ch.aplu.jgamegrid.Location;
 import game.ActorType;
 import game.Items.CellType;
-import game.Items.LocationPredicate;
 import game.LocationExpert;
 import game.Workers.LocationIndexConverter;
 import game.Monsters.Monster;
@@ -27,7 +26,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
 
         final HashMap<CellType, ArrayList<Location>> portalLocations = locationExpert.getPortalLocations();
         final HashSet<Integer> visitedSet = new HashSet<>();
-        final LinkedList<Edge> paths = new LinkedList<>();
+        final LinkedList<Edge> path = new LinkedList<>();
         LinkedList<Location> queue = new LinkedList<>();
 
         // enqueue the source
@@ -39,7 +38,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
             Location vertex = queue.remove();
 
             if (predicate.satisfies(vertex, locationExpert)) { // this vertex is a valid destination
-                LinkedList<Location> result = buildResultPath(vertex, paths, locationExpert);
+                LinkedList<Location> result = buildResultPath(vertex, path, locationExpert);
                 // If empty, the path-finding is assumed to have failed.
                 // This is typically cased by errors in its arguments, not the algorithm itself.
                 return result.isEmpty() ? null : result;
@@ -61,12 +60,12 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                     }
 
                     ActorType neighbourType = locationExpert.getTypeAt(neighbour);
-                    paths.add(new Edge(vertex, neighbour));
+                    path.add(new Edge(vertex, neighbour));
 
                     if (isPortal(neighbour, locationExpert)) {
                         // If is a portal, register the path from the portal source to the sink.
                         final var neighbourDestination = getPortalSource(portalLocations, neighbourType, neighbour);
-                        paths.add(new Edge(neighbour, neighbourDestination));
+                        path.add(new Edge(neighbour, neighbourDestination));
                         // Then, only enqueue the destination of the portal
                         neighbour = neighbourDestination;
                     }
@@ -83,18 +82,18 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
     /**
      * Builds a result path.
      * @param vertex: the destination vertex of the path - should be the foot of the path
-     * @param paths: a LinkedList of edges forming a path
+     * @param path: a LinkedList of edges forming a path
      * @param locationExpert: The information expert for the game level's item locations.
      * @return a LinkedList of locations representing the result path.
      */
-    private LinkedList<Location> buildResultPath(Location vertex, LinkedList<Edge> paths, LocationExpert locationExpert) {
+    private LinkedList<Location> buildResultPath(Location vertex, LinkedList<Edge> path, LocationExpert locationExpert) {
         LinkedList<Location> result = new LinkedList<>();
 
         result.add(vertex);
         Location destination = vertex;
         Location finalDestination = destination;
         // First find an edge to this destination
-        Optional<Edge> edge = paths.stream().filter(i -> i.getDestination().equals(finalDestination)).findFirst();
+        Optional<Edge> edge = path.stream().filter(i -> i.getDestination().equals(finalDestination)).findFirst();
 
         while (edge.isPresent()) {
             Location edgeSource = edge.get().getSource();
@@ -108,7 +107,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
 
             destination = edge.get().getSource();
             Location finalDestination1 = destination;
-            edge = paths.stream().filter(i -> i.getDestination().equals(finalDestination1)).findFirst();
+            edge = path.stream().filter(i -> i.getDestination().equals(finalDestination1)).findFirst();
 
             result.add(destination);
         }

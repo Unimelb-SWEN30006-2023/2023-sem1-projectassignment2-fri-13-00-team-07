@@ -17,7 +17,7 @@ public abstract class LevelChecker extends Checker {
         return check(new EditorMap(mapFile));
     }
     /**
-     * Ccheck the validity of the EditorMap
+     * Checks the validity of the EditorMap.
      * @param map: an EditorMap (corresponding to a level) to be checked.
      * @return true if the check is passed, false otherwise.
      */

@@ -1,7 +1,6 @@
 package game.Player;
 
 import ch.aplu.jgamegrid.Location;
-import game.Items.LocationPredicate;
 import game.LocationExpert;
 import game.Monsters.Monster;
 
