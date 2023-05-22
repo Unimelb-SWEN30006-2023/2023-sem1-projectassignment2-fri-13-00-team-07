@@ -21,8 +21,8 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 
 /**
- * The PacMan Level, which contains all the actors, a property reader,
- * and a setting manager.
+ * A PacMan Level, which contains all the actors and a setting manager.
+ * (Its precursor is the Game class in the base code.)
  */
 public class Level extends GameGrid {
     /* Setting constants */
@@ -47,14 +47,16 @@ public class Level extends GameGrid {
 
     private int maxPillsCount = 0;
 
-    /** Level creation using properties file only for isAuto and seed, and a separate map
-     *
-     * @param properties The property file to configure the level.
-     * @param map The map for the level.
-     * @param completionHandler The handler called when the level completes.
-     * @param game The game on which the level is based.
+    /**
+     * Constructs a level using tne properties file only for isAuto and seed,
+     * and a separate map (new version for TorusVerseApp).
+     * @param properties: The property file to configure the level.
+     * @param map: The map for the level.
+     * @param completionHandler: The handler called when the level completes.
+     * @param game: The game on which the level is based.
      */
-    public Level(Properties properties, PacManMap map, Optional<LevelCompletionHandler> completionHandler, Optional<WeakReference<Game>> game) {
+    public Level(Properties properties, PacManMap map, Optional<LevelCompletionHandler> completionHandler,
+                 Optional<WeakReference<Game>> game) {
         super(map.getHorizontalCellsCount(), map.getVerticalCellsCount(), CELL_SIZE, false);
         this.gameCallback = new GameCallback();
         this.settingManager = new SettingManager(properties, map, this);
@@ -80,8 +82,8 @@ public class Level extends GameGrid {
 
 
     /**
-     * Level creation using properties file for setting
-     *
+     * Constructs a level using the properties file for the setting.
+     * (i.e. Preserves original version's behavior.)
      * @param properties The property file for configuring the level.
      */
     public Level(Properties properties) {
@@ -90,7 +92,7 @@ public class Level extends GameGrid {
     }
 
     /**
-     * Starts the level.
+     * Runs the level.
      */
     public void run() {
         // Initializations
@@ -107,6 +109,7 @@ public class Level extends GameGrid {
     /**
      * Adds a monster to the game.
      * @param monster: monster to add
+     * @param location: location for the monster to be added
      */
     private void addMonster(Monster monster, Location location) {
         monsters.add(monster);
@@ -142,6 +145,10 @@ public class Level extends GameGrid {
             addActor(pacPlayer, pacActorLocation);
     }
 
+    /**
+     * Sets up the PacActor with the given seed.
+     * @param seed: seed to set the randomization behavior in the PacActor.
+     */
     private void setUpPacActor(int seed) {
         final var propertyMoves = settingManager.getPlayerMoves();
         final var isAuto = settingManager.getPlayerMode();
@@ -152,7 +159,8 @@ public class Level extends GameGrid {
     }
 
     /**
-     * @return The game callback shared.
+     * Gets the game callback.
+     * @return: the game callback for this level.
      */
     public GameCallback getGameCallback() {
         return gameCallback;
@@ -173,7 +181,7 @@ public class Level extends GameGrid {
         } else if (pacPlayer.getNbPills() >= maxPillsCount) {
             setWinEnding();
             if (completionHandler.isPresent() && game.isPresent()) {
-                if (!game.get().get().isLevelsEmpty()) {
+                if (!game.get().get().noMoreLevels()) {
                     this.hide();
                 }
                 completionHandler.get().handler(game.get().get());
@@ -256,6 +264,7 @@ public class Level extends GameGrid {
     }
 
     /**
+     * Gets the monsters on this level.
      * @return The list of monsters on the level.
      */
     public ArrayList<Monster> getMonsters() {

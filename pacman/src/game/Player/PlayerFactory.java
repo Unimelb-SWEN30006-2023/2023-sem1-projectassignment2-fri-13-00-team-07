@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 
 /**
- * The factory to create pacPlayer according to its state.
+ * The Singleton factory to create the pacPlayer according to its mode (isAuto).
  */
 public class PlayerFactory {
 
@@ -14,7 +14,8 @@ public class PlayerFactory {
     private static PlayerFactory instance;
 
     /**
-     * @return The only instance.
+     * Gets the single instance of the PlayerFactory.
+     * @return The single instance of the PlayerFactory.
      */
     public static PlayerFactory getInstance() {
         if (instance == null) {
@@ -24,23 +25,27 @@ public class PlayerFactory {
     }
 
     /**
-     * Creates a pacPlayer.
+     * Creates a pacPlayer according to the specifications.
      *
-     * @param isAuto Whether it is an auto-pacPlayer.
-     * @param seed The seed for random move.
-     * @param propertyMoves The moves provided in the property file. encoded in internal representation. can be `null`.
-     * @param level The level on which the pacPlayer is spawned.
+     * @param isAuto: Whether it is an auto-PacPlayer.
+     * @param seed: The seed for random move.
+     * @param propertyMoves: An ArrayList of Strings representing the moves
+     *                       provided in the properties file;
+     *                       If null, then ignores the moves in the properties file.
+     * @param level: The level for this PacPlayer.
      *
      * @return The created pacPlayer.
      */
+    /* The `propertyMoves` argument is for preserving the original game's behavior */
     public PacPlayer createPlayer(boolean isAuto, int seed, ArrayList<String> propertyMoves, Level level) {
-        if (isAuto) {
+        if (isAuto) { // auto PacPlayer
             AutoPacPlayer player = new AutoPacPlayer(true, NB_SPRITES, seed);
             if (propertyMoves != null)
                 player.setPropertyMoves(propertyMoves);
 
             return player;
-        } else {
+
+        } else { // user-controlled PacPlayer
             ManualPacPlayer player = new ManualPacPlayer(true, NB_SPRITES, seed);
             level.addKeyRepeatListener(player);
             return player;

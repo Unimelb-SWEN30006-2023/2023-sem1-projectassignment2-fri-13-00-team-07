@@ -11,14 +11,18 @@ import game.Monsters.Monster;
 import java.util.*;
 import java.util.stream.IntStream;
 
+/**
+ * An optimal path finding strategy, using Breadth-First-Search
+ */
+
 public class OptimalPathFindingStrategy implements PathFindingStrategy {
 
-    // the optimal pathfinder using bfs
     /**
      * {@inheritDoc}
      */
     @Override
-    public LinkedList<Location> findPath(Location source, LocationPredicate predicate, LocationExpert locationExpert, ArrayList<Monster> monsters) {
+    public LinkedList<Location> findPath(Location source, LocationPredicate predicate,
+                                         LocationExpert locationExpert, ArrayList<Monster> monsters) {
         LocationIndexConverter indexConverter = new LocationIndexConverter(locationExpert.getHorizontalCellsCount());
 
         final HashMap<CellType, ArrayList<Location>> portalLocations = locationExpert.getPortalLocations();
@@ -31,7 +35,8 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
         markLocationAsVisited(source, visitedSet, indexConverter);
 
         while (!queue.isEmpty()) {
-            Location vertex = queue.remove(); // while possible, dequeue
+            // while possible, dequeue
+            Location vertex = queue.remove();
 
             if (predicate.satisfies(vertex, locationExpert)) { // if is destination, return
                 LinkedList<Location> result = new LinkedList<>();
@@ -45,8 +50,9 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                     Location valueSource = value.get().getSource();
                     Location valueDestination = value.get().getDestination();
                     if (isPortal(valueSource, locationExpert) && isPortal(valueDestination, locationExpert)) {
+                        // if is a portal, remove the internal path from portal source to sink.
+                        // This is still required to be added as a link from the destination to source is needed.
                         result.removeLast();
-                        // if is portal, remove the internal path from portal source to sink. This is still required to be added as a link from the destination to source is needed.
                     }
 
                     destination = value.get().getSource();
@@ -80,7 +86,8 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                     ActorType neighbourType = locationExpert.getTypeAt(neighbour);
                     paths.add(new Edge(vertex, neighbour));
 
-                    if (isPortal(neighbour, locationExpert)) { // if is portal, register the path from the portal source to sink.
+                    if (isPortal(neighbour, locationExpert)) {
+                        // if is portal, register the path from the portal source to sink.
                         final var locations = portalLocations.get((CellType) neighbourType);
                         final var neighbourDestination = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);
                         paths.add(new Edge(neighbour, neighbourDestination));
@@ -99,7 +106,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
     /**
      * Checks whether the location is a portal, according to the location expert.
      * @param loc: the location to be checked
-     * @param expert: the location expert
+     * @param expert: the information expert for the item locations
      * @return true if the location is a portal, false otherwise.
      */
     private boolean isPortal(Location loc, LocationExpert expert) {
@@ -108,20 +115,40 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                 && ((CellType) expert.getTypeAt(loc)).isPortal();
     }
 
+    /**
+     * Marks the location as visited.
+     * @param location: location visited
+     * @param visitedSet: HashSet of Integers representing the visited set of locations.
+     * @param indexConverter: converter to convert the location to an integer index.
+     */
     private void markLocationAsVisited(Location location, HashSet<Integer> visitedSet, LocationIndexConverter indexConverter) {
         visitedSet.add(indexConverter.getIndexByLocation(location));
     }
 
+    /**
+     * Checks if the location is visited.
+     * @param location: location to be checked
+     * @param visitedSet: HashSet of Integers representing the visited set of locations.
+     * @param indexConverter: converter to convert the location to an integer index.
+     * @return true if the location is visited, false otherwise.
+     */
     private boolean locationIsVisited(Location location, HashSet<Integer> visitedSet, LocationIndexConverter indexConverter) {
         return visitedSet.contains(indexConverter.getIndexByLocation(location));
     }
 
+    /**
+     * Checks if the location is valid.
+     * @param location: location to be checked
+     * @param locationExpert: the information expert for the item locations
+     * @return true if the location is valid (in bound and not a wall), false otherwise.
+     */
     private boolean isValidLocation(Location location, LocationExpert locationExpert) {
         return locationExpert.isInBound(location) && !locationExpert.isWallAt(location);
     }
 
     /**
-     * An edge with a source and a destination.
+     * An edge with a source and a destination vertex,
+     * where the vertex is represented by a location.
      */
     private class Edge {
 
@@ -132,8 +159,8 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
         /**
          * Creates an edge.
          *
-         * @param source one vertex.
-         * @param destination the other vertex.
+         * @param source: the source vertex (location).
+         * @param destination: the destination vertex (location).
          */
         public Edge(Location source, Location destination) {
             this.source = source;
@@ -141,14 +168,16 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
         }
 
         /**
-         * @return One vertex.
+         * Gets the source vertex.
+         * @return one vertex (location).
          */
         public Location getSource() {
             return source;
         }
 
         /**
-         * @return The other vertex.
+         * Gets the destination vertex
+         * @return The other vertex (location).
          */
         public Location getDestination() {
             return destination;

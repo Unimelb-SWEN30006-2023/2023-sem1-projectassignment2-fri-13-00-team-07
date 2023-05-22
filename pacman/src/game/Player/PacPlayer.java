@@ -63,7 +63,7 @@ public abstract class PacPlayer extends MovingActor {
     private void eatItem(Location location) {
         Level level = (Level) gameGrid;
         Item item = level.getSettingManager().getItem(location);
-        if (item == null || !item.isEatable()) // no item here
+        if (item == null || !item.isEatable()) // no eatable item here
             return;
 
         // update pills count and score
@@ -108,18 +108,24 @@ public abstract class PacPlayer extends MovingActor {
     }
 
     /**
-     * @return Whether the actor should move towards its given direction in this update.
+     * Checks whether the PacPlayer should be allowed to move.
+     * @return true if the actor should move towards its given direction
+     *         in this update, false otherwise.
      */
     protected boolean shouldMove() {
         return shouldMove;
     }
 
+    /**
+     * Sets whether the PacPlayer should move in this update.
+     * @param shouldMove: boolean value indicating whether the PacPlayer should move.
+     */
     protected void setShouldMove(boolean shouldMove) {
         this.shouldMove = shouldMove;
     }
 
     /**
-     * Reset the `shouldMove` flag.
+     * Disable PacPlayer's movement in this update.
      */
     protected void resetMove() {
         setShouldMove(false);

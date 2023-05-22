@@ -2,6 +2,11 @@ package game.Workers;
 
 import ch.aplu.jgamegrid.Location;
 
+/**
+ * Helper converter for mapping a location to an integer
+ * Cannot use location directly as the key, as Location does not implement hashCode correctly.
+ * for later lookups
+ */
 public class LocationIndexConverter {
     private final int horizontalCellsCount;
 

@@ -1,7 +1,7 @@
 package game;
 
 /**
- * The type of the actor, could be a character or an item.
+ * The type of actor, could be a character or an item.
  */
 public interface ActorType {
     // all Actors have a name

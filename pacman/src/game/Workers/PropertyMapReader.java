@@ -8,17 +8,31 @@ import game.Maps.PacManMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Reader for the PacManGameGrid which also uses information from the properties
+ * file. (i.e. Preserves the original game's behavior.)
+ */
 public class PropertyMapReader implements MapReader {
     private final HashMap<Integer, ActorType> characterLocations = new HashMap<>();
     private final HashMap<Integer, ActorType> itemLocations = new HashMap<>();
+    /* Need info from the properties file -> Ask the propertyReader for help */
     private PropertyReader propertyReader;
 
+    /**
+     * Constructs a PropertyMapReader which employs the given property reader.
+     * @param propertyReader: A PropertyReader used to help the PropertyMapReader
+     *                        to attain information from the properties file.
+     */
     public PropertyMapReader(PropertyReader propertyReader) {
         // By default, use the standard PacManGameGrid
         this.propertyReader = propertyReader;
     }
 
-
+    /**
+     * Reads the 'property' map (properties file + PacManGameGrid)
+     * and stores the actors' location information.
+     * @param map: the map to be read (should be a PacManGameGrid).
+     */
     private void readPropertyMap(PacManMap map) {
         LocationIndexConverter indexConverter = new LocationIndexConverter(map.getHorizontalCellsCount());
 
@@ -28,7 +42,7 @@ public class PropertyMapReader implements MapReader {
                 characterLocations.put(indexConverter.getIndexByLocation(location), character);
         }
 
-
+        /* Get information from the properties file */
         ArrayList<Location> propertyPillLocations = propertyReader.loadLocations("Pills.location");
         ArrayList<Location> propertyGoldLocations = propertyReader.loadLocations("Gold.location");
 
@@ -57,7 +71,7 @@ public class PropertyMapReader implements MapReader {
             }
         }
 
-        // put properties pills (does nothing if these lists are empty)
+        /* put properties pills (does nothing if these lists are empty) */
         for (Location location : propertyGoldLocations)
             itemLocations.put(indexConverter.getIndexByLocation(location), CellType.GOLD);
         for (Location location : propertyPillLocations)
@@ -65,12 +79,18 @@ public class PropertyMapReader implements MapReader {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HashMap<Integer, ActorType> getCharacterLocations(PacManMap map) {
         readPropertyMap(map);
         return characterLocations;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HashMap<Integer, ActorType> getItemLocations(PacManMap map) {
         readPropertyMap(map);

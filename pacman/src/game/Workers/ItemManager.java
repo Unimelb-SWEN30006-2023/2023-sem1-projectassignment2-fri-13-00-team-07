@@ -11,15 +11,10 @@ import game.Maps.PacManMap;
 import java.util.*;
 
 /**
- * Manages the setting for a game.
- * Connects the game and the grid.
+ * Manages the items in a game level.
+ * An information expert for item locations in that level.
  */
-
 public class ItemManager implements LocationExpert {
-    /** Maps the index of a location in the grid to an item
-     * Cannot use location directly as the key, as Location does not implement hashCode correctly.
-     * for later lookups
-     */
     private final HashMap<Integer, Item> items = new HashMap<>();
     private final HashSet<Integer> wallLocations = new HashSet<>();
 
@@ -27,11 +22,12 @@ public class ItemManager implements LocationExpert {
     private final int verticalCellsCount;
     private final LocationIndexConverter indexConverter;
 
-    /** Creates a manager to keep track of the unmovable actors.
-     *
-     * @param level The level on which the items are kept.
+    /**
+     * Creates an ItemManager to keep track of the Items.
+     * @param map: The map containing the initial actors' location information.
+     * @param level: The level on which the items are kept.
      */
-    public ItemManager(PacManMap map, MapReader mapReader, Level level) {
+    public ItemManager(PacManMap map, Level level) {
         HashMap<Integer, ActorType> itemLocations = map.readMyItemLocations(new EditorMapReader());
         this.horizontalCellsCount = map.getHorizontalCellsCount();
         this.verticalCellsCount = map.getVerticalCellsCount();

@@ -176,8 +176,7 @@ public class Controller implements ActionListener, GUIInformation {
 			// Code to switch to pacman game
 			EditorMap map = new EditorMap(model.getMap());
 			if (checkAndShow(map, "The map check failed", "Cannot run")) {
-				Game game = new Game(map);
-				game.run();
+				new Game(map);
 			}
 		}
 	}

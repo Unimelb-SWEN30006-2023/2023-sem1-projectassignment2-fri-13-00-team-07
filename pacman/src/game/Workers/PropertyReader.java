@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * Responsible for reading and parsing locations from the properties file.
+ * Responsible for reading and parsing information from the properties file.
  */
 
 public class PropertyReader {
@@ -98,7 +98,7 @@ public class PropertyReader {
     }
 
     /**
-     * Gets the seed.
+     * Gets the seed from the properties file.
      * @return the integer seed.
      */
     public int getSeed() {

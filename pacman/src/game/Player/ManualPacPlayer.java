@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 public class ManualPacPlayer extends PacPlayer implements GGKeyRepeatListener {
 
     /**
-     * Creates a moving actor based on one or more sprite images.
+     * Creates a manual PacPlayer based on one or more sprite images.
      *
      * @param isRotatable : if true, the actor's image may be rotated when the direction changes
      * @param nbSprites   : the number of sprite images for the same actor

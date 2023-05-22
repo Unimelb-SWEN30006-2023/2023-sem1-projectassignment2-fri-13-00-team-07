@@ -10,6 +10,7 @@ import java.util.HashMap;
  * A static location expert, i.e. a map representation in the PacMan game.
  */
 public interface PacManMap extends LocationExpert {
+    /* Applying the visitor pattern here */
     /**
      * Reads the map using the given map reader, to attain the item locations.
      * @param reader: MapReader for reading the map.
