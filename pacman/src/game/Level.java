@@ -49,7 +49,7 @@ public class Level extends GameGrid {
 
     /**
      * Constructs a level using tne properties file only for isAuto and seed,
-     * and a separate map (new version for TorusVerseApp).
+     * and a separate map (new version for mainApp.TorusVerseApp).
      * @param properties: The property file to configure the level.
      * @param map: The map for the level.
      * @param completionHandler: The handler called when the level completes.

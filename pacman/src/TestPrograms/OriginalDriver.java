@@ -1,3 +1,5 @@
+package TestPrograms;
+
 import game.Game;
 
 /**

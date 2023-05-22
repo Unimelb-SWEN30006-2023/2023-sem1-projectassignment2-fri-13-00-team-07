@@ -1,3 +1,5 @@
+package mainApp;
+
 import checker.*;
 import checker.gameChecks.GameChecker;
 import checker.levelChecks.CompositeLevelChecker;
@@ -46,7 +48,7 @@ public class AppComponentFactory {
 
     /**
      * Gets the single instance of this factory.
-     * @return the AppComponentFactory instance.
+     * @return the mainApp.AppComponentFactory instance.
      */
     public static AppComponentFactory getInstance() {
         if (instance == null)

@@ -1,3 +1,6 @@
+package mainApp;
+
+import mainApp.EditorAdapter;
 import mapeditor.editor.Controller;
 import org.jdom.JDOMException;
 

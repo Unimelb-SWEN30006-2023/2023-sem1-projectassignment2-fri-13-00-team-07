@@ -1,6 +1,10 @@
+package TestPrograms;
+
 import checker.CheckerType;
 import checker.levelChecks.CompositeLevelChecker;
 import game.Maps.EditorMap;
+import mainApp.AppComponentFactory;
+import mainApp.EditorAdapter;
 import org.jdom.JDOMException;
 
 import java.io.IOException;

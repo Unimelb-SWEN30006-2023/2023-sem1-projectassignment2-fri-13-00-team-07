@@ -1,3 +1,5 @@
+package mainApp;
+
 import org.jdom.JDOMException;
 
 import java.io.IOException;

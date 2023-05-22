@@ -1,4 +1,4 @@
-package checker;
+package TestPrograms;
 
 
 import checker.gameChecks.GameChecker;
