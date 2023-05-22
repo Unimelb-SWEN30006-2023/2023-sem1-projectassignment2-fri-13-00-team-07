@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public abstract class Checker {
 
-    private static final String errorLogPath = "pacman/errorLog/errorLogs.txt";
+    private static final String ERROR_LOG_PATH = "pacman/errorLog/errorLogs.txt";
     private ArrayList<String> errors = new ArrayList<>();
 
     /**
@@ -24,7 +24,7 @@ public abstract class Checker {
      @return true if no errors are found, false otherwise.
      */
     public boolean inspectAndLogErrors() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(errorLogPath, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ERROR_LOG_PATH, false))) {
             if (errors.size() == 0) {
                 System.out.println("No errors found under this check, flush everything in the errorLogs");
                 return true;

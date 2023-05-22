@@ -36,7 +36,7 @@ public interface PathFindingStrategy {
      *
      * @param source: The source location.
      * @param predicate: The predicate for a location to be considered a destination.
-     * @param locationExpert: The information expert for the game's item locations.
+     * @param locationExpert: The information expert for the game level's item locations.
      *
      * @return a LinkedList representing the optimal path,
      *         otherwise null on failure or no path found.

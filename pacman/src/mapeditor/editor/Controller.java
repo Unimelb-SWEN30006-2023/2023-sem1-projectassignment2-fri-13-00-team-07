@@ -115,6 +115,7 @@ public class Controller implements ActionListener, GUIInformation {
 	 */
 	public Controller(String filePath) throws IOException, JDOMException {
 		EditorMap map = new EditorMap(filePath);
+		checkAndShow(map, "Edit mode on a map with failed check", "Warning");
 		this.init(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
 		view.setSize(map.getHorizontalCellsCount(), map.getVerticalCellsCount());
 

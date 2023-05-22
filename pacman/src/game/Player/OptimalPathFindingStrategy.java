@@ -38,33 +38,11 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
             // while possible, dequeue
             Location vertex = queue.remove();
 
-            if (predicate.satisfies(vertex, locationExpert)) { // if is destination, return
-                LinkedList<Location> result = new LinkedList<>();
-
-                result.add(vertex);
-                Location destination = vertex;
-                Location finalDestination = destination;
-                Optional<Edge> value = paths.stream().filter(i -> i.getDestination().equals(finalDestination)).findFirst();
-
-                while (value.isPresent()) {
-                    Location valueSource = value.get().getSource();
-                    Location valueDestination = value.get().getDestination();
-                    if (isPortal(valueSource, locationExpert) && isPortal(valueDestination, locationExpert)) {
-                        // if is a portal, remove the internal path from portal source to sink.
-                        // This is still required to be added as a link from the destination to source is needed.
-                        result.removeLast();
-                    }
-
-                    destination = value.get().getSource();
-                    Location finalDestination1 = destination;
-                    value = paths.stream().filter(i -> i.getDestination().equals(finalDestination1)).findFirst();
-
-                    result.add(destination);
-                }
-                Collections.reverse(result);
-                result.remove(); // the first element is its current location
-
-                return result.isEmpty() ? null : result; // if empty, find path is assumed to have failed. This is typically cased by errors in its arguments, not the algorithm itself
+            if (predicate.satisfies(vertex, locationExpert)) { // this vertex is a valid destination
+                LinkedList<Location> result = buildResultPath(vertex, paths, locationExpert);
+                // If empty, the path-finding is assumed to have failed.
+                // This is typically cased by errors in its arguments, not the algorithm itself.
+                return result.isEmpty() ? null : result;
 
             } else {
                 List<Location> unvisitedNeighbours =
@@ -77,9 +55,8 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
 
                 for (var neighbour: unvisitedNeighbours) {
                     markLocationAsVisited(neighbour, visitedSet, indexConverter);
-                    final var capturedNeighbour = neighbour; // explicit capture the location to be passed to closure
-                    if (monsters != null && monsters.stream().map(Monster::getLocation).anyMatch(i -> i.getDistanceTo(capturedNeighbour) < 2)) {
-                        // monster there, not through here!
+                    final var capturedNeighbour = neighbour; // explicitly capture the location to be passed to closure
+                    if (monsterNearBy(capturedNeighbour, monsters)) { // monster there, move!
                         continue;
                     }
 
@@ -87,11 +64,11 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                     paths.add(new Edge(vertex, neighbour));
 
                     if (isPortal(neighbour, locationExpert)) {
-                        // if is portal, register the path from the portal source to sink.
-                        final var locations = portalLocations.get((CellType) neighbourType);
-                        final var neighbourDestination = locations.get(0).equals(neighbour) ? locations.get(1) : locations.get(0);
+                        // If is a portal, register the path from the portal source to the sink.
+                        final var neighbourDestination = getPortalSource(portalLocations, neighbourType, neighbour);
                         paths.add(new Edge(neighbour, neighbourDestination));
-                        neighbour = neighbourDestination; // then, add only enqueue the destination of the portal
+                        // Then, only enqueue the destination of the portal
+                        neighbour = neighbourDestination;
                     }
 
                     queue.add(neighbour);
@@ -99,8 +76,69 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
             }
         }
 
-        // if not required, failed.
+        // Path not found
         return null;
+    }
+
+    /**
+     * Builds a result path.
+     * @param vertex: the destination vertex of the path - should be the foot of the path
+     * @param paths: a LinkedList of edges forming a path
+     * @param locationExpert: The information expert for the game level's item locations.
+     * @return a LinkedList of locations representing the result path.
+     */
+    private LinkedList<Location> buildResultPath(Location vertex, LinkedList<Edge> paths, LocationExpert locationExpert) {
+        LinkedList<Location> result = new LinkedList<>();
+
+        result.add(vertex);
+        Location destination = vertex;
+        Location finalDestination = destination;
+        // First find an edge to this destination
+        Optional<Edge> edge = paths.stream().filter(i -> i.getDestination().equals(finalDestination)).findFirst();
+
+        while (edge.isPresent()) {
+            Location edgeSource = edge.get().getSource();
+            Location edgeDestination = edge.get().getDestination();
+            if (isPortal(edgeSource, locationExpert) && isPortal(edgeDestination, locationExpert)) {
+                // If the source is a portal, remove its 'internal' path from portal source to sink,
+                // because the MovingActor will automatically jump to the partner location if it steps on a portal.
+                // But still need to add this point for a complete path.
+                result.removeLast();
+            }
+
+            destination = edge.get().getSource();
+            Location finalDestination1 = destination;
+            edge = paths.stream().filter(i -> i.getDestination().equals(finalDestination1)).findFirst();
+
+            result.add(destination);
+        }
+        Collections.reverse(result); // now the path is from source to destination
+        result.remove(); // the first element is just the actor's current location
+
+        return result;
+    }
+
+    /**
+     * Gets the 'source' location in a portal pair (i.e. partner of the `otherPortal`).
+     * @param portalLocations: a HashMap of CellType to Location pair,
+     *                         recording the portal locations.
+     * @param portalType: the type of this portal pair
+     * @param otherPortal: the other portal in the pair
+     * @return the location of 'this' portal.
+     */
+    private Location getPortalSource(HashMap<CellType, ArrayList<Location>> portalLocations, ActorType portalType, Location otherPortal) {
+        final var locations = portalLocations.get((CellType) portalType);
+        return locations.get(0).equals(otherPortal) ? locations.get(1) : locations.get(0); // the 'other' location is the source
+    }
+
+    /**
+     * Checks if there are monsters close to the location (i.e. distance < 2).
+     * @param loc: the location being checked.
+     * @param monsters: an ArrayList of monsters.
+     * @return true if the monsters are nearby, false otherwise.
+     */
+    private boolean monsterNearBy(Location loc, ArrayList<Monster> monsters) {
+        return monsters != null && monsters.stream().map(Monster::getLocation).anyMatch(i -> i.getDistanceTo(loc) < 2);
     }
 
     /**
