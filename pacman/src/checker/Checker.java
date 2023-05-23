@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public abstract class Checker {
 
-    private static final String ERROR_LOG_PATH = "pacman/errorLog/errorLogs.txt";
+    private static final String ERROR_LOG_PATH = "pacman/errorLogs.txt";
     private ArrayList<String> errors = new ArrayList<>();
 
     /**

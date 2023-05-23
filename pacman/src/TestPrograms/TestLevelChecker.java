@@ -17,7 +17,7 @@ public class TestLevelChecker {
 
     public static void main(String[] args) {
         try {
-            String dir = "pacman/data/crackLevelChecker/1_noPacStart_badPortals.xml";
+            String dir = "pacman/maps/moreTests/crackLevelChecker/1_noPacStart_badPortals.xml";
             EditorAdapter editorAdapter = AppComponentFactory.getInstance().getEditorAdapter();
             editorAdapter.runEditor(dir);
             EditorMap editorMap = new EditorMap(dir);

@@ -13,9 +13,10 @@ PacMan in the TorusVerse
 
 Note:
 * All paths, unless otherwise specified, are relative to the `pacman` folder.
-* The `TestPrograms` package is for our own testing. It is not part of the functionalities required by the spec.
-* Similarly, the `editorTests`, `correctMaps`, and `data` folder contain our own tests for the app.
+* The `maps` folder contains our own testing maps for the app.
 * The `sprites` folder contains both the sprites used by the game and the editor's data.
-* `errorLog.txt` in the `errorLog` folder is where the game and level checking reports to.
+* The game and level checking will report to `pacman/errorLogs.txt`.
+* The `GameCallBack` will report to `pacman/Log.txt`
 * Only the `src` folder contains code for this project.
-* The `Driver` program in `src` is the entry point of this application.
+* `src.Driver.main()` is the entry point for this application.
+* The `src.TestPrograms` package is for our own testing. It is not part of the functionalities required by the spec.

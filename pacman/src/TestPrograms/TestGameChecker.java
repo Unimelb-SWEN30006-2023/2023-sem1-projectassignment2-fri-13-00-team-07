@@ -10,7 +10,7 @@ public class TestGameChecker {
 
     public static void main(String[] args){
         GameChecker gameChecker = new GameChecker();
-        String dir = "pacman/data/ultimateTest";
+        String dir = "pacman/maps/moreTests/ultimateTest";
 
         if (gameChecker.check(dir)) {
             for(String name: gameChecker.getValidMapFiles()){
