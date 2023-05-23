@@ -44,18 +44,22 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
                 return result.isEmpty() ? null : result;
 
             } else {
+                // find the next unvisited locations,
+                // sorted by preferring the path not being cornered
                 List<Location> unvisitedNeighbours =
                         IntStream.rangeClosed(0, 3)
                                 .boxed()
                                 .map(i -> vertex.getNeighbourLocation(90 * i))
                                 .filter(i -> !locationIsVisited(i, visitedSet, indexConverter) && isValidLocation(i, locationExpert))
                                 .sorted(Comparator.comparingInt(i -> new OneWayChecker(locationExpert).isOneWayAt(i, (int) vertex.getDirectionTo(i))))
-                                .toList(); // find the next unvisited locations, sorted by preferring the path not being cornered
+                                .toList();
 
                 for (var neighbour: unvisitedNeighbours) {
                     markLocationAsVisited(neighbour, visitedSet, indexConverter);
-                    final var capturedNeighbour = neighbour; // explicitly capture the location to be passed to closure
-                    if (monsterNearBy(capturedNeighbour, monsters)) { // monster there, move!
+                    // explicitly capture the location to be checked
+                    final var capturedNeighbour = neighbour;
+                    if (monsterNearBy(capturedNeighbour, monsters)) {
+                        // monster there, move!
                         continue;
                     }
 
@@ -80,7 +84,7 @@ public class OptimalPathFindingStrategy implements PathFindingStrategy {
     }
 
     /**
-     * Builds a result path.
+     * Builds a result path from the given path.
      * @param vertex: the destination vertex of the path - should be the foot of the path
      * @param path: a LinkedList of edges forming a path
      * @param locationExpert: The information expert for the game level's item locations.

@@ -42,6 +42,10 @@ public class Level extends GameGrid {
     private final GameCallback gameCallback;
 
     private final Optional<LevelCompletionHandler> completionHandler;
+    /* The WeakReference breaks the chain of references,
+    and is commonly used to implement canonicalized mappings
+    (i.e. when only one instance of a particular value is held).
+     */
     private final Optional<WeakReference<Game>> game;
 
 
