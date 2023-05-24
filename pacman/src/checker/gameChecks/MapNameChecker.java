@@ -50,15 +50,15 @@ public class MapNameChecker extends Checker {
 
     /**
      * Checks if the given file is a valid XML file
-     * @param filename: name of the file to be checked
+     * @param path: the path of the file to be checked
      * @return true if it's a valid XML file, false otherwise.
      * @throws JDOMException
      * @throws IOException
      */
-    private boolean isValidXML(String filename) {
+    private boolean isValidXML(Path path) {
         SAXBuilder builder = new SAXBuilder();
         try {
-            builder.build(new File(filename));
+            builder.build(path.toFile());
         } catch (Exception ex) {
             return false;
         }
@@ -84,10 +84,12 @@ public class MapNameChecker extends Checker {
      * @return
      */
     private boolean filterFilenames(Path dir) {
-        // Create a DirectoryStream.Filter to filter only .xml files
+        // Create a DirectoryStream.Filter to filter only valid map files
         DirectoryStream.Filter<Path> filter = file -> {
             String fileName = file.getFileName().toString();
-            return Files.isRegularFile(file) && isValidXML(fileName) && Character.isDigit(fileName.charAt(0));
+            System.out.println(fileName);
+            System.out.println(Files.isRegularFile(file) + " " + isValidXML(file) + " " + Character.isDigit(fileName.charAt(0)));
+            return Files.isRegularFile(file) && isValidXML(file) && Character.isDigit(fileName.charAt(0));
         };
 
         // Iterate through the directory and extract .xml file names
@@ -95,6 +97,7 @@ public class MapNameChecker extends Checker {
             for (Path file : stream) {
                 filenameStore.add(file.getFileName().toString());
             }
+            System.out.println(filenameStore);
         } catch (IOException e) {
             e.printStackTrace();
             addError(ErrorMessageBody.GAME_FAIL_IO);
