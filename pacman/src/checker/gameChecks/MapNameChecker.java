@@ -87,8 +87,6 @@ public class MapNameChecker extends Checker {
         // Create a DirectoryStream.Filter to filter only valid map files
         DirectoryStream.Filter<Path> filter = file -> {
             String fileName = file.getFileName().toString();
-            System.out.println(fileName);
-            System.out.println(Files.isRegularFile(file) + " " + isValidXML(file) + " " + Character.isDigit(fileName.charAt(0)));
             return Files.isRegularFile(file) && isValidXML(file) && Character.isDigit(fileName.charAt(0));
         };
 
@@ -97,7 +95,6 @@ public class MapNameChecker extends Checker {
             for (Path file : stream) {
                 filenameStore.add(file.getFileName().toString());
             }
-            System.out.println(filenameStore);
         } catch (IOException e) {
             e.printStackTrace();
             addError(ErrorMessageBody.GAME_FAIL_IO);
