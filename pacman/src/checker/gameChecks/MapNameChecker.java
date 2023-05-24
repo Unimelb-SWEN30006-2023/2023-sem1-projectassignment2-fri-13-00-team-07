@@ -20,6 +20,7 @@ import java.util.HashMap;
 public class MapNameChecker extends Checker {
     private ArrayList<String> validFileNames = new ArrayList<>();
     private ArrayList<String> filenameStore = new ArrayList<>();
+    /* here we keep the full directory name for identification purpose */
     private String mapFolderDir;
 
 
@@ -109,7 +110,7 @@ public class MapNameChecker extends Checker {
      */
     private boolean checkAtLeastOneValidMapName() {
         if (filenameStore.size() == 0) {
-            addError(mapFolderDir + ErrorMessageBody.GAME_NO_MAPS_FOUND);
+            addError(formatLogHeader(mapFolderDir) + ErrorMessageBody.GAME_NO_MAPS_FOUND);
             return false;
         }
         return true;
@@ -162,7 +163,7 @@ public class MapNameChecker extends Checker {
                 for (int i : numericPrefixes.get(sequenceNumber)) {
                     filenameList.add(filenameStore.get(i));
                 }
-                addError(errorStr + semicolonStringBuilder(filenameList));
+                addError(formatLogHeader(errorStr) + semicolonStringBuilder(filenameList));
                 flag = false;
             }
         }
@@ -195,5 +196,14 @@ public class MapNameChecker extends Checker {
      */
     public ArrayList<String> getValidFileNames() {
         return validFileNames;
+    }
+
+    /**
+     * Formats the 'header' filename of an error message for the log.
+     * @param folderName: the original name of the game folder.
+     * @return the formatted header, as a String.
+     */
+    private String formatLogHeader(String folderName) {
+        return "Game " + folderName;
     }
 }

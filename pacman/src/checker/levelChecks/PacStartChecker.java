@@ -30,9 +30,9 @@ public class PacStartChecker extends LevelChecker {
 
         if (pacStarts.size() == 0) { // no starting point
             flag = false;
-            addError(map.getFileName() + ErrorMessageBody.LEVEL_A_NO_START);
+            addError(formatLogHeader(map.getFileName()) + ErrorMessageBody.LEVEL_A_NO_START);
         } else if (pacStarts.size() > 1) { // multiple starting points
-            addError(map.getFileName() + ErrorMessageBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts));
+            addError(formatLogHeader(map.getFileName()) + ErrorMessageBody.LEVEL_A_MULTI_START + semicolonLocationStringBuilder(pacStarts));
             flag = false;
         }
         return flag;

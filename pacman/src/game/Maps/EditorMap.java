@@ -51,7 +51,8 @@ public class EditorMap implements PacManMap {
      */
     public EditorMap(char[][] mazeArray, String fileName) {
         this(mazeArray);
-        this.fileName = fileName;
+        // only keep the filename portion (i.e. strips directory info)
+        this.fileName = (new File(fileName)).getName();
     }
 
     /**
@@ -62,11 +63,11 @@ public class EditorMap implements PacManMap {
      */
     /* Method adapted from the original loadFile() method in mapeditor.editor.Controller */
     public EditorMap(String filePath) throws IOException, JDOMException {
-        this.fileName = filePath;
 
         SAXBuilder builder = new SAXBuilder();
         File file = new File(filePath);
         if (file.canRead() && file.exists()) {
+            this.fileName = file.getName(); // only keep the filename portion
             Document document = builder.build(file);
 
             Element rootNode = document.getRootElement();

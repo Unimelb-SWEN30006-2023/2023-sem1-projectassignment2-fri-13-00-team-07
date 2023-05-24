@@ -21,3 +21,12 @@ Note:
 * `src.Driver.main()` is the entry point for this application.
 * The `src.TestPrograms` package is for our own testing. It is not part of the functionalities required by the spec.
 * As per the announcement, the default properties file for our game is `pacman/properties/test.properties`.
+* Clarification for some unclear parts of the spec:
+  * For a valid game folder passed as argument, we allow the editor (with no current map) and game window to be opened at the same time. The user can just close the game window once it's completed.
+  * If a specific map is passed as the command-line argument, the editor will start on edit mode on that map. Then, you can press the "Start Game" button to test the map.
+  * Please provide the relative path as the command-line argument, e.g.:
+    * game folder: `pacman/maps/Sample_Game`
+    * map file: `pacman/maps/Sample_Game/1SpecMap.xml`
+  * For error-logging:
+    * We only keep the filename portion for a map file, as given in the example in the spec.
+    * But we keep the full directory for a game folder (no example given in the spec).

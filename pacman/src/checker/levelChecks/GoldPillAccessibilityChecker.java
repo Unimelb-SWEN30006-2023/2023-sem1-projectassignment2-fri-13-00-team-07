@@ -74,7 +74,7 @@ public class GoldPillAccessibilityChecker extends LevelChecker {
 
         if (errorItems.size() > 0) { // failed?
             flag = false;
-            addError(map.getFileName() + errorMessageBody + semicolonLocationStringBuilder(errorItems));
+            addError(formatLogHeader(map.getFileName()) + errorMessageBody + semicolonLocationStringBuilder(errorItems));
         }
     }
 }

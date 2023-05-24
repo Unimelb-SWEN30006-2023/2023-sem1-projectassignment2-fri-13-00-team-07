@@ -74,6 +74,8 @@ public class TorusVerseApp {
 
             // all good now -> build and run the game based on the maps
             factory.getGame(maps);
+            // the editor window with no current map will open up in the background
+            runEditMode(null);
 
         } else {
             // failed game check -> run edit mode with no current map

@@ -25,7 +25,7 @@ public class PortalPairChecker extends LevelChecker {
             // should have exactly two tiles for each portal
             if (locationList.size() != 2) {
                 flag = false;
-                addError(map.getFileName() + " - " + type.getName() + ErrorMessageBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(locationList));
+                addError(formatLogHeader(map.getFileName()) + " - " + type.getName() + ErrorMessageBody.LEVEL_B_NOT_TWO_PORTAL + semicolonLocationStringBuilder(locationList));
             }
         }
         return flag;

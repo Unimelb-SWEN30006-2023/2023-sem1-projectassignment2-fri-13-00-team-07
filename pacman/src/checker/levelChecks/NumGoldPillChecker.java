@@ -26,7 +26,7 @@ public class NumGoldPillChecker extends LevelChecker {
         }
 
         if (counter < 2) {
-            addError(map.getFileName() + ErrorMessageBody.LEVEL_C_LESS_TWO_GOLD_PILL);
+            addError(formatLogHeader(map.getFileName()) + ErrorMessageBody.LEVEL_C_LESS_TWO_GOLD_PILL);
             return false;
         }
         return true;

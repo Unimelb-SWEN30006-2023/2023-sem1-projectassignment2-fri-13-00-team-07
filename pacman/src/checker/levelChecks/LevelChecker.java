@@ -22,4 +22,13 @@ public abstract class LevelChecker extends Checker {
      * @return true if the check is passed, false otherwise.
      */
     public abstract boolean check(EditorMap map);
+
+    /**
+     * Formats the 'header' filename of an error message for the log.
+     * @param filename: the original filename of the map file.
+     * @return the formatted header, as a String.
+     */
+    protected String formatLogHeader(String filename) {
+        return "Level " + filename;
+    }
 }
