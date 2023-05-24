@@ -20,3 +20,4 @@ Note:
 * Only the `src` folder contains code for this project.
 * `src.Driver.main()` is the entry point for this application.
 * The `src.TestPrograms` package is for our own testing. It is not part of the functionalities required by the spec.
+* As per the announcement, the default properties file for our game is `pacman/properties/test.properties`.

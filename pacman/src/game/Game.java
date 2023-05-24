@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 public class Game {
 
-    public static final String DEFAULT_PROPERTIES_PATH = "pacman/properties/test2.properties";
+    public static final String DEFAULT_PROPERTIES_PATH = "pacman/properties/test.properties";
     private final ArrayList<Level> levels = new ArrayList<>();
 
 
