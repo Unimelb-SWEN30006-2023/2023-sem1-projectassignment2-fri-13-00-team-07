@@ -15,7 +15,7 @@ Note:
 * All paths, unless otherwise specified, are relative to the `pacman` folder.
 * The `maps` folder contains our own testing maps for the app.
 * The `sprites` folder contains both the sprites used by the game and the editor's data.
-* The game and level checking will report to `pacman/errorLogs.txt`.
+* The game and level checking will report to `pacman/errorLog.txt`.
 * The `GameCallBack` will report to `pacman/Log.txt`
 * Only the `src` folder contains code for this project.
 * `src.Driver.main()` is the entry point for this application.

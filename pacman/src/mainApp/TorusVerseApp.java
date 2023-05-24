@@ -57,7 +57,8 @@ public class TorusVerseApp {
             ArrayList<String> validFiles = gameChecker.getValidMapFiles();
             Collections.sort(validFiles);
 
-            ArrayList<PacManMap> maps = new ArrayList<>(); // valid maps
+            ArrayList<PacManMap> maps = new ArrayList<>(); // to store valid maps
+            // start level checking
             for (String f : validFiles) {
                 EditorMap map = new EditorMap(dir + "/" + f);
 
@@ -75,6 +76,8 @@ public class TorusVerseApp {
             factory.getGame(maps);
 
         } else {
+            // failed game check -> run edit mode with no current map
+            runEditMode(null);
             throw new IOException("Game check failed");
         }
     }

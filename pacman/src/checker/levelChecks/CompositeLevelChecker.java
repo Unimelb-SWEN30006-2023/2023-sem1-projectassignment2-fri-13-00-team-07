@@ -41,7 +41,7 @@ public class CompositeLevelChecker extends LevelChecker {
 
         // only check if gold/pill is accessible if
         // 1. The PacActor's start location is valid
-        // 2. The portals are valid
+        // 2. The portals are valid (as per the spec)
         if (pacStartFlag && portalPairFlag) {
             goldPillAccessibilityChecker.check(map);
         }

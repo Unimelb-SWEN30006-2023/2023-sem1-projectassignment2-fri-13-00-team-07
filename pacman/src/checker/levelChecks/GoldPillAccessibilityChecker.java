@@ -33,7 +33,7 @@ public class GoldPillAccessibilityChecker extends LevelChecker {
                     pills.add(loc);
                 } else if (map.getTypeAt(loc) == CharacterType.PACMAN) {
                     // We would use PacStartChecker in advance, so there shouldn't be multiple start Location
-                    // But for safety, still check this here
+                    // But for safety, still check this here (since we are already in a loop)
                     if (pacLocation != null) { // second occurrence
                         return false;
                     }
@@ -64,6 +64,7 @@ public class GoldPillAccessibilityChecker extends LevelChecker {
                                  String errorMessageBody, EditorMap map,
                                  Location pacLocation) {
         ArrayList<Location> errorItems = new ArrayList<>();
+        // pick out the actual error items
         for (Location loc : originalItems) {
             // check item's accessibility
             if (!map.canReach(pacLocation, loc)) {
